@@ -167,6 +167,85 @@ function setupSectionNavViewport() {
   window.addEventListener("resize", updateSectionNavOffset);
 }
 
+function setActiveSectionNavLink(activeId) {
+  const navLinks = document.querySelectorAll(".section-nav a");
+
+  navLinks.forEach((link) => {
+    const isActive = link.getAttribute("href") === `#${activeId}`;
+    link.classList.toggle("is-active", isActive);
+
+    if (isActive) {
+      link.setAttribute("aria-current", "location");
+      return;
+    }
+
+    link.removeAttribute("aria-current");
+  });
+}
+
+function setupSectionNavHighlight() {
+  const navLinks = Array.from(document.querySelectorAll(".section-nav a"));
+
+  if (!navLinks.length) {
+    return;
+  }
+
+  const sections = navLinks
+    .map((link) => document.querySelector(link.getAttribute("href")))
+    .filter(Boolean);
+
+  if (!sections.length) {
+    return;
+  }
+
+  let activeSectionId = sections[0].id;
+
+  const updateActiveSection = (visibleSections = []) => {
+    const nextActiveSection = visibleSections[0] || sections.find((section) => {
+      const rect = section.getBoundingClientRect();
+      return rect.top <= window.innerHeight * 0.35 && rect.bottom >= 0;
+    }) || sections[0];
+
+    if (nextActiveSection.id === activeSectionId) {
+      return;
+    }
+
+    activeSectionId = nextActiveSection.id;
+    setActiveSectionNavLink(activeSectionId);
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visibleSections = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+        .map((entry) => entry.target);
+
+      updateActiveSection(visibleSections);
+    },
+    {
+      rootMargin: "-25% 0px -55% 0px",
+      threshold: [0, 0.1, 0.25, 0.5]
+    }
+  );
+
+  sections.forEach((section) => observer.observe(section));
+  setActiveSectionNavLink(activeSectionId);
+
+  navLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      const targetId = link.getAttribute("href")?.slice(1);
+
+      if (!targetId) {
+        return;
+      }
+
+      activeSectionId = targetId;
+      setActiveSectionNavLink(activeSectionId);
+    });
+  });
+}
+
 function setText(id, value) {
   const element = document.getElementById(id);
   if (element) {
@@ -413,6 +492,7 @@ function renderPage(content) {
   }
 
   setupSectionNavViewport();
+  setupSectionNavHighlight();
 }
 
 renderPage(eventContent);

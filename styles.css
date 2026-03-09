@@ -80,15 +80,17 @@ main.page-shell {
   overflow-x: auto;
   position: fixed;
   left: 50%;
-  bottom: calc(0.75rem + env(safe-area-inset-bottom, 0rem) + var(--section-nav-offset));
+  bottom: 0;
+  /* bottom: calc(0.75rem + env(safe-area-inset-bottom, 0rem) + var(--section-nav-offset)); */
   z-index: 20;
-  width: min(calc(100% - 1.25rem), 68rem);
+  /* width: min(calc(100% - 1.25rem), 68rem); */
+  width: 100%;
   padding: 0.75rem;
   transform: translateX(-50%);
   background: rgba(245, 245, 245, 0.96);
   backdrop-filter: blur(10px);
   border: 1px solid var(--border);
-  border-radius: 1rem;
+  border-radius: 8px 8px 0 0;
   box-shadow: var(--shadow);
 }
 
@@ -104,13 +106,19 @@ main.page-shell {
   text-decoration: none;
   font-size: 0.95rem;
   padding: 0.45rem 0.75rem;
-  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 999px;
+  background: var(--surface);
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease;
 }
 
 .section-nav a[hidden] {
   display: none;
+}
+
+.section-nav a.is-active {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--surface);
 }
 
 .section {
@@ -249,7 +257,7 @@ h3 {
 .participant-content {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 3rem;
 }
 
 .access-form {
