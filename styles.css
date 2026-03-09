@@ -56,11 +56,7 @@ a {
 }
 
 .site-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
   background: rgba(245, 245, 245, 0.95);
-  backdrop-filter: blur(6px);
   border-bottom: 1px solid var(--border);
 }
 
@@ -72,11 +68,12 @@ a {
 main.page-shell {
   display: grid;
   gap: 3rem;
+  padding-bottom: calc(6.5rem + env(safe-area-inset-bottom, 0rem));
 }
 
 .draft-label {
   margin: 0;
-  padding: 0.9rem 0 0.5rem;
+  padding: 0.9rem 0;
   font-size: 0.9rem;
   color: var(--muted);
 }
@@ -85,7 +82,18 @@ main.page-shell {
   display: flex;
   gap: 0.5rem;
   overflow-x: auto;
-  padding: 0 0 0.9rem;
+  position: fixed;
+  left: 50%;
+  bottom: calc(0.75rem + env(safe-area-inset-bottom, 0rem));
+  z-index: 20;
+  width: min(calc(100% - 1.25rem), 68rem);
+  padding: 0.75rem;
+  transform: translateX(-50%);
+  background: rgba(245, 245, 245, 0.96);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
 }
 
 .section-nav a {
