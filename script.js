@@ -3,6 +3,11 @@
 const eventContent = {
   title: "Vancouver GR Corolla Club Track Day!",
   participantCode: "0313",
+  groupColors: {
+    a: "#A4CD2F",
+    b: "#00ABF0",
+    c: "#F57F04"
+  },
   overviewImage: {
     src: "assets/images/cover.gif",
     alt: "Track day event cover image"
@@ -18,24 +23,25 @@ const eventContent = {
     { time: "12:20 PM", title: "Registration and Tech Inspection" },
     { time: "12:45 PM", title: "Driver's Meeting" },
     { type: "marker", time: "1:00 PM", title: "Track Hot" },
-    { time: "1:00 PM", title: "Group A Running", description: "1:00 PM - 1:15 PM" },
-    { time: "1:15 PM", title: "Group B Running", description: "1:15 PM - 1:30 PM" },
-    { time: "1:30 PM", title: "Group C Running", description: "1:30 PM - 1:45 PM" },
-    { time: "1:45 PM", title: "Group A Running", description: "1:45 PM - 2:00 PM" },
-    { time: "2:00 PM", title: "Group B Running", description: "2:00 PM - 2:15 PM" },
-    { time: "2:15 PM", title: "Group C Running", description: "2:15 PM - 2:30 PM" },
-    { time: "2:30 PM", title: "Group A Running", description: "2:30 PM - 2:45 PM" },
-    { time: "2:45 PM", title: "Group B Running", description: "2:45 PM - 3:00 PM" },
-    { time: "3:00 PM", title: "Group C Running", description: "3:00 PM - 3:15 PM" },
-    { time: "3:15 PM", title: "Group A Running", description: "3:15 PM - 3:30 PM" },
-    { time: "3:30 PM", title: "Group B Running", description: "3:30 PM - 3:45 PM" },
-    { time: "3:45 PM", title: "Group C Running", description: "3:45 PM - 4:00 PM" },
+    { time: "1:00 PM", title: "Group A Running", description: "1:00 PM - 1:15 PM", group: "a" },
+    { time: "1:15 PM", title: "Group B Running", description: "1:15 PM - 1:30 PM", group: "b" },
+    { time: "1:30 PM", title: "Group C Running", description: "1:30 PM - 1:45 PM", group: "c" },
+    { time: "1:45 PM", title: "Group A Running", description: "1:45 PM - 2:00 PM", group: "a" },
+    { time: "2:00 PM", title: "Group B Running", description: "2:00 PM - 2:15 PM", group: "b" },
+    { time: "2:15 PM", title: "Group C Running", description: "2:15 PM - 2:30 PM", group: "c" },
+    { time: "2:30 PM", title: "Group A Running", description: "2:30 PM - 2:45 PM", group: "a" },
+    { time: "2:45 PM", title: "Group B Running", description: "2:45 PM - 3:00 PM", group: "b" },
+    { time: "3:00 PM", title: "Group C Running", description: "3:00 PM - 3:15 PM", group: "c" },
+    { time: "3:15 PM", title: "Group A Running", description: "3:15 PM - 3:30 PM", group: "a" },
+    { time: "3:30 PM", title: "Group B Running", description: "3:30 PM - 3:45 PM", group: "b" },
+    { time: "3:45 PM", title: "Group C Running", description: "3:45 PM - 4:00 PM", group: "c" },
     { type: "marker", time: "4:00 PM", title: "Track Cold" },
   ],
   requiredItems: [
     "Snell 2010 or newer helmet",
     "Driver's License",
-    "Signed Online Waiver"
+    "Signed Online Waiver",
+    "Full tank of gas"
   ],
   recommendedItems: [
     "Water",
@@ -48,6 +54,7 @@ const eventContent = {
   groups: [
     {
       name: "Group A",
+      group: "a",
       people: [
         "Ross Dunnet",
         "Nathan Tong",
@@ -63,6 +70,7 @@ const eventContent = {
     },
     {
       name: "Group B",
+      group: "b",
       people: [
         "Jack Wong",
         "Eugene Liew",
@@ -78,6 +86,7 @@ const eventContent = {
     },
     {
       name: "Group C",
+      group: "c",
       people: [
         "Vic Quintoro",
         "Calvin Zheng",
@@ -130,6 +139,7 @@ const eventContent = {
 };
 
 const participantAccessStorageKey = "trackday2026:participant-access";
+let scheduleRefreshTimerId = null;
 
 function updateSectionNavOffset() {
   const root = document.documentElement;
@@ -167,6 +177,32 @@ function setupSectionNavViewport() {
   window.addEventListener("resize", updateSectionNavOffset);
 }
 
+function keepActiveSectionNavLinkInView(activeLink) {
+  const sectionNav = document.querySelector(".section-nav");
+
+  if (!sectionNav || !activeLink) {
+    return;
+  }
+
+  const maxScrollLeft = sectionNav.scrollWidth - sectionNav.clientWidth;
+
+  if (maxScrollLeft <= 0) {
+    return;
+  }
+
+  const navStyles = window.getComputedStyle(sectionNav);
+  const leftPadding = Number.parseFloat(navStyles.paddingLeft) || 0;
+  const targetScrollLeft = Math.min(
+    maxScrollLeft,
+    Math.max(0, activeLink.offsetLeft - leftPadding)
+  );
+
+  sectionNav.scrollTo({
+    left: targetScrollLeft,
+    behavior: "smooth"
+  });
+}
+
 function setActiveSectionNavLink(activeId) {
   const navLinks = document.querySelectorAll(".section-nav a");
 
@@ -176,6 +212,7 @@ function setActiveSectionNavLink(activeId) {
 
     if (isActive) {
       link.setAttribute("aria-current", "location");
+      keepActiveSectionNavLinkInView(link);
       return;
     }
 
@@ -319,14 +356,120 @@ function renderChecklist(id, section, items) {
   });
 }
 
-function renderSchedule(items) {
+function getGroupStyle(groupKey, groupColors) {
+  const color = groupColors[groupKey];
+
+  if (!color) {
+    return "";
+  }
+
+  const sanitizedHex = color.trim().replace("#", "");
+
+  if (!/^[0-9a-fA-F]{6}$/.test(sanitizedHex)) {
+    return "";
+  }
+
+  const red = Number.parseInt(sanitizedHex.slice(0, 2), 16);
+  const green = Number.parseInt(sanitizedHex.slice(2, 4), 16);
+  const blue = Number.parseInt(sanitizedHex.slice(4, 6), 16);
+
+  return `style="--group-color: ${color}; --group-color-soft: rgba(${red}, ${green}, ${blue}, 0.16);"`;
+}
+
+function parseScheduleTime(eventDate, timeLabel) {
+  if (!eventDate || !timeLabel) {
+    return null;
+  }
+
+  const match = timeLabel.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+
+  if (!match) {
+    return null;
+  }
+
+  const [, hourText, minuteText, meridiem] = match;
+  let hours = Number.parseInt(hourText, 10);
+  const minutes = Number.parseInt(minuteText, 10);
+
+  if (Number.isNaN(hours) || Number.isNaN(minutes)) {
+    return null;
+  }
+
+  if (meridiem.toUpperCase() === "PM" && hours !== 12) {
+    hours += 12;
+  }
+
+  if (meridiem.toUpperCase() === "AM" && hours === 12) {
+    hours = 0;
+  }
+
+  const scheduledTime = new Date(eventDate);
+
+  if (Number.isNaN(scheduledTime.getTime())) {
+    return null;
+  }
+
+  scheduledTime.setHours(hours, minutes, 0, 0);
+  return scheduledTime;
+}
+
+function getScheduleItemEndTime(item, itemIndex, items, eventDate) {
+  const descriptionRange = item.description?.match(
+    /(\d{1,2}:\d{2}\s*[AP]M)\s*-\s*(\d{1,2}:\d{2}\s*[AP]M)/i
+  );
+
+  if (descriptionRange) {
+    return parseScheduleTime(eventDate, descriptionRange[2]);
+  }
+
+  for (let index = itemIndex + 1; index < items.length; index += 1) {
+    const nextItem = items[index];
+
+    if (nextItem.type === "marker") {
+      continue;
+    }
+
+    return parseScheduleTime(eventDate, nextItem.time);
+  }
+
+  return null;
+}
+
+function getCurrentScheduleIndex(items, eventDate) {
+  const now = new Date();
+
+  for (let index = 0; index < items.length; index += 1) {
+    const item = items[index];
+
+    if (item.type === "marker") {
+      continue;
+    }
+
+    const startTime = parseScheduleTime(eventDate, item.time);
+    const endTime = getScheduleItemEndTime(item, index, items, eventDate);
+
+    if (!startTime || !endTime) {
+      continue;
+    }
+
+    if (now >= startTime && now < endTime) {
+      return index;
+    }
+  }
+
+  return -1;
+}
+
+function renderSchedule(items, groupColors, eventDate) {
   const container = document.getElementById("schedule-body");
   if (!container) {
     return;
   }
 
+  const currentScheduleIndex = getCurrentScheduleIndex(items, eventDate);
+
   container.innerHTML = items
-    .map((item) => {
+    .map((item, index) => {
       if (item.type === "marker") {
         return `
           <article class="schedule-marker">
@@ -336,11 +479,21 @@ function renderSchedule(items) {
         `;
       }
 
+      const groupAttribute = item.group ? ` data-group="${item.group}"` : "";
+      const groupStyle = item.group ? ` ${getGroupStyle(item.group, groupColors)}` : "";
+      const isCurrent = index === currentScheduleIndex;
+      const currentAttribute = isCurrent ? ' data-current="true"' : "";
+      const currentClassName = isCurrent ? " schedule-item-current" : "";
+      const currentBadge = isCurrent ? '<span class="schedule-now-badge">Now</span>' : "";
+
       return `
-        <article class="schedule-item">
+        <article class="schedule-item${currentClassName}"${currentAttribute}>
           <p class="schedule-time">${item.time}</p>
-          <div class="schedule-card">
-            <h3 class="schedule-title">${item.title}</h3>
+          <div class="schedule-card"${groupAttribute}${groupStyle}>
+            <div class="schedule-card-header">
+              <h3 class="schedule-title">${item.title}</h3>
+              ${currentBadge}
+            </div>
             ${item.description ? `<p class="schedule-description">${item.description}</p>` : ""}
           </div>
         </article>
@@ -349,7 +502,20 @@ function renderSchedule(items) {
     .join("");
 }
 
-function renderGroups(items) {
+function setupScheduleRefresh(content) {
+  if (scheduleRefreshTimerId) {
+    window.clearInterval(scheduleRefreshTimerId);
+  }
+
+  const renderCurrentSchedule = () => {
+    renderSchedule(content.schedule, content.groupColors, content.date);
+  };
+
+  renderCurrentSchedule();
+  scheduleRefreshTimerId = window.setInterval(renderCurrentSchedule, 30000);
+}
+
+function renderGroups(items, groupColors) {
   const container = document.getElementById("group-list");
   if (!container) {
     return;
@@ -358,7 +524,7 @@ function renderGroups(items) {
   container.innerHTML = items
     .map(
       (item) => `
-        <details class="group-card">
+        <details class="group-card" data-group="${item.group}" ${getGroupStyle(item.group, groupColors)}>
           <summary class="group-summary">
             <h3>${item.name}</h3>
             <span class="group-toggle" aria-hidden="true"></span>
@@ -479,10 +645,10 @@ function renderPage(content) {
   setText("event-location-address", content.address);
   setLink("event-location-link", content.locationUrl);
   setText("event-summary", content.summary);
-  renderSchedule(content.schedule);
+  setupScheduleRefresh(content);
   renderChecklist("required-items", "required", content.requiredItems);
   renderChecklist("recommended-items", "recommended", content.recommendedItems);
-  renderGroups(content.groups);
+  renderGroups(content.groups, content.groupColors);
   renderMap(content.map);
   renderPeople(content.importantPeople);
   setupParticipantAccess(content);
