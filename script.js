@@ -7,7 +7,7 @@ const eventContent = {
     src: "assets/images/cover.gif",
     alt: "Track day event cover image"
   },
-  date: "March 7, 2026",
+  date: "March 13, 2026",
   time: "12:15 PM - 4:00 PM",
   locationName: "Mission Raceway Park",
   address: "32670 Dyke Rd, Mission, BC V2V 4J5",
