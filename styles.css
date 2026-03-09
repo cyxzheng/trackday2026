@@ -45,7 +45,7 @@ a {
 .skip-link {
   position: absolute;
   left: 1rem;
-  top: -3rem;
+  top: -6rem;
   padding: 0.75rem 1rem;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -53,11 +53,6 @@ a {
 
 .skip-link:focus {
   top: 1rem;
-}
-
-.site-header {
-  background: rgba(245, 245, 245, 0.95);
-  border-bottom: 1px solid var(--border);
 }
 
 .page-shell {
@@ -96,6 +91,10 @@ main.page-shell {
   box-shadow: var(--shadow);
 }
 
+.section-nav[hidden] {
+  display: none;
+}
+
 .section-nav a {
   display: inline-flex;
   align-items: center;
@@ -107,6 +106,10 @@ main.page-shell {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 999px;
+}
+
+.section-nav a[hidden] {
+  display: none;
 }
 
 .section {
@@ -240,6 +243,12 @@ h3 {
 
 .participant-access-heading {
   margin-bottom: 0.75rem;
+}
+
+.participant-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .access-form {
@@ -498,10 +507,6 @@ h3 {
 }
 
 @media (max-width: 39rem) {
-  .access-controls {
-    flex-direction: column;
-  }
-
   .access-button {
     width: 100%;
   }

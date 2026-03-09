@@ -57,7 +57,7 @@ const eventContent = {
         "Jason Leung",
         "Alan Cham",
         "Brian Wong",
-        "Ansix Designs",
+        "Ansix Auto",
         "Saito / Sasaki"
       ]
     },
@@ -81,7 +81,7 @@ const eventContent = {
       people: [
         "Vic Quintoro",
         "Calvin Zheng",
-        "Caymin",
+        "Caymin Hansson",
         "Hanson Ng",
         "Leo Yang",
         "Tim Tseng",
@@ -103,17 +103,29 @@ const eventContent = {
   },
   importantPeople: [
     {
-      role: "Main contact person",
-      names: ["[Main contact name]"]
+      role: "Registration and Coordination",
+      names: ["Eugene Liew", "Calvin Zheng", "Mission Staff"]
+    },
+    {
+      role: "Track lot marshalls",
+      names: ["Ross Dunnet", "Marc Brito", "Justin Ng"]
+    },
+    {
+      role: "Tech inspections and support",
+      names: ["Nathan Tong", "Marc Brito"]
+    },
+    {
+      role: "Follow lead instructors",
+      names: ["Jessie Pashak", "Nathon Tong", "Marc Brito"]
     },
     {
       role: "Medical volunteers",
-      names: ["[Volunteer 1]", "[Volunteer 2]"]
+      names: ["Victor Quintoro", "Justin Ng"]
     },
     {
-      role: "Instructors / track leads / tech help",
-      names: ["[Name 1]", "[Name 2]", "[Name 3]"]
-    }
+      role: "Food and Beverage",
+      names: ["Colin Yu", "Justin Ng"]
+    },
   ]
 };
 
@@ -288,7 +300,7 @@ function setParticipantContentVisibility(isUnlocked) {
   const content = document.getElementById("participant-content");
   const form = document.getElementById("access-form");
   const accessCard = document.querySelector(".participant-access");
-  const navLinks = document.querySelectorAll(".participant-nav-link");
+  const sectionNav = document.querySelector(".section-nav");
 
   if (content) {
     content.hidden = !isUnlocked;
@@ -300,9 +312,9 @@ function setParticipantContentVisibility(isUnlocked) {
     form.hidden = isUnlocked;
   }
 
-  navLinks.forEach((link) => {
-    link.hidden = !isUnlocked;
-  });
+  if (sectionNav) {
+    sectionNav.hidden = !isUnlocked;
+  }
 }
 
 function unlockParticipantContent() {
