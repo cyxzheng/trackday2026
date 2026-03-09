@@ -2,6 +2,7 @@
 // Keep event details centralized here instead of in the HTML.
 const eventContent = {
   title: "Vancouver GR Corolla Club Track Day!",
+  participantCode: "0313",
   overviewImage: {
     src: "assets/images/cover.gif",
     alt: "Track day event cover image"
@@ -115,6 +116,8 @@ const eventContent = {
     }
   ]
 };
+
+const participantAccessStorageKey = "trackday2026:participant-access";
 
 function setText(id, value) {
   const element = document.getElementById(id);
@@ -267,6 +270,76 @@ function renderMap(mapContent) {
   renderList("track-sections", mapContent.sections);
 }
 
+function setAccessMessage(message, type) {
+  const messageElement = document.getElementById("access-message");
+  if (!messageElement) {
+    return;
+  }
+
+  messageElement.textContent = message;
+  messageElement.classList.remove("is-error", "is-success");
+
+  if (type) {
+    messageElement.classList.add(`is-${type}`);
+  }
+}
+
+function setParticipantContentVisibility(isUnlocked) {
+  const content = document.getElementById("participant-content");
+  const form = document.getElementById("access-form");
+  const navLinks = document.querySelectorAll(".participant-nav-link");
+
+  if (content) {
+    content.hidden = !isUnlocked;
+  }
+
+  if (form) {
+    form.hidden = isUnlocked;
+  }
+
+  navLinks.forEach((link) => {
+    link.hidden = !isUnlocked;
+  });
+}
+
+function unlockParticipantContent() {
+  window.localStorage.setItem(participantAccessStorageKey, "true");
+  setParticipantContentVisibility(true);
+  setAccessMessage("Participant details unlocked on this device.", "success");
+}
+
+function setupParticipantAccess(content) {
+  const form = document.getElementById("access-form");
+  const input = document.getElementById("access-code");
+  const isUnlocked = window.localStorage.getItem(participantAccessStorageKey) === "true";
+
+  setParticipantContentVisibility(isUnlocked);
+
+  if (isUnlocked) {
+    setAccessMessage("Participant details unlocked on this device.", "success");
+    return;
+  }
+
+  setAccessMessage("Enter the participant code to continue.");
+
+  if (!form || !input) {
+    return;
+  }
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    if (input.value === content.participantCode) {
+      unlockParticipantContent();
+      input.value = "";
+      return;
+    }
+
+    setAccessMessage("That code does not match.", "error");
+    input.select();
+  });
+}
+
 function renderPage(content) {
   setText("event-title", content.title);
   setImage("overview-image", content.overviewImage);
@@ -282,6 +355,7 @@ function renderPage(content) {
   renderGroups(content.groups);
   renderMap(content.map);
   renderPeople(content.importantPeople);
+  setupParticipantAccess(content);
 
   if (window.lucide && typeof window.lucide.createIcons === "function") {
     window.lucide.createIcons();

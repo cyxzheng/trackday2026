@@ -230,6 +230,75 @@ h3 {
   margin-bottom: 1rem;
 }
 
+.participant-access {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.8rem;
+  background: #fcfcfc;
+}
+
+.participant-access-heading {
+  margin-bottom: 0.75rem;
+}
+
+.access-form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.access-label {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.access-controls {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.access-input,
+.access-button {
+  min-height: 2.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.7rem;
+  font: inherit;
+}
+
+.access-input {
+  flex: 1 1 14rem;
+  padding: 0.75rem 0.9rem;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.access-button {
+  padding: 0.75rem 1rem;
+  background: var(--text);
+  color: var(--surface);
+  cursor: pointer;
+}
+
+.access-message {
+  min-height: 1.5rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.access-message.is-error {
+  color: #9a2f2f;
+}
+
+.access-message.is-success {
+  color: #245c35;
+}
+
+.participant-content[hidden] {
+  display: none;
+}
+
 .group-grid,
 .people-grid,
 .two-column {
@@ -426,6 +495,16 @@ h3 {
   height: 1rem;
   stroke-width: 1.9;
   flex: 0 0 auto;
+}
+
+@media (max-width: 39rem) {
+  .access-controls {
+    flex-direction: column;
+  }
+
+  .access-button {
+    width: 100%;
+  }
 }
 
 @media (min-width: 700px) {
