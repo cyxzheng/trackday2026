@@ -131,6 +131,42 @@ const eventContent = {
 
 const participantAccessStorageKey = "trackday2026:participant-access";
 
+function updateSectionNavOffset() {
+  const root = document.documentElement;
+  const sectionNav = document.querySelector(".section-nav");
+
+  if (!root || !sectionNav) {
+    return;
+  }
+
+  const visualViewport = window.visualViewport;
+
+  if (!visualViewport) {
+    root.style.setProperty("--section-nav-offset", "0px");
+    return;
+  }
+
+  const viewportGap = Math.max(
+    0,
+    window.innerHeight - visualViewport.height - visualViewport.offsetTop
+  );
+
+  root.style.setProperty("--section-nav-offset", `${viewportGap}px`);
+}
+
+function setupSectionNavViewport() {
+  updateSectionNavOffset();
+
+  if (!window.visualViewport) {
+    return;
+  }
+
+  window.visualViewport.addEventListener("resize", updateSectionNavOffset);
+  window.visualViewport.addEventListener("scroll", updateSectionNavOffset);
+  window.addEventListener("orientationchange", updateSectionNavOffset);
+  window.addEventListener("resize", updateSectionNavOffset);
+}
+
 function setText(id, value) {
   const element = document.getElementById(id);
   if (element) {
@@ -375,6 +411,8 @@ function renderPage(content) {
   if (window.lucide && typeof window.lucide.createIcons === "function") {
     window.lucide.createIcons();
   }
+
+  setupSectionNavViewport();
 }
 
 renderPage(eventContent);

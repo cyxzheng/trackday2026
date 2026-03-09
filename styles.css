@@ -20,6 +20,7 @@
   --muted: #666666;
   --accent: #ececec;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --section-nav-offset: 0px;
 }
 
 * {
@@ -79,7 +80,7 @@ main.page-shell {
   overflow-x: auto;
   position: fixed;
   left: 50%;
-  bottom: calc(0.75rem + env(safe-area-inset-bottom, 0rem));
+  bottom: calc(0.75rem + env(safe-area-inset-bottom, 0rem) + var(--section-nav-offset));
   z-index: 20;
   width: min(calc(100% - 1.25rem), 68rem);
   padding: 0.75rem;
