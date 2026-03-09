@@ -13,49 +13,52 @@
     <div class="page-shell">
       <p class="draft-label">Track day event sheet</p>
       <nav class="section-nav" aria-label="Section navigation">
-        <a href="#overview">Overview</a>
-        <a href="#schedule">Schedule</a>
-        <a href="#bring">Bring</a>
-        <a href="#groups">Groups</a>
-        <a href="#map">Track Map</a>
-        <a href="#people">People</a>
+        <a href="#overview"><i data-lucide="flag" aria-hidden="true"></i><span>Overview</span></a>
+        <a href="#schedule"><i data-lucide="clock-3" aria-hidden="true"></i><span>Schedule</span></a>
+        <a href="#bring"><i data-lucide="backpack" aria-hidden="true"></i><span>Bring</span></a>
+        <a href="#groups"><i data-lucide="users" aria-hidden="true"></i><span>Groups</span></a>
+        <a href="#map"><i data-lucide="map" aria-hidden="true"></i><span>Track Map</span></a>
+        <a href="#people"><i data-lucide="badge-info" aria-hidden="true"></i><span>People</span></a>
       </nav>
     </div>
   </header>
 
   <main id="main-content" class="page-shell">
     <section id="overview" class="section section-intro">
-      <p class="section-kicker">Event overview</p>
+      <div class="overview-media">
+        <img id="overview-image" src="" alt="">
+      </div>
       <h1 id="event-title">[Event title]</h1>
-      <div class="intro-meta">
-        <p><strong>Day + Start:</strong> <span id="event-day-time">[Day and start time]</span></p>
-        <p><strong>Location:</strong> <span id="event-location">[Location]</span></p>
+      <div class="overview-details">
+        <div class="detail-row">
+          <i data-lucide="calendar-days" aria-hidden="true"></i>
+          <div class="detail-copy">
+            <p id="event-date" class="detail-title">[Date]</p>
+            <p id="event-time" class="detail-subtext">[Time]</p>
+          </div>
+        </div>
+        <a id="event-location-link" class="detail-row detail-link" href="#" target="_blank" rel="noreferrer">
+          <i data-lucide="map-pin" aria-hidden="true"></i>
+          <div class="detail-copy">
+            <p id="event-location-name" class="detail-title">[Location name]</p>
+            <p id="event-location-address" class="detail-subtext">[Address]</p>
+          </div>
+        </a>
       </div>
       <p id="event-summary" class="summary-text">[Short summary]</p>
     </section>
 
     <section id="schedule" class="section">
       <div class="section-heading">
-        <h2>Schedule</h2>
+        <h2><i data-lucide="clock-3" aria-hidden="true"></i><span>Schedule</span></h2>
         <p>Simple day-of timing.</p>
       </div>
-      <div class="table-wrapper">
-        <table class="schedule-table">
-          <thead>
-            <tr>
-              <th scope="col">Time</th>
-              <th scope="col">Activity</th>
-              <th scope="col">Notes</th>
-            </tr>
-          </thead>
-          <tbody id="schedule-body"></tbody>
-        </table>
-      </div>
+      <div id="schedule-body" class="schedule-list"></div>
     </section>
 
     <section id="bring" class="section">
       <div class="section-heading">
-        <h2>What to Bring</h2>
+        <h2><i data-lucide="backpack" aria-hidden="true"></i><span>What to Bring</span></h2>
         <p>Day-of checklist.</p>
       </div>
       <div class="two-column">
@@ -72,7 +75,7 @@
 
     <section id="map" class="section">
       <div class="section-heading">
-        <h2>Track Map</h2>
+        <h2><i data-lucide="map" aria-hidden="true"></i><span>Track Map</span></h2>
         <p>Layout and section reference.</p>
       </div>
       <div class="map-layout">
@@ -88,7 +91,7 @@
 
     <section id="groups" class="section">
       <div class="section-heading">
-        <h2>Driver Groups</h2>
+        <h2><i data-lucide="users" aria-hidden="true"></i><span>Driver Groups</span></h2>
         <p>Groups and who's in each one.</p>
       </div>
       <div id="group-list" class="group-grid"></div>
@@ -96,13 +99,14 @@
 
     <section id="people" class="section">
       <div class="section-heading">
-        <h2>Important People</h2>
+        <h2><i data-lucide="badge-info" aria-hidden="true"></i><span>Important People</span></h2>
         <p>Main contacts and support roles.</p>
       </div>
       <div id="people-list" class="people-grid"></div>
     </section>
   </main>
 
+  <script src="https://unpkg.com/lucide@latest"></script>
   <script src="script.js"></script>
 </body>
 </html>
