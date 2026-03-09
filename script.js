@@ -287,13 +287,16 @@ function setAccessMessage(message, type) {
 function setParticipantContentVisibility(isUnlocked) {
   const content = document.getElementById("participant-content");
   const form = document.getElementById("access-form");
+  const accessCard = document.querySelector(".participant-access");
   const navLinks = document.querySelectorAll(".participant-nav-link");
 
   if (content) {
     content.hidden = !isUnlocked;
   }
 
-  if (form) {
+  if (accessCard) {
+    accessCard.hidden = isUnlocked;
+  } else if (form) {
     form.hidden = isUnlocked;
   }
 
