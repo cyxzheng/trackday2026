@@ -1,71 +1,111 @@
-// Edit this object to replace placeholders with real event information.
-// Keep the structure simple so collaborators can update it without digging through markup.
+// Edit the content in this object to update the page.
+// Keep event details centralized here instead of in the HTML.
 const eventContent = {
-  title: "[Event title]",
-  date: "[Event date]",
-  trackName: "[Track name]",
-  summary: "[Short event summary placeholder. Add the basic purpose of the day, who it is for, and any major notes.]",
-  statusNote: "[Optional status note placeholder. Example: Registration opens next week.]",
-  quickFacts: [
-    { label: "Track location", value: "[Track location]" },
-    { label: "Full address", value: "[Track address]" },
-    { label: "Arrival time", value: "[Arrival time]" },
-    { label: "Drivers meeting time", value: "[Drivers meeting time]" },
-    { label: "Event end time", value: "[Event end time]" },
-    { label: "Contact person", value: "[Contact person]" },
-    { label: "Contact number or email", value: "[Contact number or email]" },
-    { label: "Registration / waiver note", value: "[Registration / waiver note]" },
-    { label: "Weather / rain note", value: "[Weather / rain note]" }
-  ],
-  scheduleNote: "[Add schedule here. This section can later support a simple live current-time highlight if needed.]",
+  title: "Vancouver GR Corolla Club Track Day!",
+  dayAndStartTime: "[Day and start time]",
+  location: "Mission Raceway Park",
+  summary: "The first ever Vancouver GR Corolla Club track day, sponsored by Toyota Canada and Openroad Auto Group.",
   schedule: [
-    { time: "[7:00 AM]", activity: "[Arrival / unload]", notes: "[Optional notes]" },
-    { time: "[7:30 AM]", activity: "[Check-in / waiver]", notes: "[Optional notes]" },
-    { time: "[8:00 AM]", activity: "[Drivers meeting]", notes: "[Optional notes]" },
-    { time: "[8:30 AM]", activity: "[First session]", notes: "[Optional notes]" },
-    { time: "[12:00 PM]", activity: "[Lunch / track break]", notes: "[Optional notes]" },
-    { time: "[1:00 PM]", activity: "[Afternoon sessions resume]", notes: "[Optional notes]" },
-    { time: "[5:00 PM]", activity: "[Pack up / end of day]", notes: "[Optional notes]" }
+    { time: "12:15 PM", activity: "Gates open to track participants", notes: "Gate code is 0313" },
+    { time: "12:20 PM", activity: "Registration and Tech Inspection", },
+    { time: "12:45 PM", activity: "Driver's meeting", },
+    { time: "1:00 PM", activity: "Track hot", },
+    { time: "1:00 PM - 1:15 PM", activity: "Group A" },
+    { time: "1:15 PM - 1:30 PM", activity: "Group B" },
+    { time: "1:30 PM - 1:45 PM", activity: "Group C" },
+    { time: "1:45 PM - 2:00 PM", activity: "Group A" },
+    { time: "2:00 PM - 2:15 PM", activity: "Group B" },
+    { time: "2:15 PM - 2:30 PM", activity: "Group C" },
+    { time: "2:30 PM - 2:45 PM", activity: "Group A" },
+    { time: "2:45 PM - 3:00 PM", activity: "Group B" },
+    { time: "3:00 PM - 3:15 PM", activity: "Group C" },
+    { time: "3:15 PM - 3:30 PM", activity: "Group A" },
+    { time: "3:30 PM - 3:45 PM", activity: "Group B" },
+    { time: "3:45 PM - 4:00 PM", activity: "Group C" },
+    { time: "4:00 PM", activity: "Track cold" },
   ],
   requiredItems: [
-    "[Helmet]",
-    "[Driver's license]",
-    "[Signed waiver]",
-    "[Registration confirmation]"
+    "Snell 2010 or newer helmet",
+    "Driver's License",
+    "Signed Online Waiver"
   ],
   recommendedItems: [
-    "[Water]",
-    "[Tire pressure gauge]",
-    "[Snacks]",
-    "[Folding chair]",
-    "[Basic tools]"
+    "Water",
+    "Tire pressure gauge",
+    "Tire pump",
+    "Snacks",
+    "Folding chair",
+    "Basic tools"
+  ],
+  groups: [
+    {
+      name: "Group A",
+      people: [
+        "Ross Dunnet",
+        "Nathan Tong",
+        "Colin Yu",
+        "Marc Brito",
+        "Jessie Pashak",
+        "Jason Leung",
+        "Alan Cham",
+        "Brian Wong",
+        "Ansix Designs",
+        "Saito / Sasaki"
+      ]
+    },
+    {
+      name: "Group B",
+      people: [
+        "Jack Wong",
+        "Eugene Liew",
+        "Jason Lai",
+        "Justin Ng",
+        "Don Yip",
+        "Jeremy McLean",
+        "Erik Soderlund",
+        "Gabi Chen",
+        "Steve Lloyd",
+        "Luka Petrovic"
+      ]
+    },
+    {
+      name: "Group C",
+      people: [
+        "Vic Quintoro",
+        "Calvin Zheng",
+        "Caymin",
+        "Hanson Ng",
+        "Leo Yang",
+        "Tim Tseng",
+        "Danny Luk",
+        "Ian Wong",
+        "Michael Chan",
+        "Landon Folz"
+      ]
+    }
   ],
   map: {
-    imageLabel: "[Track layout image placeholder]",
-    caption: "[Map caption]",
-    pitNote: "[Pit in / pit out note]",
-    paddockNote: "[Paddock note]",
-    parkingNote: "[Parking note]"
+    imageLabel: "[Track layout image or asset note]",
+    sections: [
+      "[Section 1]",
+      "[Section 2]",
+      "[Section 3]",
+      "[Section 4]"
+    ]
   },
-  groups: [
-    { name: "[Group A]", description: "[Placeholder description for this driver group]" },
-    { name: "[Group B]", description: "[Placeholder description for this driver group]" },
-    { name: "[Group C]", description: "[Placeholder description for this driver group]" }
-  ],
-  faq: [
-    { question: "[What happens if it rains?]", answer: "[Add answer or note that confirmation is pending.]" },
-    { question: "[Is fuel available on site?]", answer: "[Add answer here.]" },
-    { question: "[Can passengers ride along?]", answer: "[Add answer here.]" },
-    { question: "[What safety gear is required?]", answer: "[Add answer here.]" }
-  ],
-  contact: {
-    organizerName: "[Club/organizer name placeholder]"
-  },
-  lastUpdated: "[Last updated placeholder]",
-  adminNotes: [
-    "[Still need to confirm run groups]",
-    "[Need official address from organizer]",
-    "[Confirm waiver/check-in process]"
+  importantPeople: [
+    {
+      role: "Main contact person",
+      names: ["[Main contact name]"]
+    },
+    {
+      role: "Medical volunteers",
+      names: ["[Volunteer 1]", "[Volunteer 2]"]
+    },
+    {
+      role: "Instructors / track leads / tech help",
+      names: ["[Name 1]", "[Name 2]", "[Name 3]"]
+    }
   ]
 };
 
@@ -76,58 +116,29 @@ function setText(id, value) {
   }
 }
 
-function renderQuickFacts(items) {
-  const container = document.getElementById("quick-facts-list");
-  container.innerHTML = items
-    .map(
-      (item) => `
-        <dl class="fact-card">
-          <dt>${item.label}</dt>
-          <dd>${item.value}</dd>
-        </dl>
-      `
-    )
-    .join("");
+function renderList(id, items) {
+  const container = document.getElementById(id);
+  if (!container) {
+    return;
+  }
+
+  container.innerHTML = items.map((item) => `<li>${item}</li>`).join("");
 }
 
 function renderSchedule(items) {
   const container = document.getElementById("schedule-body");
+  if (!container) {
+    return;
+  }
+
   container.innerHTML = items
     .map(
       (item) => `
         <tr data-time="${item.time}">
           <td class="schedule-time">${item.time}</td>
           <td>${item.activity}</td>
-          <td>${item.notes}</td>
+          <td>${item.notes || ""}</td>
         </tr>
-      `
-    )
-    .join("");
-}
-
-function renderList(id, items) {
-  const container = document.getElementById(id);
-  container.innerHTML = items.map((item) => `<li>${item}</li>`).join("");
-}
-
-function renderMap(mapContent) {
-  setText("map-image-placeholder", mapContent.imageLabel);
-
-  const container = document.getElementById("map-details");
-  const rows = [
-    { label: "Map caption", value: mapContent.caption },
-    { label: "Pit in / pit out note", value: mapContent.pitNote },
-    { label: "Paddock note", value: mapContent.paddockNote },
-    { label: "Parking note", value: mapContent.parkingNote }
-  ];
-
-  container.innerHTML = rows
-    .map(
-      (row) => `
-        <div class="note-card">
-          <h3>${row.label}</h3>
-          <p>${row.value}</p>
-        </div>
       `
     )
     .join("");
@@ -135,99 +146,60 @@ function renderMap(mapContent) {
 
 function renderGroups(items) {
   const container = document.getElementById("group-list");
+  if (!container) {
+    return;
+  }
+
   container.innerHTML = items
     .map(
       (item) => `
         <article class="group-card">
           <h3>${item.name}</h3>
-          <p>${item.description}</p>
+          <ul class="plain-list">
+            ${item.people.map((person) => `<li>${person}</li>`).join("")}
+          </ul>
         </article>
       `
     )
     .join("");
 }
 
-function renderFaq(items) {
-  const container = document.getElementById("faq-list");
-  container.innerHTML = items
-    .map(
-      (item) => `
-        <article class="faq-item">
-          <h3>${item.question}</h3>
-          <p>${item.answer}</p>
-        </article>
-      `
-    )
-    .join("");
-}
-
-function applyScheduleHighlight() {
-  const rows = document.querySelectorAll("#schedule-body tr");
-  if (!rows.length) {
+function renderPeople(items) {
+  const container = document.getElementById("people-list");
+  if (!container) {
     return;
   }
 
-  rows.forEach((row) => row.classList.remove("current"));
-
-  // This only activates once real times replace placeholders like "[7:00 AM]".
-  const now = new Date();
-  const nowMinutes = now.getHours() * 60 + now.getMinutes();
-
-  let currentRow = null;
-
-  rows.forEach((row) => {
-    const timeText = row.dataset.time || "";
-    const parsedMinutes = parseTimeToMinutes(timeText);
-    if (parsedMinutes !== null && parsedMinutes <= nowMinutes) {
-      currentRow = row;
-    }
-  });
-
-  if (currentRow) {
-    currentRow.classList.add("current");
-  }
+  container.innerHTML = items
+    .map(
+      (item) => `
+        <article class="note-card">
+          <h3>${item.role}</h3>
+          <ul class="plain-list">
+            ${item.names.map((name) => `<li>${name}</li>`).join("")}
+          </ul>
+        </article>
+      `
+    )
+    .join("");
 }
 
-function parseTimeToMinutes(value) {
-  const match = value.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
-  if (!match) {
-    return null;
-  }
-
-  let hours = Number(match[1]);
-  const minutes = Number(match[2]);
-  const period = match[3].toUpperCase();
-
-  if (period === "PM" && hours !== 12) {
-    hours += 12;
-  }
-
-  if (period === "AM" && hours === 12) {
-    hours = 0;
-  }
-
-  return hours * 60 + minutes;
+function renderMap(mapContent) {
+  setText("map-image-placeholder", mapContent.imageLabel);
+  renderList("track-sections", mapContent.sections);
 }
 
 function renderPage(content) {
   setText("event-title", content.title);
-  setText("event-date", content.date);
-  setText("track-name", content.trackName);
+  setText("event-day-time", content.dayAndStartTime);
+  setText("event-location", content.location);
   setText("event-summary", content.summary);
-  setText("status-note", content.statusNote);
-  setText("schedule-helper-note", content.scheduleNote);
-  setText("organizer-name", content.contact.organizerName);
-  setText("last-updated", content.lastUpdated);
-
-  renderQuickFacts(content.quickFacts);
   renderSchedule(content.schedule);
   renderList("required-items", content.requiredItems);
   renderList("recommended-items", content.recommendedItems);
-  renderMap(content.map);
   renderGroups(content.groups);
-  renderFaq(content.faq);
-  renderList("admin-notes-list", content.adminNotes);
-  applyScheduleHighlight();
+  renderMap(content.map);
+  renderPeople(content.importantPeople);
 }
 
 renderPage(eventContent);

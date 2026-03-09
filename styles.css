@@ -5,8 +5,6 @@
   --text: #1f1f1f;
   --muted: #666666;
   --accent: #ececec;
-  --accent-strong: #dcdcdc;
-  --current-row: #fff7db;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
@@ -96,9 +94,7 @@ a {
 
 .section-kicker,
 .section-heading p,
-.helper-note,
 .summary-text,
-.status-note,
 .intro-meta p {
   color: var(--muted);
 }
@@ -141,45 +137,24 @@ h3 {
   margin-bottom: 1rem;
 }
 
-.status-note {
-  display: inline-block;
-  margin-bottom: 0;
-  padding: 0.55rem 0.7rem;
-  background: var(--accent);
-  border-left: 3px solid var(--accent-strong);
-}
-
 .section-heading {
   margin-bottom: 1rem;
 }
 
-.facts-grid,
 .group-grid,
-.notes-grid,
+.people-grid,
 .two-column {
   display: grid;
   gap: 0.75rem;
 }
 
-.fact-card,
 .group-card,
 .note-card,
-.list-card,
-.faq-item {
+.list-card {
   padding: 0.9rem;
   border: 1px solid var(--border);
   border-radius: 0.7rem;
   background: #fcfcfc;
-}
-
-.fact-card dt {
-  margin-bottom: 0.35rem;
-  font-weight: 600;
-}
-
-.fact-card dd {
-  margin: 0;
-  color: var(--muted);
 }
 
 .table-wrapper {
@@ -205,10 +180,6 @@ h3 {
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--muted);
-}
-
-.schedule-table tbody tr.current {
-  background: var(--current-row);
 }
 
 .schedule-time {
@@ -244,18 +215,11 @@ h3 {
   color: var(--muted);
 }
 
-.map-details {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.faq-item h3,
 .group-card h3,
 .note-card h3 {
   margin-bottom: 0.45rem;
 }
 
-.faq-item p,
 .group-card p,
 .note-card p,
 .list-card p {
@@ -263,14 +227,9 @@ h3 {
   color: var(--muted);
 }
 
-.admin-card {
-  margin-top: 0.75rem;
-}
-
 @media (min-width: 700px) {
-  .facts-grid,
   .group-grid,
-  .notes-grid,
+  .people-grid,
   .two-column {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

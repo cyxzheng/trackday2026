@@ -11,46 +11,34 @@
 
   <header class="site-header">
     <div class="page-shell">
-      <p class="draft-label">Shared draft / event worksheet</p>
+      <p class="draft-label">Track day event sheet</p>
       <nav class="section-nav" aria-label="Section navigation">
-        <a href="#intro">Intro</a>
-        <a href="#quick-facts">Quick Facts</a>
+        <a href="#overview">Overview</a>
         <a href="#schedule">Schedule</a>
-        <a href="#bring">What to Bring</a>
-        <a href="#map">Track Map</a>
+        <a href="#bring">Bring</a>
         <a href="#groups">Groups</a>
-        <a href="#faq">FAQ</a>
-        <a href="#notes">Notes</a>
+        <a href="#map">Track Map</a>
+        <a href="#people">People</a>
       </nav>
     </div>
   </header>
 
   <main id="main-content" class="page-shell">
-    <section id="intro" class="section section-intro">
+    <section id="overview" class="section section-intro">
       <p class="section-kicker">Event overview</p>
       <h1 id="event-title">[Event title]</h1>
       <div class="intro-meta">
-        <p id="event-date">[Event date]</p>
-        <p id="track-name">[Track name]</p>
+        <p><strong>Day + Start:</strong> <span id="event-day-time">[Day and start time]</span></p>
+        <p><strong>Location:</strong> <span id="event-location">[Location]</span></p>
       </div>
-      <p id="event-summary" class="summary-text">[Short event summary placeholder]</p>
-      <p id="status-note" class="status-note">[Optional status note placeholder]</p>
-    </section>
-
-    <section id="quick-facts" class="section">
-      <div class="section-heading">
-        <h2>Quick Facts</h2>
-        <p>Fill in the core day-of information here first.</p>
-      </div>
-      <div id="quick-facts-list" class="facts-grid"></div>
+      <p id="event-summary" class="summary-text">[Short summary]</p>
     </section>
 
     <section id="schedule" class="section">
       <div class="section-heading">
-        <h2>Day-of Schedule</h2>
-        <p>Structured placeholders for time, activity, and notes.</p>
+        <h2>Schedule</h2>
+        <p>Simple day-of timing.</p>
       </div>
-      <p id="schedule-helper-note" class="helper-note"></p>
       <div class="table-wrapper">
         <table class="schedule-table">
           <thead>
@@ -68,7 +56,7 @@
     <section id="bring" class="section">
       <div class="section-heading">
         <h2>What to Bring</h2>
-        <p>Use this as a simple checklist collaborators can refine.</p>
+        <p>Day-of checklist.</p>
       </div>
       <div class="two-column">
         <div class="list-card">
@@ -85,51 +73,33 @@
     <section id="map" class="section">
       <div class="section-heading">
         <h2>Track Map</h2>
-        <p>Placeholder area for layout image and site notes.</p>
+        <p>Layout and section reference.</p>
       </div>
       <div class="map-layout">
         <div class="map-placeholder" id="map-image-placeholder" aria-label="Track map placeholder">
           <p>[Track layout image placeholder]</p>
         </div>
-        <div id="map-details" class="map-details"></div>
+        <div class="list-card">
+          <h3>Track Sections</h3>
+          <ul id="track-sections" class="plain-list"></ul>
+        </div>
       </div>
     </section>
 
     <section id="groups" class="section">
       <div class="section-heading">
         <h2>Driver Groups</h2>
-        <p>Optional section for run group descriptions.</p>
+        <p>Groups and who's in each one.</p>
       </div>
       <div id="group-list" class="group-grid"></div>
     </section>
 
-    <section id="faq" class="section">
+    <section id="people" class="section">
       <div class="section-heading">
-        <h2>FAQ</h2>
-        <p>Keep questions visible so people can fill in answers quickly.</p>
+        <h2>Important People</h2>
+        <p>Main contacts and support roles.</p>
       </div>
-      <div id="faq-list" class="faq-list"></div>
-    </section>
-
-    <section id="notes" class="section">
-      <div class="section-heading">
-        <h2>Footer / Admin Notes</h2>
-        <p>Organizer details and internal reminders.</p>
-      </div>
-      <div class="notes-grid">
-        <div class="note-card">
-          <h3>Organizer</h3>
-          <p id="organizer-name">[Club/organizer name placeholder]</p>
-        </div>
-        <div class="note-card">
-          <h3>Last Updated</h3>
-          <p id="last-updated">[Last updated placeholder]</p>
-        </div>
-      </div>
-      <div class="list-card admin-card">
-        <h3>Admin Notes</h3>
-        <ul id="admin-notes-list" class="plain-list"></ul>
-      </div>
+      <div id="people-list" class="people-grid"></div>
     </section>
   </main>
 
