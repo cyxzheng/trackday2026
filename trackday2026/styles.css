@@ -98,8 +98,8 @@ a {
 }
 
 .site-header {
-  position: fixed;
-  inset: 0 0 auto;
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
   z-index: 50;
   background: var(--bg);
   pointer-events: none;
@@ -218,7 +218,7 @@ a {
   overflow-x: auto;
   position: fixed;
   left: 50%;
-  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  bottom: max(8px, env(safe-area-inset-bottom, 0px));
   z-index: 55;
   width: min(calc(100% - 24px), 390px);
   padding: 6px;
@@ -266,10 +266,6 @@ a {
   stroke-width: 2;
 }
 
-main.page-shell {
-  padding-top: var(--top-chrome-height);
-}
-
 .section {
   padding: 48px 16px;
   border-bottom: 1px solid var(--line);
@@ -281,7 +277,7 @@ main.page-shell {
 }
 
 .footer-shell {
-  padding: 48px 16px calc(var(--bottom-nav-height) + 28px + env(safe-area-inset-bottom, 0px));
+  padding: 48px 16px calc(var(--bottom-nav-height) + 20px + env(safe-area-inset-bottom, 0px));
 }
 
 .footer-stack {
