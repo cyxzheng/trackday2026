@@ -299,40 +299,9 @@ function updateTopChromeHeight() {
   root.style.setProperty("--top-chrome-height", `${Math.ceil(siteHeader.offsetHeight)}px`);
 }
 
-function updateViewportOffsets() {
-  const root = document.documentElement;
-  const viewport = window.visualViewport;
-
-  if (!root) {
-    return;
-  }
-
-  if (!viewport) {
-    root.style.setProperty("--viewport-offset-top", "0px");
-    root.style.setProperty("--viewport-offset-bottom", "0px");
-    return;
-  }
-
-  const topOffset = Math.max(0, Math.round(viewport.offsetTop));
-  const bottomOffset = Math.max(
-    0,
-    Math.round(window.innerHeight - viewport.height - viewport.offsetTop)
-  );
-
-  root.style.setProperty("--viewport-offset-top", `${topOffset}px`);
-  root.style.setProperty("--viewport-offset-bottom", `${bottomOffset}px`);
-}
-
 function setupViewportOffsets() {
-  updateViewportOffsets();
   updateTopChromeHeight();
-  window.addEventListener("resize", updateViewportOffsets);
   window.addEventListener("resize", updateTopChromeHeight);
-
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener("resize", updateViewportOffsets);
-    window.visualViewport.addEventListener("scroll", updateViewportOffsets);
-  }
 }
 
 function setActiveSectionNavLink(activeId) {
@@ -1351,10 +1320,16 @@ function setAccessMessage(message, type) {
 }
 
 function setParticipantContentVisibility(isUnlocked) {
+  const body = document.body;
   const content = document.getElementById("participant-content");
   const form = document.getElementById("access-form");
   const accessCard = document.querySelector(".participant-access");
   const sectionNav = document.querySelector(".section-nav");
+
+  if (body) {
+    body.classList.toggle("is-unlocked", isUnlocked);
+    body.classList.toggle("is-locked", !isUnlocked);
+  }
 
   if (content) {
     content.hidden = !isUnlocked;
@@ -1369,13 +1344,14 @@ function setParticipantContentVisibility(isUnlocked) {
   if (sectionNav) {
     sectionNav.hidden = !isUnlocked;
   }
+
+  updateTopChromeHeight();
 }
 
 function unlockParticipantContent() {
   setStoredValue(participantAccessStorageKey, "true");
   setParticipantContentVisibility(true);
   setAccessMessage("Participant details unlocked on this device.", "success");
-  updateTopChromeHeight();
 }
 
 function setupParticipantAccess(content) {

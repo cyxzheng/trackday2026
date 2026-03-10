@@ -52,8 +52,6 @@
   --top-chrome-height: 116px;
   --bottom-nav-height: 58px;
   --schedule-time-width: 72px;
-  --viewport-offset-top: 0px;
-  --viewport-offset-bottom: 0px;
 }
 
 * {
@@ -62,7 +60,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--top-chrome-height) + var(--viewport-offset-top) + 12px);
+  scroll-padding-top: calc(var(--top-chrome-height) + 12px);
 }
 
 body {
@@ -100,8 +98,8 @@ a {
 }
 
 .site-header {
-  position: fixed;
-  inset: var(--viewport-offset-top) 0 auto;
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
   z-index: 50;
   background: var(--bg);
   pointer-events: none;
@@ -220,7 +218,7 @@ a {
   overflow-x: auto;
   position: fixed;
   left: 50%;
-  bottom: calc(8px + max(env(safe-area-inset-bottom, 0px), var(--viewport-offset-bottom)));
+  bottom: max(8px, env(safe-area-inset-bottom, 0px));
   z-index: 55;
   width: min(calc(100% - 24px), 390px);
   padding: 6px;
@@ -269,7 +267,15 @@ a {
 }
 
 main.page-shell {
-  padding-top: calc(var(--top-chrome-height) + var(--viewport-offset-top));
+  padding-top: var(--top-chrome-height);
+}
+
+body.is-locked .site-header {
+  display: none;
+}
+
+body.is-locked main.page-shell {
+  padding-top: 0;
 }
 
 .section {
@@ -283,7 +289,7 @@ main.page-shell {
 }
 
 .footer-shell {
-  padding: 48px 16px calc(var(--bottom-nav-height) + 20px + max(env(safe-area-inset-bottom, 0px), var(--viewport-offset-bottom)));
+  padding: 48px 16px calc(var(--bottom-nav-height) + 20px + env(safe-area-inset-bottom, 0px));
 }
 
 .footer-stack {
