@@ -334,7 +334,7 @@ h4,
   line-height: var(--type-heading-line-height);
 }
 
-p:not([class]) {
+p {
   font-size: var(--type-body-size);
   line-height: var(--type-body-line-height);
 }
@@ -629,7 +629,6 @@ p:not([class]) {
 
 .track-media-meta,
 .track-video-caption,
-.track-flag-description,
 .schedule-description,
 .status-secondary,
 .access-message {
@@ -748,30 +747,26 @@ p:not([class]) {
 
 .track-flag-card {
   display: grid;
-  grid-template-columns: 18px minmax(0, 1fr);
-  gap: 8px;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 16px;
   align-items: start;
   padding: 4px 0;
 }
 
 .track-flag-image {
-  width: 18px;
-  height: 18px;
+  width: 40px;
+  height: 40px;
   display: block;
   object-fit: contain;
 }
 
 .track-flag-copy {
   display: grid;
-  gap: 2px;
+  gap: 8px;
 }
 
-.track-flag-name {
+.track-flag-description {
   margin: 0;
-  color: var(--text);
-  font-size: var(--type-overline-size);
-  line-height: var(--type-overline-line-height);
-  text-transform: uppercase;
 }
 
 .schedule-list {

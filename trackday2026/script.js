@@ -1062,7 +1062,7 @@ function renderTrackInfoFlags(flags = []) {
             <article class="track-flag-card">
               <img class="track-flag-image" src="${escapeHtml(imageSrc)}" alt="${escapeHtml(imageAlt)}">
               <div class="track-flag-copy">
-                <p class="track-flag-name">${escapeHtml(flag.name)}</p>
+                <h4 class="track-flag-name">${escapeHtml(flag.name)}</h4>
                 <p class="track-flag-description">${escapeHtml(flag.description || "")}</p>
               </div>
             </article>
