@@ -96,37 +96,37 @@ const eventContent = {
         flags: [
           {
             name: "Green",
-            description: "Track is clear. Session is live.",
+            description: "Track is clear. Resume normal lapping pace.",
             imageSrc: "assets/images/flags/green.png"
           },
           {
             name: "Yellow",
-            description: "Slow down. No passing until clear.",
+            description: "Caution. No passing.",
             imageSrc: "assets/images/flags/yellow.png"
           },
           {
-            name: "Waving Yellow",
-            description: "Serious incident ahead. Slow down and be prepared to stop.",
-            imageSrc: "assets/images/flags/wavingyellow.png"
-          },
-          {
             name: "Red",
-            description: "Session stopped. Come off pace and follow marshal direction.",
+            description: "Session stopped. Slow down and come to a stop at the next worker station until next instruction (front straight, T3, or T6)",
             imageSrc: "assets/images/flags/red.png"
           },
           {
-            name: "Black",
-            description: "You have been flagged. Exit to pit lane on this lap.",
+            name: "Black (Waving)",
+            description: "All cars slow down, come into hot pits and see a crew member/steward/staff.",
+            imageSrc: "assets/images/flags/wavingblack.png"
+          },
+          {
+            name: "Black (Furled/pointed)",
+            description: "You have been flagged. Come into the hot pits and speak to staff.",
             imageSrc: "assets/images/flags/black.png"
           },
           {
-            name: "Passing",
-            description: "Point-by given. Complete the pass only in the approved zone.",
+            name: "Blue",
+            description: "There is a faster car behind AND you've been holding them up for 3 corners. Give point-by at next safe opportunity.",
             imageSrc: "assets/images/flags/passing.png"
           },
           {
             name: "Checkered",
-            description: "Session complete. Finish the lap and exit as directed.",
+            description: "Cool down lap and return to parking (Mission specific: enter parking at the end of hot pits, do not enter at beginning of pit)",
             imageSrc: "assets/images/flags/checkered.png"
           }
         ]
