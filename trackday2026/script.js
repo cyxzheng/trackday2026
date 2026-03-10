@@ -283,29 +283,6 @@ function setStoredValue(key, value) {
   }
 }
 
-function updateSectionNavOffset() {
-  const root = document.documentElement;
-  const sectionNav = document.querySelector(".section-nav");
-
-  if (!root || !sectionNav) {
-    return;
-  }
-
-  const visualViewport = window.visualViewport;
-
-  if (!visualViewport) {
-    root.style.setProperty("--section-nav-offset", "0px");
-    return;
-  }
-
-  const viewportGap = Math.max(
-    0,
-    window.innerHeight - visualViewport.height - visualViewport.offsetTop
-  );
-
-  root.style.setProperty("--section-nav-offset", `${viewportGap}px`);
-}
-
 function updateTopChromeHeight() {
   const root = document.documentElement;
   const siteHeader = document.querySelector(".site-header");
@@ -318,16 +295,7 @@ function updateTopChromeHeight() {
 }
 
 function setupViewportOffsets() {
-  updateSectionNavOffset();
   updateTopChromeHeight();
-
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener("resize", updateSectionNavOffset);
-    window.visualViewport.addEventListener("scroll", updateSectionNavOffset);
-  }
-
-  window.addEventListener("orientationchange", updateSectionNavOffset);
-  window.addEventListener("resize", updateSectionNavOffset);
   window.addEventListener("resize", updateTopChromeHeight);
 }
 
@@ -564,6 +532,48 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
+}
+
+function getYouTubeEmbedUrl(value) {
+  if (!value) {
+    return "";
+  }
+
+  const trimmedValue = String(value).trim();
+
+  if (!trimmedValue) {
+    return "";
+  }
+
+  const directIdMatch = trimmedValue.match(/^[a-zA-Z0-9_-]{11}$/);
+
+  if (directIdMatch) {
+    return `https://www.youtube.com/embed/${directIdMatch[0]}`;
+  }
+
+  try {
+    const parsedUrl = new URL(trimmedValue);
+    const watchId = parsedUrl.searchParams.get("v");
+
+    if (watchId && /^[a-zA-Z0-9_-]{11}$/.test(watchId)) {
+      return `https://www.youtube.com/embed/${watchId}`;
+    }
+
+    const pathSegments = parsedUrl.pathname.split("/").filter(Boolean);
+    const lastSegment = pathSegments.at(-1);
+
+    if (
+      (parsedUrl.hostname.includes("youtu.be") || pathSegments.includes("embed")) &&
+      lastSegment &&
+      /^[a-zA-Z0-9_-]{11}$/.test(lastSegment)
+    ) {
+      return `https://www.youtube.com/embed/${lastSegment}`;
+    }
+  } catch {
+    return "";
+  }
+
+  return "";
 }
 
 function createPlaceholderImage(label) {
@@ -1001,11 +1011,12 @@ function renderTrackInfoVideos(videos = []) {
       <div class="track-video-list">
         ${videos
       .map((video) => {
-        const videoFrame = video.youtubeId
+        const embedUrl = getYouTubeEmbedUrl(video.youtubeId);
+        const videoFrame = embedUrl
           ? `
                 <iframe
                   class="track-video-embed"
-                  src="https://www.youtube.com/embed/${escapeHtml(video.youtubeId)}"
+                  src="${escapeHtml(embedUrl)}"
                   title="${escapeHtml(video.title)}"
                   loading="lazy"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

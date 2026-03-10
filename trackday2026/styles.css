@@ -50,7 +50,6 @@
   --type-meta-line-height: 1.65;
   --type-overline-line-height: 1.4;
   --top-chrome-height: 116px;
-  --section-nav-offset: 0px;
   --bottom-nav-height: 58px;
   --schedule-time-width: 72px;
 }
@@ -214,7 +213,7 @@ a {
   overflow-x: auto;
   position: fixed;
   left: 50%;
-  bottom: calc(12px + env(safe-area-inset-bottom, 0px) + var(--section-nav-offset));
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
   z-index: 55;
   width: min(calc(100% - 24px), 390px);
   padding: 6px;
