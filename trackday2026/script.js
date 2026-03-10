@@ -331,32 +331,6 @@ function setupViewportOffsets() {
   window.addEventListener("resize", updateTopChromeHeight);
 }
 
-function keepActiveSectionNavLinkInView(activeLink) {
-  const sectionNav = document.querySelector(".section-nav");
-
-  if (!sectionNav || !activeLink) {
-    return;
-  }
-
-  const maxScrollLeft = sectionNav.scrollWidth - sectionNav.clientWidth;
-
-  if (maxScrollLeft <= 0) {
-    return;
-  }
-
-  const navStyles = window.getComputedStyle(sectionNav);
-  const leftPadding = Number.parseFloat(navStyles.paddingLeft) || 0;
-  const targetScrollLeft = Math.min(
-    maxScrollLeft,
-    Math.max(0, activeLink.offsetLeft - leftPadding)
-  );
-
-  sectionNav.scrollTo({
-    left: targetScrollLeft,
-    behavior: "smooth"
-  });
-}
-
 function setActiveSectionNavLink(activeId) {
   const navLinks = document.querySelectorAll(".section-nav a");
 
@@ -366,7 +340,6 @@ function setActiveSectionNavLink(activeId) {
 
     if (isActive) {
       link.setAttribute("aria-current", "location");
-      keepActiveSectionNavLinkInView(link);
       return;
     }
 
@@ -390,49 +363,21 @@ function setupSectionNavHighlight() {
   }
 
   let activeSectionId = sections[0].id;
-  let pendingSectionId = null;
-  let pendingSectionTimerId = null;
+  let suppressScrollSyncUntil = 0;
+  let scrollFrameId = null;
 
-  const clearPendingSection = () => {
-    pendingSectionId = null;
-
-    if (pendingSectionTimerId) {
-      window.clearTimeout(pendingSectionTimerId);
-      pendingSectionTimerId = null;
-    }
-  };
-
-  const setPendingSection = (sectionId) => {
-    clearPendingSection();
-    pendingSectionId = sectionId;
-    pendingSectionTimerId = window.setTimeout(() => {
-      clearPendingSection();
-    }, 1200);
-  };
-
-  const updateActiveSection = (visibleSections = []) => {
-    if (pendingSectionId) {
-      const pendingSection = sections.find((section) => section.id === pendingSectionId);
-
-      if (pendingSection) {
-        const pendingRect = pendingSection.getBoundingClientRect();
-        const pendingReached = visibleSections.some((section) => section.id === pendingSectionId)
-          || pendingRect.top <= window.innerHeight * 0.35;
-
-        if (!pendingReached) {
-          return;
-        }
-      }
-
-      clearPendingSection();
+  const updateActiveSection = () => {
+    if (Date.now() < suppressScrollSyncUntil) {
+      return;
     }
 
-    const nextActiveSection = visibleSections[0]
-      || sections.find((section) => {
-        const rect = section.getBoundingClientRect();
-        return rect.top <= window.innerHeight * 0.35 && rect.bottom >= 0;
-      })
-      || sections[0];
+    const headerOffset = document.querySelector(".site-header")?.offsetHeight || 0;
+    const targetLine = headerOffset + 24;
+
+    const nextActiveSection = sections.find((section) => {
+      const rect = section.getBoundingClientRect();
+      return rect.top <= targetLine && rect.bottom > targetLine;
+    }) || sections[0];
 
     if (nextActiveSection.id === activeSectionId) {
       return;
@@ -442,23 +387,21 @@ function setupSectionNavHighlight() {
     setActiveSectionNavLink(activeSectionId);
   };
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      const visibleSections = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((first, second) => first.boundingClientRect.top - second.boundingClientRect.top)
-        .map((entry) => entry.target);
-
-      updateActiveSection(visibleSections);
-    },
-    {
-      rootMargin: "-25% 0px -55% 0px",
-      threshold: [0, 0.1, 0.25, 0.5]
-    }
-  );
-
-  sections.forEach((section) => observer.observe(section));
   setActiveSectionNavLink(activeSectionId);
+
+  const syncActiveSectionOnScroll = () => {
+    if (scrollFrameId) {
+      return;
+    }
+
+    scrollFrameId = window.requestAnimationFrame(() => {
+      scrollFrameId = null;
+      updateActiveSection();
+    });
+  };
+
+  window.addEventListener("scroll", syncActiveSectionOnScroll, { passive: true });
+  window.addEventListener("resize", syncActiveSectionOnScroll);
 
   navLinks.forEach((link) => {
     link.addEventListener("click", () => {
@@ -468,7 +411,7 @@ function setupSectionNavHighlight() {
         return;
       }
 
-      setPendingSection(targetId);
+      suppressScrollSyncUntil = Date.now() + 700;
       activeSectionId = targetId;
       setActiveSectionNavLink(activeSectionId);
     });
