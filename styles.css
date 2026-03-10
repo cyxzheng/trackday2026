@@ -25,8 +25,30 @@
   --panel-black: #000000;
   --text: #ffffff;
   --muted: rgba(255, 255, 255, 0.8);
+  --muted-strong: rgba(255, 255, 255, 0.55);
+  --surface-strong: rgba(255, 255, 255, 0.12);
+  --surface-overlay: rgba(0, 0, 0, 0.92);
+  --surface-checked: rgba(255, 255, 255, 0.14);
   --line: rgba(255, 255, 255, 0.16);
   --accent: #d0012b;
+  --accent-strong: #ff2d55;
+  --input-bg: #0a0a0a;
+  --success: #b7ee78;
+  --danger: #ff8b9b;
+  --positive: #00d432;
+  --inverse-text: #000000;
+  --inverse-surface: #ffffff;
+  --type-h1-size: 32px;
+  --type-h2-size: 24px;
+  --type-h3-size: 16px;
+  --type-h4-size: 14px;
+  --type-body-size: 14px;
+  --type-meta-size: 12px;
+  --type-overline-size: 10px;
+  --type-heading-line-height: 1.4;
+  --type-body-line-height: 1.65;
+  --type-meta-line-height: 1.65;
+  --type-overline-line-height: 1.4;
   --top-chrome-height: 116px;
   --section-nav-offset: 0px;
   --bottom-nav-height: 58px;
@@ -48,7 +70,7 @@ body {
   font-family: "PP Formula Medium", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--text);
   background: var(--panel-black);
-  line-height: 1.6;
+  line-height: var(--type-body-line-height);
   text-rendering: optimizeLegibility;
 }
 
@@ -104,8 +126,8 @@ a {
   gap: 8px;
   min-width: 0;
   font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 14px;
-  line-height: 120%;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line-height);
 }
 
 .brand-logo {
@@ -125,21 +147,21 @@ a {
   padding: 4px;
   border-radius: 4px;
   font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 10px;
-  line-height: 120%;
+  font-size: var(--type-overline-size);
+  line-height: var(--type-overline-line-height);
   text-transform: uppercase;
   white-space: nowrap;
 }
 
 .status-pill[data-state="hot"] {
   background: var(--accent);
-  color: #ffffff;
+  color: var(--text);
 }
 
 .status-pill[data-state="cold"],
 .status-pill[data-state="upcoming"] {
-  background: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
+  background: var(--surface-strong);
+  color: var(--text);
 }
 
 .status-strip {
@@ -152,13 +174,11 @@ a {
 
 .section-kicker,
 .status-kicker,
-.list-kicker,
-.volunteer-role,
 .group-summary-level {
   margin: 0;
   font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 10px;
-  line-height: 120%;
+  font-size: var(--type-overline-size);
+  line-height: var(--type-overline-line-height);
   text-transform: uppercase;
 }
 
@@ -176,15 +196,15 @@ a {
 
 .status-primary {
   margin: 0;
-  font-size: 17px;
-  line-height: 120%;
+  font-size: var(--type-h3-size);
+  line-height: var(--type-heading-line-height);
   font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
 }
 
 .status-secondary {
   margin: 0;
-  font-size: 12px;
-  line-height: 1.6;
+  font-size: var(--type-meta-size);
+  line-height: var(--type-meta-line-height);
   text-align: right;
 }
 
@@ -201,7 +221,7 @@ a {
   transform: translateX(-50%);
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: rgba(0, 0, 0, 0.92);
+  background: var(--surface-overlay);
   backdrop-filter: blur(18px);
   scrollbar-width: none;
 }
@@ -222,17 +242,18 @@ a {
   padding: 0 10px;
   border: 1px solid transparent;
   border-radius: 8px;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--muted-strong);
   text-decoration: none;
   font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 10px;
+  font-size: var(--type-overline-size);
+  line-height: var(--type-overline-line-height);
   text-transform: uppercase;
   white-space: nowrap;
 }
 
 .section-nav a.is-active {
   background: var(--accent);
-  color: #ffffff;
+  color: var(--text);
 }
 
 .section-nav [data-lucide] {
@@ -276,34 +297,47 @@ main.page-shell {
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
   margin: 0;
   color: var(--text);
 }
 
 h1 {
   font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 32px;
-  line-height: 1.2;
+  font-size: var(--type-h1-size);
+  line-height: var(--type-heading-line-height);
   text-transform: uppercase;
 }
 
 h2 {
   font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 24px;
-  line-height: 120%;
+  font-size: var(--type-h2-size);
+  line-height: var(--type-heading-line-height);
   text-transform: uppercase;
 }
 
 h3 {
   font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 14px;
-  line-height: 120%;
+  font-size: var(--type-h3-size);
+  line-height: var(--type-heading-line-height);
+  text-transform: uppercase;
+}
+
+h4,
+.detail-title,
+.schedule-title,
+.schedule-marker-title,
+.status-primary,
+.track-info-callout-question {
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: var(--type-h4-size);
+  line-height: var(--type-heading-line-height);
 }
 
 p:not([class]) {
-  font-size: 14px;
-  line-height: 160%;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line-height);
 }
 
 .overview-details {
@@ -341,9 +375,6 @@ p:not([class]) {
 
 .detail-title {
   margin: 0;
-  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 14px;
-  line-height: 120%;
 }
 
 .detail-title-row [data-lucide] {
@@ -353,14 +384,15 @@ p:not([class]) {
 
 .detail-subtext {
   margin: 0;
-  font-size: 12px;
-  line-height: 1.6;
+  font-size: var(--type-meta-size);
+  line-height: var(--type-meta-line-height);
+  color: var(--muted);
 }
 
 .summary-text {
   margin: 0;
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line-height);
 }
 
 .section-heading {
@@ -388,7 +420,6 @@ p:not([class]) {
   display: flex;
   gap: 8px;
   align-items: center;
-  font-size: 16px;
 }
 
 .participant-access-heading h2 [data-lucide] {
@@ -398,8 +429,6 @@ p:not([class]) {
 
 .participant-access-heading p {
   margin: 8px 0 0;
-  font-size: 12px;
-  line-height: 1.6;
   color: var(--muted);
 }
 
@@ -410,7 +439,8 @@ p:not([class]) {
 
 .access-label {
   font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 10px;
+  font-size: var(--type-overline-size);
+  line-height: var(--type-overline-line-height);
   text-transform: uppercase;
 }
 
@@ -430,15 +460,15 @@ p:not([class]) {
   flex: 1 1 auto;
   padding: 0 12px;
   border: 1px solid var(--line);
-  color: #ffffff;
-  background: #0a0a0a;
+  color: var(--text);
+  background: var(--input-bg);
 }
 
 .access-button {
   padding: 0 14px;
   border: 0;
   background: var(--accent);
-  color: #ffffff;
+  color: var(--text);
   font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
   text-transform: uppercase;
   cursor: pointer;
@@ -447,17 +477,15 @@ p:not([class]) {
 .access-message {
   min-height: 16px;
   margin: 0;
-  font-size: 12px;
-  line-height: 1.6;
   color: var(--muted);
 }
 
 .access-message.is-error {
-  color: #ff8b9b;
+  color: var(--danger);
 }
 
 .access-message.is-success {
-  color: #b7ee78;
+  color: var(--success);
 }
 
 .participant-content[hidden] {
@@ -489,10 +517,10 @@ p:not([class]) {
   border: 1px solid var(--line);
   border-radius: 4px;
   background: transparent;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--muted);
   font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 12px;
-  line-height: 120%;
+  font-size: var(--type-meta-size);
+  line-height: var(--type-meta-line-height);
   text-transform: uppercase;
   white-space: nowrap;
   cursor: pointer;
@@ -501,7 +529,7 @@ p:not([class]) {
 .track-info-tab[aria-selected="true"] {
   border-color: var(--accent);
   background: var(--accent);
-  color: #ffffff;
+  color: var(--text);
 }
 
 .track-info-panel[hidden] {
@@ -541,7 +569,7 @@ p:not([class]) {
   min-height: 118px;
   display: grid;
   place-items: center;
-  background: #ffffff;
+  background: var(--inverse-surface);
   border-radius: 8px;
 }
 
@@ -561,7 +589,7 @@ p:not([class]) {
   display: grid;
   place-items: center;
   padding: 0;
-  background: #ffffff;
+  background: var(--inverse-surface);
   text-align: center;
 }
 
@@ -583,7 +611,7 @@ p:not([class]) {
 .track-video-title,
 .track-info-callout-title {
   margin: 0;
-  color: #ffffff;
+  color: var(--text);
   text-transform: uppercase;
 }
 
@@ -591,18 +619,27 @@ p:not([class]) {
 .track-video-title,
 .track-info-callout-title,
 .track-info-callout-question {
-  line-height: 1.2;
+  line-height: var(--type-heading-line-height);
 }
 
 .track-info-lead,
-.track-media-meta,
 .track-video-intro,
+.track-info-callout-answer {
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line-height);
+  color: var(--text);
+  margin: 0;
+}
+
+.track-media-meta,
 .track-video-caption,
 .track-flag-description,
-.track-info-callout-answer {
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--text);
+.schedule-description,
+.status-secondary,
+.participant-access-heading p,
+.access-message {
+  font-size: var(--type-meta-size);
+  line-height: var(--type-meta-line-height);
   margin: 0;
 }
 
@@ -630,27 +667,27 @@ p:not([class]) {
 .track-info-feature-eyebrow {
   margin: 0;
   font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 10px;
-  line-height: 1.2;
-  color: #ffffff;
+  font-size: var(--type-overline-size);
+  line-height: var(--type-overline-line-height);
+  color: var(--text);
   text-transform: uppercase;
 }
 
 .track-info-feature-value {
   margin: 0;
   font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 24px;
-  line-height: 1.2;
-  color: #ffffff;
+  font-size: var(--type-h2-size);
+  line-height: var(--type-heading-line-height);
+  color: var(--text);
 }
 
 .track-info-callout {
   display: grid;
   gap: 16px;
   padding: 16px;
-  border: 1px solid #ff2d55;
+  border: 1px solid var(--accent-strong);
   border-radius: 16px;
-  background: #131313;
+  background: var(--panel);
 }
 
 .track-info-callout-items {
@@ -665,9 +702,7 @@ p:not([class]) {
 
 .track-info-callout-question {
   margin: 0;
-  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 14px;
-  color: #ffffff;
+  color: var(--text);
 }
 
 .track-video-card {
@@ -681,8 +716,8 @@ p:not([class]) {
 
 .track-video-heading {
   margin: 0;
-  font-size: 10px;
-  line-height: 1.2;
+  font-size: var(--type-overline-size);
+  line-height: var(--type-overline-line-height);
   text-transform: uppercase;
 }
 
@@ -691,7 +726,7 @@ p:not([class]) {
   aspect-ratio: 16 / 9;
   border: 0;
   border-radius: 8px;
-  background: #0a0a0a;
+  background: var(--input-bg);
 }
 
 .track-video-placeholder {
@@ -700,12 +735,12 @@ p:not([class]) {
   min-height: 180px;
   border: 1px solid var(--line);
   border-radius: 2px;
-  background: #ffffff;
-  color: #000000;
+  background: var(--inverse-surface);
+  color: var(--inverse-text);
   text-align: center;
   font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 10px;
-  line-height: 1.2;
+  font-size: var(--type-overline-size);
+  line-height: var(--type-overline-line-height);
   text-transform: uppercase;
 }
 
@@ -713,7 +748,7 @@ p:not([class]) {
   padding: 10px 12px;
   border: 1px solid var(--line);
   border-radius: 2px;
-  background: #000000;
+  background: var(--panel-black);
 }
 
 .track-flag-card {
@@ -738,9 +773,9 @@ p:not([class]) {
 
 .track-flag-name {
   margin: 0;
-  color: #ffffff;
-  font-size: 10px;
-  line-height: 1.2;
+  color: var(--text);
+  font-size: var(--type-overline-size);
+  line-height: var(--type-overline-line-height);
   text-transform: uppercase;
 }
 
@@ -766,8 +801,8 @@ p:not([class]) {
   margin: 0;
   align-self: center;
   font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 10px;
-  line-height: 120%;
+  font-size: var(--type-overline-size);
+  line-height: var(--type-overline-line-height);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "lnum" 1, "tnum" 1;
@@ -796,17 +831,11 @@ p:not([class]) {
 
 .schedule-title {
   margin: 0;
-  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 14px;
-  line-height: 120%;
-  color: #ffffff;
+  color: var(--text);
   min-width: 0;
 }
 
 .schedule-description {
-  margin: 0;
-  font-size: 12px;
-  line-height: 1.6;
   color: var(--muted);
 }
 
@@ -830,11 +859,11 @@ p:not([class]) {
   min-height: 22px;
   padding: 4px;
   border-radius: 4px;
-  background: #00d432;
-  color: #000000;
+  background: var(--positive);
+  color: var(--inverse-text);
   font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 10px;
-  line-height: 120%;
+  font-size: var(--type-overline-size);
+  line-height: var(--type-overline-line-height);
   text-transform: uppercase;
 }
 
@@ -847,8 +876,8 @@ p:not([class]) {
   gap: 8px;
   justify-items: center;
   padding: 8px;
-  border-top: 1px solid #ffffff;
-  border-bottom: 1px solid #ffffff;
+  border-top: 1px solid var(--text);
+  border-bottom: 1px solid var(--text);
 }
 
 .schedule-marker[data-state="hot"] {
@@ -858,9 +887,6 @@ p:not([class]) {
 
 .schedule-marker-title {
   margin: 0;
-  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: 14px;
-  line-height: 120%;
 }
 
 .schedule-marker[data-state="hot"] .schedule-marker-title {
@@ -883,7 +909,7 @@ p:not([class]) {
   justify-content: space-between;
   padding: 8px 16px;
   background: var(--group-color);
-  color: #000000;
+  color: var(--inverse-text);
   list-style: none;
   cursor: pointer;
 }
@@ -900,14 +926,14 @@ p:not([class]) {
 }
 
 .group-summary-label {
-  font-size: 14px;
-  line-height: 1.2;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line-height);
   text-transform: uppercase;
 }
 
 .group-summary-letter {
-  font-size: 24px;
-  line-height: 1.2;
+  font-size: var(--type-h2-size);
+  line-height: var(--type-heading-line-height);
   text-transform: uppercase;
 }
 
@@ -933,8 +959,8 @@ p:not([class]) {
 .plain-list li {
   padding-bottom: 8px;
   border-bottom: 1px solid var(--line);
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line-height);
 }
 
 .plain-list li:last-child {
@@ -946,7 +972,7 @@ p:not([class]) {
   padding: 16px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #000000;
+  background: var(--bg);
   gap: 24px;
 }
 
@@ -956,7 +982,7 @@ p:not([class]) {
 }
 
 .list-kicker {
-  color: #ffffff;
+  color: var(--text);
 }
 
 .checklist {
@@ -980,13 +1006,13 @@ p:not([class]) {
   height: 24px;
   appearance: none;
   position: relative;
-  border: 1px solid #ffffff;
+  border: 1px solid var(--text);
   border-radius: 4px;
   background: transparent;
 }
 
 .checklist-checkbox:checked {
-  background: rgba(255, 255, 255, 0.14);
+  background: var(--surface-checked);
 }
 
 .checklist-checkbox:checked::after {
@@ -996,20 +1022,70 @@ p:not([class]) {
   top: 2px;
   width: 6px;
   height: 12px;
-  border-right: 2px solid #ffffff;
-  border-bottom: 2px solid #ffffff;
+  border-right: 2px solid var(--text);
+  border-bottom: 2px solid var(--text);
   transform: rotate(45deg);
 }
 
 .checklist span,
 .volunteer-names span {
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line-height);
+}
+
+.faq-list {
+  display: grid;
+  gap: 8px;
+}
+
+.faq-panel {
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--line);
+}
+
+.faq-item:first-child {
+  border-top: 1px solid var(--line);
+}
+
+.faq-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  list-style: none;
+  cursor: pointer;
+}
+
+.faq-summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-summary h3 {
+  margin: 0;
+}
+
+.faq-answer {
+  margin: 0;
+  padding: 0 32px 16px 0;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line-height);
+  color: var(--muted);
+}
+
+.faq-item[open] .group-toggle {
+  transform: rotate(180deg);
 }
 
 .volunteer-list {
   display: grid;
-  gap: 24px;
+  gap: 16px;
   padding: 16px;
   border: 1px solid var(--line);
   border-radius: 8px;

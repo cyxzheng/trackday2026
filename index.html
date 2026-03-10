@@ -45,11 +45,11 @@
                     >
                     <a href="#schedule"
                         ><i data-lucide="clock-3" aria-hidden="true"></i
-                        ><span>Schedule + Groups</span></a
+                        ><span>Track Day</span></a
                     >
                     <a href="#bring"
                         ><i data-lucide="backpack" aria-hidden="true"></i
-                        ><span>Bring + Volunteers</span></a
+                        ><span>Important</span></a
                     >
                 </nav>
             </div>
@@ -70,12 +70,12 @@
                                     aria-hidden="true"
                                 ></i>
                                 <div class="detail-copy">
-                                    <p id="event-date" class="detail-title">
+                                    <h4 id="event-date" class="detail-title">
                                         [Date]
-                                    </p>
-                                    <p id="event-time" class="detail-subtext">
+                                    </h4>
+                                    <h4 id="event-time" class="detail-subtext">
                                         [Time]
-                                    </p>
+                                    </h4>
                                 </div>
                             </div>
                             <a
@@ -182,6 +182,7 @@
 
                 <section id="schedule" class="section">
                     <div class="section-stack">
+                        <p class="section-kicker">Track Day</p>
                         <div>
                             <div class="section-heading">
                                 <h2>Schedule</h2>
@@ -201,26 +202,33 @@
 
                 <section id="bring" class="section">
                     <div class="section-stack">
+                        <p class="section-kicker">Important</p>
                         <div>
                             <div class="section-heading">
                                 <h2>What to Bring</h2>
                             </div>
                             <div class="bring-grid">
                                 <article class="list-card">
-                                    <p class="list-kicker">Required</p>
+                                    <h4 class="list-kicker">Required</h4>
                                     <ul
                                         id="required-items"
                                         class="checklist"
                                     ></ul>
                                 </article>
                                 <article class="list-card">
-                                    <p class="list-kicker">Recommended</p>
+                                    <h4 class="list-kicker">Recommended</h4>
                                     <ul
                                         id="recommended-items"
                                         class="checklist"
                                     ></ul>
                                 </article>
                             </div>
+                        </div>
+                        <div>
+                            <div class="section-heading">
+                                <h2>FAQ + Tips</h2>
+                            </div>
+                            <div id="faq-list" class="faq-list faq-panel"></div>
                         </div>
                         <div id="people">
                             <div class="section-heading">

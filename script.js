@@ -166,6 +166,23 @@ const eventContent = {
     "Folding chair",
     "Basic tools"
   ],
+  faqItems: [
+    {
+      question: "How should I pace my laps?",
+      answer:
+        "Do one or two hot laps, then take a cooldown lap to manage heat in the car, tires, and brakes."
+    },
+    {
+      question: "What if I feel overwhelmed on track?",
+      answer:
+        "Back off the pace, give point-bys early, and use the next cooldown lap to reset. Predictable driving matters more than speed."
+    },
+    {
+      question: "Should I change tire pressures during the day?",
+      answer:
+        "Yes. Check pressures after sessions and adjust as needed, since repeated hot laps can raise them quickly."
+    }
+  ],
   groups: [
     {
       name: "Group A",
@@ -840,7 +857,7 @@ function renderSchedule(items, groupColors, eventDate) {
           <div class="schedule-divider"></div>
           <div class="schedule-frame">
             <div class="schedule-heading">
-              <h3 class="schedule-title">${item.title}</h3>
+              <h4 class="schedule-title">${item.title}</h4>
               ${currentBadge}
             </div>
             ${item.description ? `<p class="schedule-description">${item.description}</p>` : ""}
@@ -848,6 +865,28 @@ function renderSchedule(items, groupColors, eventDate) {
         </article>
       `;
     })
+    .join("");
+}
+
+function renderFaqItems(items) {
+  const container = document.getElementById("faq-list");
+
+  if (!container) {
+    return;
+  }
+
+  container.innerHTML = items
+    .map(
+      (item, index) => `
+        <details class="faq-item"${index === 0 ? " open" : ""}>
+          <summary class="faq-summary">
+            <h3>${escapeHtml(item.question)}</h3>
+            <i data-lucide="chevron-down" class="group-toggle" aria-hidden="true"></i>
+          </summary>
+          <p class="faq-answer">${escapeHtml(item.answer)}</p>
+        </details>
+      `
+    )
     .join("");
 }
 
@@ -907,7 +946,7 @@ function renderVolunteers(items) {
     .map(
       (item) => `
         <article class="volunteer-group">
-          <p class="volunteer-role">${item.role}</p>
+          <h4 class="volunteer-role">${item.role}</h4>
           <div class="volunteer-names">
             ${item.names.map((name) => `<span>${name}</span>`).join("")}
           </div>
@@ -1069,7 +1108,7 @@ function renderTrackInfoInfoBox(infoBox) {
         ${(infoBox.items || [])
       .map((item) => `
             <div class="track-info-callout-item">
-              ${item.title ? `<p class="track-info-callout-question">${escapeHtml(item.title)}</p>` : ""}
+              ${item.title ? `<h4 class="track-info-callout-question">${escapeHtml(item.title)}</h4>` : ""}
               ${item.body ? `<p class="track-info-callout-answer">${escapeHtml(item.body)}</p>` : ""}
             </div>
           `)
@@ -1327,6 +1366,7 @@ function renderPage(content) {
   renderTrackInfo(content.trackInfo);
   renderChecklist("required-items", "required", content.requiredItems);
   renderChecklist("recommended-items", "recommended", content.recommendedItems);
+  renderFaqItems(content.faqItems);
   renderGroups(content.groups, content.groupColors);
   renderVolunteers(content.volunteers);
   setupScheduleRefresh(content);
