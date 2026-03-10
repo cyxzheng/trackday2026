@@ -1,37 +1,39 @@
 @font-face {
-  font-family: "PP Formula";
-  src: url("assets/fonts/PPFormula-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
   font-family: "PP Formula Extended";
   src: url("assets/fonts/PPFormula-ExtendedBold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
 }
 
+@font-face {
+  font-family: "PP Formula Medium";
+  src: url("assets/fonts/PPFormula-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "PP Formula Extra";
+  src: url("assets/fonts/PPFormula-Extrabold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+}
+
 :root {
-  --bg: #eeecea;
-  --darkbg: #161614;
-  --surface: #f9f8f6;
-  --surface-soft: #f5f3f0;
-  --surface-muted: #eeebe6;
-  --border: rgba(31, 31, 31, 0.11);
-  --text: #161614;
-  --muted: #6b6560;
-  --accent: #D0021B;
-  --accent-soft: rgba(208, 2, 27, 0.08);
-  --shadow: 0 10px 24px rgba(19, 18, 16, 0.06);
-  --shadow-soft: 0 2px 10px rgba(19, 18, 16, 0.04);
-  --space-1: 8px;
-  --space-2: 16px;
-  --space-3: 24px;
-  --space-5: 40px;
-  --radius-card: 8px;
-  --radius-control: 8px;
+  --bg: #131313;
+  --panel: #131313;
+  --panel-black: #000000;
+  --text: #ffffff;
+  --muted: rgba(255, 255, 255, 0.8);
+  --line: rgba(255, 255, 255, 0.16);
+  --accent: #d0012b;
+  --group-a: #a4cd2f;
+  --group-b: #00abf0;
+  --group-c: #f57f04;
+  --top-chrome-height: 116px;
   --section-nav-offset: 0px;
+  --bottom-nav-height: 58px;
+  --schedule-time-width: 72px;
 }
 
 * {
@@ -40,14 +42,16 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--top-chrome-height) + 12px);
 }
 
 body {
   margin: 0;
-  font-family: "PP Formula", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  min-height: 100vh;
+  font-family: "PP Formula Medium", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--text);
-  background: var(--bg);
-  line-height: 1.5;
+  background: var(--panel-black);
+  line-height: 1.6;
   text-rendering: optimizeLegibility;
 }
 
@@ -57,61 +61,151 @@ a {
 
 .skip-link {
   position: absolute;
-  left: var(--space-2);
-  top: -6rem;
-  padding: var(--space-2);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-control);
+  left: 16px;
+  top: -48px;
+  z-index: 80;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
 }
 
 .skip-link:focus {
-  top: var(--space-2);
+  top: 16px;
 }
 
 .page-shell {
-  width: min(100% - calc(var(--space-2) * 1.5), 68rem);
+  width: min(100%, 402px);
   margin: 0 auto;
 }
 
-main.page-shell {
-  display: grid;
-  gap: var(--space-5);
-  padding-bottom: calc(6.5rem + env(safe-area-inset-bottom, 0rem));
-  padding-top: var(--space-2);
+.site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  background: var(--bg);
+  pointer-events: none;
 }
 
-.draft-label {
+.app-shell {
+  pointer-events: auto;
+}
+
+.app-bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  min-height: 40px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: 14px;
+  line-height: 120%;
+}
+
+.brand-logo {
+  width: 12px;
+  height: 24px;
+  display: block;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.status-pill {
   margin: 0;
-  padding: 0.9rem 0;
-  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 22px;
+  padding: 4px;
+  border-radius: 4px;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: 10px;
+  line-height: 120%;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.status-pill[data-state="hot"] {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.status-pill[data-state="cold"],
+.status-pill[data-state="upcoming"] {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.status-strip {
+  display: grid;
+  gap: 4px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel-black);
+}
+
+.status-kicker,
+.list-kicker,
+.volunteer-role,
+.group-summary-level {
+  margin: 0;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: 10px;
+  line-height: 120%;
+  text-transform: uppercase;
+}
+
+.status-kicker,
+.volunteer-role {
   color: var(--muted);
+}
+
+.status-copy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.status-primary {
+  margin: 0;
+  font-size: 17px;
+  line-height: 120%;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+}
+
+.status-secondary {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: right;
 }
 
 .section-nav {
   display: flex;
-  gap: 0.3rem;
+  gap: 4px;
   overflow-x: auto;
-  overflow-y: hidden;
   position: fixed;
   left: 50%;
-  bottom: calc(0.9rem + env(safe-area-inset-bottom, 0rem) + var(--section-nav-offset));
-  z-index: 20;
-  width: min(calc(100% - 1.5rem), 42rem);
-  margin: 0 auto;
-  padding: 0.4rem;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px) + var(--section-nav-offset));
+  z-index: 55;
+  width: min(calc(100% - 24px), 390px);
+  padding: 6px;
   transform: translateX(-50%);
-  flex-wrap: nowrap;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-  background: rgba(22, 22, 20, 0.92);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--line);
   border-radius: 12px;
-  box-shadow:
-    0 16px 40px rgba(0, 0, 0, 0.28),
-    0 2px 8px rgba(0, 0, 0, 0.18);
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(18px);
+  scrollbar-width: none;
 }
 
 .section-nav::-webkit-scrollbar {
@@ -125,613 +219,627 @@ main.page-shell {
 .section-nav a {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  gap: var(--space-1);
-  white-space: nowrap;
-  text-decoration: none;
-  font-size: 0.7rem;
-  min-height: 2.25rem;
-  padding: 0.55rem 0.85rem;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 10px;
   border: 1px solid transparent;
-  border-radius: 7px;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.45);
-  transition:
-    background-color 140ms ease,
-    color 140ms ease,
-    border-color 140ms ease,
-    box-shadow 140ms ease;
-  letter-spacing: 0.02em;
-}
-
-.section-nav a[hidden] {
-  display: none;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .section-nav a.is-active {
   background: var(--accent);
-  border-color: transparent;
   color: #ffffff;
-  font-weight: 700;
-  box-shadow: 0 2px 8px rgba(208, 2, 27, 0.4);
 }
 
-.section-nav a:hover,
-.section-nav a:focus-visible {
-  color: rgba(255, 255, 255, 0.85);
+.section-nav [data-lucide] {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2;
 }
 
-.section-nav a:focus-visible {
-  outline: none;
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.08);
+main.page-shell {
+  padding-top: calc(var(--top-chrome-height));
+  padding-bottom: calc(var(--bottom-nav-height) + 32px + env(safe-area-inset-bottom, 0px));
 }
 
 .section {
-  margin: 0;
-  padding: 0;
+  padding: 48px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel-black);
 }
 
-.section-intro {
-  margin-top: 0;
-  padding-top: var(--space-2);
+.hero-section {
+  padding-top: 16px;
 }
 
-.overview-media {
-  margin-bottom: calc(var(--space-3) + 2px);
-  border: 1px solid rgba(31, 31, 31, 0.08);
-  border-radius: var(--radius-card);
-  overflow: hidden;
-  background: #d8dcd0;
-  box-shadow: var(--shadow);
+.hero-card {
+  display: grid;
+  gap: 16px;
 }
 
 .overview-media img {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 480 / 360;
+  border-radius: 8px;
   object-fit: cover;
 }
 
-.section-heading p,
-.summary-text,
-.detail-subtext {
-  color: var(--muted);
+.hero-copy {
+  display: grid;
+  gap: 16px;
 }
 
 h1,
 h2,
-h3,
-p {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-h1,
-h2,
-h3,
-.draft-label,
-.section-nav a,
-.schedule-time,
-.schedule-marker-label {
-  font-family: "PP Formula Extended", "PP Formula", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+h3 {
+  margin: 0;
+  color: var(--text);
 }
 
 h1 {
-  margin-bottom: 1.1rem;
-  font-size: clamp(2.5rem, 8vw, 3.45rem);
-  line-height: 0.9;
-  letter-spacing: -0.045em;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: 32px;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
 h2 {
-  margin-bottom: 0.65rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: 1.15rem;
-  line-height: 1.05;
-  font-weight: 700;
-  letter-spacing: 0.01em;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: 24px;
+  line-height: 120%;
   text-transform: uppercase;
 }
 
 h3 {
-  margin-bottom: var(--space-1);
-  font-size: 1rem;
-  line-height: 1.15;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: 14px;
+  line-height: 120%;
 }
 
 .overview-details {
   display: grid;
-  gap: 0.75rem;
-  margin-bottom: 1.1rem;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
 }
 
 .detail-row {
   display: flex;
+  gap: 16px;
   align-items: flex-start;
-  gap: 10px;
   text-decoration: none;
 }
 
 .detail-row [data-lucide] {
-  width: 1rem;
-  height: 1rem;
-  margin-top: 3px;
-  color: var(--muted);
-  opacity: 0.9;
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.9;
 }
 
 .detail-copy {
-  min-width: 0;
   display: grid;
-  gap: 2px;
+  gap: 8px;
 }
 
-.detail-title,
-.detail-subtext {
-  margin: 0;
+.detail-title-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
 }
 
 .detail-title {
-  font-weight: 400;
-  color: var(--muted);
-  font-size: 0.8125rem;
-  line-height: 1.3;
-  font-family: "PP Formula", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  margin: 0;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: 14px;
+  line-height: 120%;
+}
+
+.detail-title-row [data-lucide] {
+  width: 16px;
+  height: 16px;
 }
 
 .detail-subtext {
-  font-size: 0.71875rem;
-  line-height: 1.35;
-  opacity: 0.92;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
 }
 
-.summary-text {
-  max-width: 38rem;
-  font-size: 0.875rem;
-  line-height: 1.55;
-}
-
-.detail-link:hover .detail-title,
-.detail-link:focus-visible .detail-title {
-  text-decoration: underline;
-}
-
-.detail-link:focus-visible {
-  outline: 2px solid var(--text);
-  outline-offset: 4px;
-  border-radius: 8px;
+.summary-text,
+.arrival-panel p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 .section-heading {
-  margin-bottom: 1.35rem;
-  display: grid;
-  gap: 0.35rem;
-  padding-left: 0.85rem;
-  border-left: 2.5px solid var(--accent);
-}
-
-.section-heading p {
-  max-width: 38rem;
-  font-size: 0.78125rem;
-  line-height: 1.45;
-}
-
-.participant-access,
-.note-card,
-.list-card,
-.group-card,
-.schedule-card,
-.schedule-marker,
-.map-placeholder,
-.access-input {
-  border: 1px solid var(--border);
-  background: var(--surface-soft);
-  box-shadow: var(--shadow-soft);
+  margin-bottom: 16px;
 }
 
 .participant-access {
-  margin-top: var(--space-5);
-  padding: var(--space-2);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow);
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
 }
 
 .participant-access-heading {
-  margin-bottom: var(--space-2);
-  padding-left: 0;
-  border-left: none;
+  margin-bottom: 16px;
 }
 
-.participant-content {
+.participant-access-heading h2 {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
+  gap: 8px;
+  align-items: center;
+  font-size: 16px;
+}
+
+.participant-access-heading h2 [data-lucide] {
+  width: 20px;
+  height: 20px;
+}
+
+.participant-access-heading p {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
 }
 
 .access-form {
   display: grid;
-  gap: var(--space-1);
+  gap: 8px;
 }
 
 .access-label {
-  font-size: 0.8125rem;
-  font-weight: 700;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
 }
 
 .access-controls {
   display: flex;
-  gap: var(--space-1);
-  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .access-input,
 .access-button {
-  min-height: 2.75rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-control);
+  min-height: 40px;
+  border-radius: 8px;
   font: inherit;
 }
 
 .access-input {
-  flex: 1 1 14rem;
-  padding: 12px var(--space-2);
-  background: var(--surface);
-  color: var(--text);
+  flex: 1 1 auto;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  color: #ffffff;
+  background: #0a0a0a;
 }
 
 .access-button {
-  padding: 12px var(--space-2);
+  padding: 0 14px;
+  border: 0;
   background: var(--accent);
   color: #ffffff;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  text-transform: uppercase;
   cursor: pointer;
-  letter-spacing: 0.02em;
-  font-weight: 700;
 }
 
 .access-message {
-  min-height: 1.5rem;
+  min-height: 16px;
   margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
   color: var(--muted);
-  font-size: 0.75rem;
-  line-height: 1.4;
 }
 
 .access-message.is-error {
-  color: #9a2f2f;
+  color: #ff8b9b;
 }
 
 .access-message.is-success {
-  color: #245c35;
+  color: #b7ee78;
+}
+
+.participant-content {
+  display: block;
 }
 
 .participant-content[hidden] {
   display: none;
 }
 
-.group-grid,
-.people-grid,
-.two-column {
+.track-info-card,
+.bring-grid,
+.group-grid {
   display: grid;
-  gap: var(--space-2);
+  gap: 16px;
 }
 
-.note-card,
-.list-card {
-  padding: var(--space-2);
-  border-radius: var(--radius-card);
+.map-panel {
+  min-height: 160px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #5d5d5d;
 }
 
-.group-card {
-  padding: 0;
-  border-radius: var(--radius-card);
-  overflow: hidden;
+.map-panel p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.arrival-panel {
+  display: grid;
+  gap: 8px;
 }
 
 .schedule-list {
   display: grid;
-  gap: 0.85rem;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-black);
 }
 
 .schedule-item {
   display: grid;
-  grid-template-columns: 5rem minmax(0, 1fr);
-  gap: var(--space-2);
-  align-items: start;
+  grid-template-columns: var(--schedule-time-width) 1px minmax(0, 1fr);
+  gap: 12px;
+  align-items: stretch;
+  padding: 0 8px;
 }
 
-.schedule-time {
+.schedule-time,
+.schedule-marker-label {
   margin: 0;
+  align-self: center;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: 10px;
+  line-height: 120%;
   white-space: nowrap;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  padding-top: 0.82rem;
-  font-family: "PP Formula Extended", "PP Formula", ui-monospace, "SFMono-Regular", monospace;
   font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum" 1;
-  font-size: 0.625rem;
-  color: var(--muted);
-  text-transform: uppercase;
+  font-feature-settings: "lnum" 1, "tnum" 1;
 }
 
-.schedule-card,
-.schedule-marker {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-card);
-  background: var(--surface-soft);
+.schedule-divider {
+  width: 1px;
+  height: 100%;
+  background: var(--line);
 }
 
-.schedule-card {
-  padding: 0.86rem 1rem 0.9rem;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 1px 0 rgba(31, 31, 31, 0.02);
+.schedule-frame {
+  display: grid;
+  gap: 4px;
+  padding: 8px 0;
+  min-width: 0;
 }
 
-.schedule-card[data-group] {
-  border-left: 4px solid color-mix(in srgb, var(--group-color) 76%, #ffffff);
-  border-color: color-mix(in srgb, var(--group-color) 16%, var(--border));
-  background: color-mix(in srgb, var(--group-color-soft) 28%, var(--surface));
-}
-
-.schedule-card-header {
+.schedule-heading {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 0.75rem;
-}
-
-.schedule-title,
-.schedule-description {
-  margin: 0;
+  gap: 8px;
+  min-width: 0;
 }
 
 .schedule-title {
-  flex: 1 1 auto;
-  font-size: 0.9375rem;
-  line-height: 1.15;
-}
-
-.schedule-now-badge {
-  display: inline-flex;
-  align-items: center;
-  min-height: 1.5rem;
-  padding: 0.2rem 0.55rem;
-  border: 1px solid color-mix(in srgb, var(--text) 16%, var(--border));
-  border-radius: 999px;
-  background: rgba(31, 31, 31, 0.05);
-  color: var(--text);
-  font-family: "PP Formula Extended", "PP Formula", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 0.625rem;
-  line-height: 1;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  white-space: nowrap;
+  margin: 0;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: 14px;
+  line-height: 120%;
+  color: #ffffff;
+  min-width: 0;
 }
 
 .schedule-description {
-  margin-top: 0.38rem;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
   color: var(--muted);
-  font-size: 0.71875rem;
-  line-height: 1.4;
+}
+
+.schedule-item[data-group="a"] .schedule-divider {
+  background: var(--group-a);
+}
+
+.schedule-item[data-group="b"] .schedule-divider {
+  background: var(--group-b);
+}
+
+.schedule-item[data-group="c"] .schedule-divider {
+  background: var(--group-c);
+}
+
+.schedule-item[data-group="a"] .schedule-title {
+  color: var(--group-a);
+}
+
+.schedule-item[data-group="b"] .schedule-title {
+  color: var(--group-b);
+}
+
+.schedule-item[data-group="c"] .schedule-title {
+  color: var(--group-c);
+}
+
+.schedule-item[data-current="true"][data-group="a"] {
+  background: rgba(164, 205, 47, 0.1);
+}
+
+.schedule-item[data-current="true"][data-group="b"] {
+  background: rgba(0, 171, 240, 0.1);
+}
+
+.schedule-item[data-current="true"][data-group="c"] {
+  background: rgba(245, 127, 4, 0.1);
+}
+
+.schedule-now-badge {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 22px;
+  padding: 4px;
+  border-radius: 4px;
+  background: #00d432;
+  color: #000000;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: 10px;
+  line-height: 120%;
+  text-transform: uppercase;
+}
+
+.schedule-item:not([data-current="true"]) .schedule-now-badge {
+  display: none;
 }
 
 .schedule-marker {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-1);
-  padding: 0.7rem 1rem;
-  text-align: center;
-  background: var(--darkbg);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: var(--radius-card);
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  padding: 8px;
+  border-top: 1px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
 }
 
-.schedule-marker-label {
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  font-size: 0.6875rem;
-  font-family: "PP Formula Extended", "PP Formula", ui-monospace, "SFMono-Regular", monospace;
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum" 1;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.45);
+.schedule-marker[data-state="hot"] {
+  border-top-color: var(--accent);
+  border-bottom-color: var(--accent);
 }
 
 .schedule-marker-title {
   margin: 0;
-  font-size: 0.9375rem;
-  line-height: 1.15;
-  color: #ffffff;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: 14px;
+  line-height: 120%;
 }
 
-.schedule-item[data-current="true"] .schedule-time {
-  color: var(--text);
-  opacity: 1;
+.schedule-marker[data-state="hot"] .schedule-marker-title {
+  color: var(--accent);
 }
 
-.schedule-item[data-current="true"] .schedule-card {
-  border-color: color-mix(in srgb, var(--text) 12%, var(--border));
-  background: color-mix(in srgb, var(--surface-muted) 28%, var(--surface));
-  box-shadow: 0 10px 20px rgba(31, 31, 31, 0.06);
+.group-grid {
+  gap: 8px;
 }
 
-.schedule-item[data-current="true"] .schedule-card[data-group] {
-  border-left-color: var(--group-color);
-  border-color: color-mix(in srgb, var(--group-color) 32%, var(--border));
-  background: color-mix(in srgb, var(--group-color-soft) 40%, var(--surface));
-}
-
-.schedule-item[data-current="true"] .schedule-now-badge {
-  background: color-mix(in srgb, var(--text) 10%, var(--surface));
-  border-color: color-mix(in srgb, var(--text) 22%, var(--border));
-}
-
-.checklist,
-.plain-list {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-
-.checklist li,
-.plain-list li {
-  margin-bottom: var(--space-1);
-  color: var(--muted);
-}
-
-.checklist {
-  padding-left: 0;
-  list-style: none;
-}
-
-.checklist-item {
-  margin-bottom: 0;
-}
-
-.checklist-label {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  cursor: pointer;
-  line-height: 1.4;
-  color: var(--text);
-}
-
-.checklist-checkbox {
-  margin: 0.15rem 0 0;
-  inline-size: 1rem;
-  block-size: 1rem;
-  accent-color: var(--text);
-}
-
-.checklist-checkbox:checked+span {
-  color: var(--muted);
-  text-decoration: line-through;
-}
-
-.map-layout {
-  display: grid;
-  gap: var(--space-2);
-}
-
-.map-placeholder {
-  min-height: 14rem;
-  display: grid;
-  place-items: center;
-  text-align: center;
-  padding: var(--space-2);
-  border: 1px dashed #d4d4d4;
-  border-radius: var(--radius-card);
-  background: var(--surface-soft);
-  color: var(--muted);
-}
-
-.group-card h3,
-.note-card h3 {
-  margin-bottom: 0.45rem;
-}
-
-.group-card h3 {
-  margin-bottom: 0;
+.group-card {
+  overflow: hidden;
+  border: 1px solid var(--group-color);
+  border-radius: 8px;
 }
 
 .group-summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  cursor: pointer;
+  padding: 8px 16px;
+  background: var(--group-color);
+  color: #000000;
   list-style: none;
-  margin: 0;
-  padding: var(--space-2);
-  border-radius: 0;
+  cursor: pointer;
 }
 
 .group-summary::-webkit-details-marker {
   display: none;
 }
 
-.group-card[data-group] .group-summary {
-  background: var(--group-color-soft);
-  border-left: 3px solid var(--group-color);
+.group-summary-copy {
+  display: grid;
 }
 
-.group-card[data-group] .group-summary h3 {
-  color: color-mix(in srgb, var(--group-color) 70%, var(--text));
-  letter-spacing: 0.02em;
+.group-summary-title {
+  display: flex;
+  gap: 4px;
+  align-items: baseline;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+}
+
+.group-summary-label {
+  font-size: 14px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.group-summary-letter {
+  font-size: 24px;
+  line-height: 1.2;
+  text-transform: uppercase;
 }
 
 .group-toggle {
-  width: 0.7rem;
-  height: 0.7rem;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
-  color: var(--text);
-  transform: rotate(45deg);
-  transition: transform 0.18s ease;
+  width: 24px;
+  height: 24px;
   flex: 0 0 auto;
 }
 
-.group-card[data-group] .group-toggle {
-  color: var(--group-color);
-}
-
 .group-card[open] .group-toggle {
-  transform: rotate(225deg);
+  transform: rotate(180deg);
 }
 
-.group-card .plain-list {
-  margin-top: 0;
-  padding: 0 var(--space-2) var(--space-2);
+.plain-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 16px;
+  list-style: none;
+  background: var(--group-color-soft);
 }
 
-.group-card p,
-.note-card p,
-.list-card p {
-  margin-bottom: 0;
-  color: var(--muted);
+.plain-list li {
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.plain-list li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.bring-grid {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #000000;
+  gap: 24px;
+}
+
+.list-card {
+  display: grid;
+  gap: 8px;
+}
+
+.list-kicker {
+  color: #ffffff;
+}
+
+.checklist {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checklist-label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.checklist-checkbox {
+  margin: 0;
+  width: 24px;
+  height: 24px;
+  appearance: none;
+  position: relative;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  background: transparent;
+}
+
+.checklist-checkbox:checked {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.checklist-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 2px;
+  width: 6px;
+  height: 12px;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  transform: rotate(45deg);
+}
+
+.checklist span,
+.volunteer-names span {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.volunteer-list {
+  display: grid;
+  gap: 24px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.volunteer-group {
+  display: grid;
+  gap: 8px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--line);
+}
+
+.volunteer-group:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.volunteer-names {
+  display: grid;
+  gap: 8px;
+}
+
+.group-toggle-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.person-name {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.22em;
+}
+
+.person-name .surname {
+  font-family: "PP Formula Extra", "PP Formula Extended", sans-serif;
+  text-transform: uppercase;
 }
 
 [data-lucide] {
-  width: 1rem;
-  height: 1rem;
   stroke-width: 1.9;
   flex: 0 0 auto;
 }
 
-@media (max-width: 39rem) {
-  .access-button {
-    width: 100%;
-  }
-}
-
-@media (min-width: 700px) {
-  main.page-shell {
-    padding-top: var(--space-3);
+@media (max-width: 370px) {
+  .access-controls {
+    flex-direction: column;
   }
 
-  h1 {
-    font-size: clamp(2.8rem, 5vw, 4rem);
+  .status-copy {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  h2 {
-    font-size: 1.25rem;
+  .status-secondary {
+    text-align: left;
   }
 
-  .group-grid,
-  .people-grid,
-  .two-column {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .map-layout {
-    grid-template-columns: 1.4fr 1fr;
-    align-items: start;
+  .schedule-item {
+    grid-template-columns: 64px 1px minmax(0, 1fr);
   }
 }

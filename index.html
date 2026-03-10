@@ -10,72 +10,120 @@
         <a class="skip-link" href="#main-content">Skip to content</a>
 
         <header class="site-header">
-            <div class="page-shell">
+            <div class="page-shell app-shell">
+                <div class="app-bar">
+                    <div class="brand-mark">
+                        <img
+                            class="brand-logo"
+                            src="assets/branding/yvrgrc.svg"
+                            alt=""
+                            aria-hidden="true"
+                        />
+                        <span id="brand-title">[Brand]</span>
+                    </div>
+                    <p id="status-pill" class="status-pill">[Status]</p>
+                </div>
+                <div class="status-strip" aria-live="polite">
+                    <p class="status-kicker">Current Status</p>
+                    <div class="status-copy">
+                        <p id="status-primary" class="status-primary">
+                            [Status]
+                        </p>
+                        <p id="status-secondary" class="status-secondary">
+                            [Status detail]
+                        </p>
+                    </div>
+                </div>
                 <nav class="section-nav" aria-label="Section navigation" hidden>
                     <a href="#overview"
                         ><i data-lucide="flag" aria-hidden="true"></i
                         ><span>Overview</span></a
                     >
+                    <a href="#track-info"
+                        ><i data-lucide="map" aria-hidden="true"></i
+                        ><span>Track Info</span></a
+                    >
                     <a href="#schedule"
                         ><i data-lucide="clock-3" aria-hidden="true"></i
                         ><span>Schedule</span></a
-                    >
-                    <a href="#bring"
-                        ><i data-lucide="backpack" aria-hidden="true"></i
-                        ><span>Bring</span></a
                     >
                     <a href="#groups"
                         ><i data-lucide="users" aria-hidden="true"></i
                         ><span>Groups</span></a
                     >
-                    <a href="#map"
-                        ><i data-lucide="map" aria-hidden="true"></i
-                        ><span>Track Map</span></a
+                    <a href="#bring"
+                        ><i data-lucide="backpack" aria-hidden="true"></i
+                        ><span>Bring</span></a
                     >
                     <a href="#people"
                         ><i data-lucide="badge-info" aria-hidden="true"></i
-                        ><span>People</span></a
+                        ><span>Volunteers</span></a
                     >
                 </nav>
             </div>
         </header>
 
         <main id="main-content" class="page-shell">
-            <section id="overview" class="section section-intro">
-                <div class="overview-media">
-                    <img id="overview-image" src="" alt="" />
-                </div>
-                <h1 id="event-title">[Event title]</h1>
-                <div class="overview-details">
-                    <div class="detail-row">
-                        <i data-lucide="calendar-days" aria-hidden="true"></i>
-                        <div class="detail-copy">
-                            <p id="event-date" class="detail-title">[Date]</p>
-                            <p id="event-time" class="detail-subtext">[Time]</p>
-                        </div>
+            <section id="overview" class="section hero-section">
+                <div class="hero-card">
+                    <div class="overview-media">
+                        <img id="overview-image" src="" alt="" />
                     </div>
-                    <a
-                        id="event-location-link"
-                        class="detail-row detail-link"
-                        href="#"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        <i data-lucide="map-pin" aria-hidden="true"></i>
-                        <div class="detail-copy">
-                            <p id="event-location-name" class="detail-title">
-                                [Location name]
-                            </p>
-                            <p
-                                id="event-location-address"
-                                class="detail-subtext"
+                    <div class="hero-copy">
+                        <h1 id="event-title">[Event title]</h1>
+                        <div class="overview-details">
+                            <div class="detail-row">
+                                <i
+                                    data-lucide="calendar-days"
+                                    aria-hidden="true"
+                                ></i>
+                                <div class="detail-copy">
+                                    <p id="event-date" class="detail-title">
+                                        [Date]
+                                    </p>
+                                    <p id="event-time" class="detail-subtext">
+                                        [Time]
+                                    </p>
+                                </div>
+                            </div>
+                            <a
+                                id="event-location-link"
+                                class="detail-row detail-link"
+                                href="#"
+                                target="_blank"
+                                rel="noreferrer"
                             >
-                                [Address]
-                            </p>
+                                <i
+                                    data-lucide="map-pin"
+                                    aria-hidden="true"
+                                ></i>
+                                <div class="detail-copy">
+                                    <div class="detail-title-row">
+                                        <p
+                                            id="event-location-name"
+                                            class="detail-title"
+                                        >
+                                            [Location name]
+                                        </p>
+                                        <i
+                                            data-lucide="arrow-up-right"
+                                            aria-hidden="true"
+                                        ></i>
+                                    </div>
+                                    <p
+                                        id="event-location-address"
+                                        class="detail-subtext"
+                                    >
+                                        [Address]
+                                    </p>
+                                </div>
+                            </a>
                         </div>
-                    </a>
+                        <p id="event-summary" class="summary-text">
+                            [Short summary]
+                        </p>
+                    </div>
                 </div>
-                <p id="event-summary" class="summary-text">[Short summary]</p>
 
                 <section
                     class="participant-access"
@@ -83,18 +131,18 @@
                 >
                     <div class="section-heading participant-access-heading">
                         <h2 id="participant-access-title">
-                            <i data-lucide="key-round" aria-hidden="true"></i
-                            ><span>Participant Access</span>
+                            <i data-lucide="key-round" aria-hidden="true"></i>
+                            <span>Participant Access</span>
                         </h2>
                         <p>
-                            Enter the participant code to view the schedule and
-                            remaining event details.
+                            Enter the participant code to view the live
+                            schedule, track information, and groups.
                         </p>
                     </div>
                     <form id="access-form" class="access-form">
-                        <label class="access-label" for="access-code"
-                            >Participant code</label
-                        >
+                        <label class="access-label" for="access-code">
+                            Participant code
+                        </label>
                         <div class="access-controls">
                             <input
                                 id="access-code"
@@ -118,79 +166,62 @@
             </section>
 
             <div id="participant-content" class="participant-content" hidden>
-                <section id="schedule" class="section">
+                <section id="track-info" class="section">
                     <div class="section-heading">
-                        <h2>
-                            <i data-lucide="clock-3" aria-hidden="true"></i
-                            ><span>Schedule</span>
-                        </h2>
+                        <h2>Track Info</h2>
                     </div>
-                    <div id="schedule-body" class="schedule-list"></div>
-                </section>
-
-                <section id="bring" class="section">
-                    <div class="section-heading">
-                        <h2>
-                            <i data-lucide="backpack" aria-hidden="true"></i
-                            ><span>What to Bring</span>
-                        </h2>
-                        <p>Day-of checklist.</p>
-                    </div>
-                    <div class="two-column">
-                        <div class="list-card">
-                            <h3>Required</h3>
-                            <ul id="required-items" class="checklist"></ul>
-                        </div>
-                        <div class="list-card">
-                            <h3>Recommended</h3>
-                            <ul id="recommended-items" class="checklist"></ul>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="map" class="section">
-                    <div class="section-heading">
-                        <h2>
-                            <i data-lucide="map" aria-hidden="true"></i
-                            ><span>Track Map</span>
-                        </h2>
-                        <p>Layout and section reference.</p>
-                    </div>
-                    <div class="map-layout">
+                    <div class="track-info-card">
                         <div
-                            class="map-placeholder"
+                            class="map-panel"
                             id="map-image-placeholder"
                             aria-label="Track map placeholder"
                         >
                             <p>[Track layout image placeholder]</p>
                         </div>
-                        <div class="list-card">
-                            <h3>Track Sections</h3>
-                            <ul id="track-sections" class="plain-list"></ul>
+                        <div class="arrival-panel">
+                            <h3>Arrival Instructions</h3>
+                            <p id="arrival-instructions">
+                                [Arrival instructions]
+                            </p>
                         </div>
                     </div>
                 </section>
 
+                <section id="schedule" class="section">
+                    <div class="section-heading">
+                        <h2>Schedule</h2>
+                    </div>
+                    <div id="schedule-body" class="schedule-list"></div>
+                </section>
+
                 <section id="groups" class="section">
                     <div class="section-heading">
-                        <h2>
-                            <i data-lucide="users" aria-hidden="true"></i
-                            ><span>Driver Groups</span>
-                        </h2>
-                        <p>Groups and who's in each one.</p>
+                        <h2>Driver Groups</h2>
                     </div>
                     <div id="group-list" class="group-grid"></div>
                 </section>
 
+                <section id="bring" class="section">
+                    <div class="section-heading">
+                        <h2>What to Bring</h2>
+                    </div>
+                    <div class="bring-grid">
+                        <article class="list-card">
+                            <p class="list-kicker">Required</p>
+                            <ul id="required-items" class="checklist"></ul>
+                        </article>
+                        <article class="list-card">
+                            <p class="list-kicker">Recommended</p>
+                            <ul id="recommended-items" class="checklist"></ul>
+                        </article>
+                    </div>
+                </section>
+
                 <section id="people" class="section">
                     <div class="section-heading">
-                        <h2>
-                            <i data-lucide="badge-info" aria-hidden="true"></i
-                            ><span>Important People</span>
-                        </h2>
-                        <p>Main contacts and support roles.</p>
+                        <h2>Volunteers</h2>
                     </div>
-                    <div id="people-list" class="people-grid"></div>
+                    <div id="people-list" class="volunteer-list"></div>
                 </section>
             </div>
         </main>

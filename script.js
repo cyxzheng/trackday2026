@@ -1,7 +1,8 @@
 // Edit the content in this object to update the page.
 // Keep event details centralized here instead of in the HTML.
 const eventContent = {
-  title: "Vancouver GR Corolla Club Track Day!",
+  brandTitle: "YVR GRC Track Days",
+  title: "Vancouver GR Corolla Club Track Day 2026",
   participantCode: "0313",
   groupColors: {
     a: "#A4CD2F",
@@ -17,7 +18,12 @@ const eventContent = {
   locationName: "Mission Raceway Park",
   address: "32670 Dyke Rd, Mission, BC V2V 4J5",
   locationUrl: "https://maps.google.com/?q=32670+Dyke+Rd,+Mission,+BC+V2V+4J5",
-  summary: "The first ever Vancouver GR Corolla Club track day, sponsored by Toyota Canada and Openroad Auto Group.",
+  summary: "The first ever Vancouver GR Corolla Club track day, sponsored by Toyota Canada and OpenRoad Auto Group.",
+  trackInfo: {
+    mapLabel: "[Track layout image or asset note]",
+    arrivalInstructions:
+      "Upon entering the gate, turn right towards the paddock and park in the highlighted area for tech inspection."
+  },
   schedule: [
     { time: "12:15 PM", title: "Gates Open to Participants", description: "Gate code is 0313" },
     { time: "12:20 PM", title: "Registration and Tech Inspection" },
@@ -35,12 +41,12 @@ const eventContent = {
     { time: "3:15 PM", title: "Group A Running", description: "3:15 PM - 3:30 PM", group: "a" },
     { time: "3:30 PM", title: "Group B Running", description: "3:30 PM - 3:45 PM", group: "b" },
     { time: "3:45 PM", title: "Group C Running", description: "3:45 PM - 4:00 PM", group: "c" },
-    { type: "marker", time: "4:00 PM", title: "Track Cold" },
+    { type: "marker", time: "4:00 PM", title: "Track Cold" }
   ],
   requiredItems: [
     "Snell 2010 or newer helmet",
     "Driver's License",
-    "Signed Online Waiver",
+    "Signed online waiver",
     "Full tank of gas"
   ],
   recommendedItems: [
@@ -55,6 +61,7 @@ const eventContent = {
     {
       name: "Group A",
       group: "a",
+      level: "Advanced",
       people: [
         "Ross Dunnet",
         "Nathan Tong",
@@ -71,6 +78,7 @@ const eventContent = {
     {
       name: "Group B",
       group: "b",
+      level: "Intermediate",
       people: [
         "Jack Wong",
         "Eugene Liew",
@@ -87,6 +95,7 @@ const eventContent = {
     {
       name: "Group C",
       group: "c",
+      level: "Novice",
       people: [
         "Vic Quintoro",
         "Calvin Zheng",
@@ -101,45 +110,52 @@ const eventContent = {
       ]
     }
   ],
-  map: {
-    imageLabel: "[Track layout image or asset note]",
-    sections: [
-      "[Section 1]",
-      "[Section 2]",
-      "[Section 3]",
-      "[Section 4]"
-    ]
-  },
-  importantPeople: [
+  volunteers: [
     {
-      role: "Registration and Coordination",
+      role: "Registration & Coordination",
       names: ["Eugene Liew", "Calvin Zheng", "Mission Staff"]
     },
     {
-      role: "Track lot marshalls",
+      role: "Track Lot Marshals",
       names: ["Ross Dunnet", "Marc Brito", "Justin Ng"]
     },
     {
-      role: "Tech inspections and support",
+      role: "Tech Inspections & Support",
       names: ["Nathan Tong", "Marc Brito"]
     },
     {
-      role: "Follow lead instructors",
-      names: ["Jessie Pashak", "Nathon Tong", "Marc Brito"]
+      role: "Follow Lead Instructors",
+      names: ["Jessie Pashak", "Nathan Tong", "Marc Brito"]
     },
     {
-      role: "Medical volunteers",
+      role: "Medical",
       names: ["Victor Quintoro", "Justin Ng"]
     },
     {
-      role: "Food and Beverage",
+      role: "Food & Beverage",
       names: ["Colin Yu", "Justin Ng"]
-    },
+    }
   ]
 };
 
 const participantAccessStorageKey = "trackday2026:participant-access";
 let scheduleRefreshTimerId = null;
+
+function getStoredValue(key) {
+  try {
+    return window.localStorage.getItem(key);
+  } catch (error) {
+    return null;
+  }
+}
+
+function setStoredValue(key, value) {
+  try {
+    window.localStorage.setItem(key, value);
+  } catch (error) {
+    return;
+  }
+}
 
 function updateSectionNavOffset() {
   const root = document.documentElement;
@@ -164,17 +180,29 @@ function updateSectionNavOffset() {
   root.style.setProperty("--section-nav-offset", `${viewportGap}px`);
 }
 
-function setupSectionNavViewport() {
-  updateSectionNavOffset();
+function updateTopChromeHeight() {
+  const root = document.documentElement;
+  const siteHeader = document.querySelector(".site-header");
 
-  if (!window.visualViewport) {
+  if (!root || !siteHeader) {
     return;
   }
 
-  window.visualViewport.addEventListener("resize", updateSectionNavOffset);
-  window.visualViewport.addEventListener("scroll", updateSectionNavOffset);
+  root.style.setProperty("--top-chrome-height", `${Math.ceil(siteHeader.offsetHeight)}px`);
+}
+
+function setupViewportOffsets() {
+  updateSectionNavOffset();
+  updateTopChromeHeight();
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", updateSectionNavOffset);
+    window.visualViewport.addEventListener("scroll", updateSectionNavOffset);
+  }
+
   window.addEventListener("orientationchange", updateSectionNavOffset);
   window.addEventListener("resize", updateSectionNavOffset);
+  window.addEventListener("resize", updateTopChromeHeight);
 }
 
 function keepActiveSectionNavLinkInView(activeLink) {
@@ -238,10 +266,12 @@ function setupSectionNavHighlight() {
   let activeSectionId = sections[0].id;
 
   const updateActiveSection = (visibleSections = []) => {
-    const nextActiveSection = visibleSections[0] || sections.find((section) => {
-      const rect = section.getBoundingClientRect();
-      return rect.top <= window.innerHeight * 0.35 && rect.bottom >= 0;
-    }) || sections[0];
+    const nextActiveSection = visibleSections[0]
+      || sections.find((section) => {
+        const rect = section.getBoundingClientRect();
+        return rect.top <= window.innerHeight * 0.35 && rect.bottom >= 0;
+      })
+      || sections[0];
 
     if (nextActiveSection.id === activeSectionId) {
       return;
@@ -255,7 +285,7 @@ function setupSectionNavHighlight() {
     (entries) => {
       const visibleSections = entries
         .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+        .sort((first, second) => first.boundingClientRect.top - second.boundingClientRect.top)
         .map((entry) => entry.target);
 
       updateActiveSection(visibleSections);
@@ -285,6 +315,7 @@ function setupSectionNavHighlight() {
 
 function setText(id, value) {
   const element = document.getElementById(id);
+
   if (element) {
     element.textContent = value;
   }
@@ -292,6 +323,7 @@ function setText(id, value) {
 
 function setLink(id, href) {
   const element = document.getElementById(id);
+
   if (element) {
     element.href = href;
   }
@@ -299,6 +331,7 @@ function setLink(id, href) {
 
 function setImage(id, image) {
   const element = document.getElementById(id);
+
   if (!element) {
     return;
   }
@@ -307,21 +340,13 @@ function setImage(id, image) {
   element.alt = image.alt;
 }
 
-function renderList(id, items) {
-  const container = document.getElementById(id);
-  if (!container) {
-    return;
-  }
-
-  container.innerHTML = items.map((item) => `<li>${item}</li>`).join("");
-}
-
 function getChecklistStorageKey(section, item) {
   return `trackday2026:bring:${section}:${item}`;
 }
 
 function renderChecklist(id, section, items) {
   const container = document.getElementById(id);
+
   if (!container) {
     return;
   }
@@ -329,7 +354,7 @@ function renderChecklist(id, section, items) {
   container.innerHTML = items
     .map((item, index) => {
       const checkboxId = `${section}-item-${index}`;
-      const isChecked = window.localStorage.getItem(getChecklistStorageKey(section, item)) === "true";
+      const isChecked = getStoredValue(getChecklistStorageKey(section, item)) === "true";
 
       return `
         <li class="checklist-item">
@@ -351,7 +376,7 @@ function renderChecklist(id, section, items) {
   container.querySelectorAll(".checklist-checkbox").forEach((checkbox) => {
     checkbox.addEventListener("change", (event) => {
       const storageKey = event.currentTarget.dataset.storageKey;
-      window.localStorage.setItem(storageKey, String(event.currentTarget.checked));
+      setStoredValue(storageKey, String(event.currentTarget.checked));
     });
   });
 }
@@ -413,6 +438,65 @@ function parseScheduleTime(eventDate, timeLabel) {
   return scheduledTime;
 }
 
+function getDisplayRange(item) {
+  if (item.description) {
+    const descriptionRange = item.description.match(
+      /(\d{1,2}:\d{2}\s*[AP]M)\s*-\s*(\d{1,2}:\d{2}\s*[AP]M)/i
+    );
+
+    if (descriptionRange) {
+      return `${descriptionRange[1]} - ${descriptionRange[2]}`;
+    }
+  }
+
+  return item.time;
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function formatPersonSegment(segment) {
+  const trimmedSegment = segment.trim();
+
+  if (!trimmedSegment) {
+    return "";
+  }
+
+  const parts = trimmedSegment.split(/\s+/).filter(Boolean);
+
+  if (parts.length === 1) {
+    return `<span class="surname">${escapeHtml(parts[0].toUpperCase())}</span>`;
+  }
+
+  const givenNames = parts.slice(0, -1).map((part) => escapeHtml(part)).join(" ");
+  const surname = escapeHtml(parts[parts.length - 1].toUpperCase());
+
+  return `${givenNames} <span class="surname">${surname}</span>`;
+}
+
+function formatPersonName(name) {
+  return name
+    .split("/")
+    .map((segment) => `<span class="person-name">${formatPersonSegment(segment)}</span>`)
+    .join(' <span aria-hidden="true">/</span> ');
+}
+
+function getEventStartTime(items, eventDate) {
+  const firstScheduleItem = items.find((item) => item.type !== "marker");
+
+  if (!firstScheduleItem) {
+    return null;
+  }
+
+  return parseScheduleTime(eventDate, firstScheduleItem.time);
+}
+
 function getScheduleItemEndTime(item, itemIndex, items, eventDate) {
   const descriptionRange = item.description?.match(
     /(\d{1,2}:\d{2}\s*[AP]M)\s*-\s*(\d{1,2}:\d{2}\s*[AP]M)/i
@@ -435,8 +519,11 @@ function getScheduleItemEndTime(item, itemIndex, items, eventDate) {
   return null;
 }
 
-function getCurrentScheduleIndex(items, eventDate) {
-  const now = new Date();
+function getTrackState(items, eventDate, now = new Date()) {
+  const scheduleItems = items.filter((item) => item.type !== "marker");
+  const firstStart = getEventStartTime(items, eventDate);
+
+  let currentIndex = -1;
 
   for (let index = 0; index < items.length; index += 1) {
     const item = items[index];
@@ -453,26 +540,164 @@ function getCurrentScheduleIndex(items, eventDate) {
     }
 
     if (now >= startTime && now < endTime) {
-      return index;
+      currentIndex = index;
+      break;
     }
   }
 
-  return -1;
+  let lastMarkerTitle = "Track Cold";
+
+  items.forEach((item) => {
+    if (item.type !== "marker") {
+      return;
+    }
+
+    const markerTime = parseScheduleTime(eventDate, item.time);
+
+    if (markerTime && now >= markerTime) {
+      lastMarkerTitle = item.title;
+    }
+  });
+
+  const finalMarker = [...items].reverse().find((item) => item.type === "marker");
+  const finalMarkerTime = finalMarker ? parseScheduleTime(eventDate, finalMarker.time) : null;
+  const lastScheduleItem = scheduleItems[scheduleItems.length - 1];
+  const fallbackEndTime = lastScheduleItem
+    ? getScheduleItemEndTime(lastScheduleItem, items.lastIndexOf(lastScheduleItem), items, eventDate)
+    : null;
+  const eventEnd = finalMarkerTime || fallbackEndTime;
+
+  if (firstStart && now < firstStart) {
+    return {
+      mode: "countdown",
+      trackState: "upcoming",
+      currentIndex: -1,
+      nextTime: firstStart
+    };
+  }
+
+  if (eventEnd && now >= eventEnd) {
+    return {
+      mode: "complete",
+      trackState: "cold",
+      currentIndex: -1
+    };
+  }
+
+  if (currentIndex >= 0) {
+    return {
+      mode: "live",
+      trackState: lastMarkerTitle.toLowerCase().includes("hot") ? "hot" : "cold",
+      currentIndex,
+      currentItem: items[currentIndex]
+    };
+  }
+
+  return {
+    mode: "between",
+    trackState: lastMarkerTitle.toLowerCase().includes("hot") ? "hot" : "cold",
+    currentIndex: -1
+  };
+}
+
+function formatCountdown(targetTime) {
+  const millisecondsRemaining = targetTime.getTime() - Date.now();
+  const totalMinutes = Math.max(0, Math.floor(millisecondsRemaining / 60000));
+  const days = Math.floor(totalMinutes / 1440);
+  const hours = Math.floor((totalMinutes % 1440) / 60);
+  const minutes = totalMinutes % 60;
+
+  return `${String(days).padStart(2, "0")}D:${String(hours).padStart(2, "0")}H:${String(minutes).padStart(2, "0")}M`;
+}
+
+function getStatusPresentation(content) {
+  const eventStartTime = getEventStartTime(content.schedule, content.date);
+  const now = new Date();
+
+  if (eventStartTime && now < eventStartTime) {
+    return {
+      pill: "Event Soon",
+      pillState: "upcoming",
+      primary: formatCountdown(eventStartTime),
+      secondary: "until event starts"
+    };
+  }
+
+  const state = getTrackState(content.schedule, content.date, now);
+
+  if (state.mode === "countdown" && state.nextTime) {
+    return {
+      pill: "Event Soon",
+      pillState: "upcoming",
+      primary: formatCountdown(state.nextTime),
+      secondary: "until event starts"
+    };
+  }
+
+  if (state.mode === "live" && state.currentItem) {
+    return {
+      pill: state.trackState === "hot" ? "Track Hot" : "Track Cold",
+      pillState: state.trackState,
+      primary: state.currentItem.title,
+      secondary: getDisplayRange(state.currentItem)
+    };
+  }
+
+  if (state.mode === "complete") {
+    return {
+      pill: "Track Cold",
+      pillState: "cold",
+      primary: "Event Complete",
+      secondary: content.time
+    };
+  }
+
+  const upcomingItem = content.schedule.find((item) => item.type !== "marker");
+
+  return {
+    pill: state.trackState === "hot" ? "Track Hot" : "Track Cold",
+    pillState: state.trackState,
+    primary: upcomingItem ? upcomingItem.title : "Awaiting Next Update",
+    secondary: upcomingItem ? upcomingItem.time : content.time
+  };
+}
+
+function renderStatus(content) {
+  const status = getStatusPresentation(content);
+  const statusPill = document.getElementById("status-pill");
+  const statusPrimary = document.getElementById("status-primary");
+  const statusSecondary = document.getElementById("status-secondary");
+
+  if (statusPill) {
+    statusPill.textContent = status.pill;
+    statusPill.dataset.state = status.pillState;
+  }
+
+  if (statusPrimary) {
+    statusPrimary.textContent = status.primary;
+  }
+
+  if (statusSecondary) {
+    statusSecondary.textContent = status.secondary;
+  }
 }
 
 function renderSchedule(items, groupColors, eventDate) {
   const container = document.getElementById("schedule-body");
+
   if (!container) {
     return;
   }
 
-  const currentScheduleIndex = getCurrentScheduleIndex(items, eventDate);
+  const currentState = getTrackState(items, eventDate);
+  const currentScheduleIndex = currentState.currentIndex;
 
   container.innerHTML = items
     .map((item, index) => {
       if (item.type === "marker") {
+        const markerState = item.title.toLowerCase().includes("hot") ? "hot" : "cold";
         return `
-          <article class="schedule-marker">
+          <article class="schedule-marker" data-state="${markerState}">
             <p class="schedule-marker-label">${item.time}</p>
             <h3 class="schedule-marker-title">${item.title}</h3>
           </article>
@@ -483,14 +708,14 @@ function renderSchedule(items, groupColors, eventDate) {
       const groupStyle = item.group ? ` ${getGroupStyle(item.group, groupColors)}` : "";
       const isCurrent = index === currentScheduleIndex;
       const currentAttribute = isCurrent ? ' data-current="true"' : "";
-      const currentClassName = isCurrent ? " schedule-item-current" : "";
       const currentBadge = isCurrent ? '<span class="schedule-now-badge">Now</span>' : "";
 
       return `
-        <article class="schedule-item${currentClassName}"${currentAttribute}>
+        <article class="schedule-item"${groupAttribute}${currentAttribute}>
           <p class="schedule-time">${item.time}</p>
-          <div class="schedule-card"${groupAttribute}${groupStyle}>
-            <div class="schedule-card-header">
+          <div class="schedule-divider"></div>
+          <div class="schedule-frame"${groupStyle}>
+            <div class="schedule-heading">
               <h3 class="schedule-title">${item.title}</h3>
               ${currentBadge}
             </div>
@@ -507,16 +732,19 @@ function setupScheduleRefresh(content) {
     window.clearInterval(scheduleRefreshTimerId);
   }
 
-  const renderCurrentSchedule = () => {
+  const refreshLiveState = () => {
+    renderStatus(content);
     renderSchedule(content.schedule, content.groupColors, content.date);
+    updateTopChromeHeight();
   };
 
-  renderCurrentSchedule();
-  scheduleRefreshTimerId = window.setInterval(renderCurrentSchedule, 30000);
+  refreshLiveState();
+  scheduleRefreshTimerId = window.setInterval(refreshLiveState, 30000);
 }
 
 function renderGroups(items, groupColors) {
   const container = document.getElementById("group-list");
+
   if (!container) {
     return;
   }
@@ -526,11 +754,17 @@ function renderGroups(items, groupColors) {
       (item) => `
         <details class="group-card" data-group="${item.group}" ${getGroupStyle(item.group, groupColors)}>
           <summary class="group-summary">
-            <h3>${item.name}</h3>
-            <span class="group-toggle" aria-hidden="true"></span>
+            <div class="group-summary-copy">
+              <div class="group-summary-title">
+                <span class="group-summary-label">Group</span>
+                <span class="group-summary-letter">${item.group.toUpperCase()}</span>
+                <span class="group-summary-level">${item.level || ""}</span>
+              </div>
+            </div>
+            <i data-lucide="chevron-down" class="group-toggle group-toggle-icon" aria-hidden="true"></i>
           </summary>
           <ul class="plain-list">
-            ${item.people.map((person) => `<li>${person}</li>`).join("")}
+            ${item.people.map((person) => `<li>${formatPersonName(person)}</li>`).join("")}
           </ul>
         </details>
       `
@@ -538,8 +772,9 @@ function renderGroups(items, groupColors) {
     .join("");
 }
 
-function renderPeople(items) {
+function renderVolunteers(items) {
   const container = document.getElementById("people-list");
+
   if (!container) {
     return;
   }
@@ -547,24 +782,25 @@ function renderPeople(items) {
   container.innerHTML = items
     .map(
       (item) => `
-        <article class="note-card">
-          <h3>${item.role}</h3>
-          <ul class="plain-list">
-            ${item.names.map((name) => `<li>${name}</li>`).join("")}
-          </ul>
+        <article class="volunteer-group">
+          <p class="volunteer-role">${item.role}</p>
+          <div class="volunteer-names">
+            ${item.names.map((name) => `<span>${name}</span>`).join("")}
+          </div>
         </article>
       `
     )
     .join("");
 }
 
-function renderMap(mapContent) {
-  setText("map-image-placeholder", mapContent.imageLabel);
-  renderList("track-sections", mapContent.sections);
+function renderTrackInfo(trackInfo) {
+  setText("map-image-placeholder", trackInfo.mapLabel);
+  setText("arrival-instructions", trackInfo.arrivalInstructions);
 }
 
 function setAccessMessage(message, type) {
   const messageElement = document.getElementById("access-message");
+
   if (!messageElement) {
     return;
   }
@@ -599,15 +835,16 @@ function setParticipantContentVisibility(isUnlocked) {
 }
 
 function unlockParticipantContent() {
-  window.localStorage.setItem(participantAccessStorageKey, "true");
+  setStoredValue(participantAccessStorageKey, "true");
   setParticipantContentVisibility(true);
   setAccessMessage("Participant details unlocked on this device.", "success");
+  updateTopChromeHeight();
 }
 
 function setupParticipantAccess(content) {
   const form = document.getElementById("access-form");
   const input = document.getElementById("access-code");
-  const isUnlocked = window.localStorage.getItem(participantAccessStorageKey) === "true";
+  const isUnlocked = getStoredValue(participantAccessStorageKey) === "true";
 
   setParticipantContentVisibility(isUnlocked);
 
@@ -637,6 +874,7 @@ function setupParticipantAccess(content) {
 }
 
 function renderPage(content) {
+  setText("brand-title", content.brandTitle);
   setText("event-title", content.title);
   setImage("overview-image", content.overviewImage);
   setText("event-date", content.date);
@@ -645,20 +883,22 @@ function renderPage(content) {
   setText("event-location-address", content.address);
   setLink("event-location-link", content.locationUrl);
   setText("event-summary", content.summary);
-  setupScheduleRefresh(content);
+  renderStatus(content);
+  renderTrackInfo(content.trackInfo);
   renderChecklist("required-items", "required", content.requiredItems);
   renderChecklist("recommended-items", "recommended", content.recommendedItems);
   renderGroups(content.groups, content.groupColors);
-  renderMap(content.map);
-  renderPeople(content.importantPeople);
+  renderVolunteers(content.volunteers);
+  setupScheduleRefresh(content);
   setupParticipantAccess(content);
 
-  if (window.lucide && typeof window.lucide.createIcons === "function") {
-    window.lucide.createIcons();
-  }
-
-  setupSectionNavViewport();
+  setupViewportOffsets();
   setupSectionNavHighlight();
+  updateTopChromeHeight();
 }
 
 renderPage(eventContent);
+
+if (window.lucide && typeof window.lucide.createIcons === "function") {
+  window.lucide.createIcons();
+}
