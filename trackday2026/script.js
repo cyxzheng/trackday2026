@@ -299,9 +299,40 @@ function updateTopChromeHeight() {
   root.style.setProperty("--top-chrome-height", `${Math.ceil(siteHeader.offsetHeight)}px`);
 }
 
+function updateViewportOffsets() {
+  const root = document.documentElement;
+  const viewport = window.visualViewport;
+
+  if (!root) {
+    return;
+  }
+
+  if (!viewport) {
+    root.style.setProperty("--viewport-offset-top", "0px");
+    root.style.setProperty("--viewport-offset-bottom", "0px");
+    return;
+  }
+
+  const topOffset = Math.max(0, Math.round(viewport.offsetTop));
+  const bottomOffset = Math.max(
+    0,
+    Math.round(window.innerHeight - viewport.height - viewport.offsetTop)
+  );
+
+  root.style.setProperty("--viewport-offset-top", `${topOffset}px`);
+  root.style.setProperty("--viewport-offset-bottom", `${bottomOffset}px`);
+}
+
 function setupViewportOffsets() {
+  updateViewportOffsets();
   updateTopChromeHeight();
+  window.addEventListener("resize", updateViewportOffsets);
   window.addEventListener("resize", updateTopChromeHeight);
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", updateViewportOffsets);
+    window.visualViewport.addEventListener("scroll", updateViewportOffsets);
+  }
 }
 
 function setActiveSectionNavLink(activeId) {
