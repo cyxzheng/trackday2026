@@ -461,23 +461,16 @@ function setupSectionNavHighlight() {
   setActiveSectionNavLink(activeSectionId);
 
   navLinks.forEach((link) => {
-    link.addEventListener("click", (event) => {
+    link.addEventListener("click", () => {
       const targetId = link.getAttribute("href")?.slice(1);
-      const targetSection = targetId ? document.getElementById(targetId) : null;
 
-      if (!targetId || !targetSection) {
+      if (!targetId) {
         return;
       }
 
-      event.preventDefault();
       setPendingSection(targetId);
       activeSectionId = targetId;
       setActiveSectionNavLink(activeSectionId);
-      targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
-
-      if (window.location.hash !== `#${targetId}`) {
-        window.history.replaceState(null, "", `#${targetId}`);
-      }
     });
   });
 }
