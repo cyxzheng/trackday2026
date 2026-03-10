@@ -92,7 +92,7 @@ const eventContent = {
         label: "Flags",
         title: "Flags",
         description:
-          "Review the common flags before your session begins.",
+          "For educational purposes only! Official flagging procedures will be explained at the Driver's Meeting.",
         flags: [
           {
             name: "Green",
@@ -201,9 +201,9 @@ const eventContent = {
         "Jessie Pashak",
         "Jason Leung",
         "Alan Cham",
-        "Brian Wong",
+        "Jeremy McLean",
         "Ansix Auto",
-        "Saito / Sasaki"
+        "Naohiko Saito / Masahiro Sasaki"
       ]
     },
     {
@@ -216,7 +216,7 @@ const eventContent = {
         "Jason Lai",
         "Justin Ng",
         "Don Yip",
-        "Jeremy McLean",
+        "Brian Wong",
         "Erik Soderlund",
         "Gabi Chen",
         "Steve Lloyd",

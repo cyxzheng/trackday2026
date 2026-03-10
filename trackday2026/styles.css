@@ -214,10 +214,12 @@ a {
 }
 
 .section-nav-shell {
-  position: sticky;
-  top: calc(100dvh - var(--bottom-nav-height) - env(safe-area-inset-bottom, 0px) - 8px);
+  position: fixed;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
+  transform: translateX(-50%);
   z-index: 55;
-  height: 0;
+  width: min(calc(100vw - 24px), 390px);
   pointer-events: none;
 }
 
@@ -229,8 +231,8 @@ a {
   display: flex;
   gap: 4px;
   overflow-x: auto;
-  width: min(calc(100% - 24px), 390px);
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   padding: 6px;
   border: 1px solid var(--line);
   border-radius: 12px;
