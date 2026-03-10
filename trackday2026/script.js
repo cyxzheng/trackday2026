@@ -20,7 +20,7 @@ const eventContent = {
   locationName: "Mission Raceway Park",
   address: "32670 Dyke Rd, Mission, BC V2V 4J5",
   locationUrl: "https://maps.google.com/?q=32670+Dyke+Rd,+Mission,+BC+V2V+4J5",
-  summary: "The first ever Vancouver GR Corolla Club track day, sponsored by Toyota Canada and OpenRoad Auto Group.",
+  summary: "The first ever Vancouver GR Corolla Club track day, in partnership with Toyota Canada and OpenRoad Auto Group.",
   trackInfo: {
     tabs: [
       {
@@ -46,7 +46,7 @@ const eventContent = {
             {
               title: "What Time Do I Need To Arrive?",
               body:
-                "Aim to arrive on time, so that you have ample time to complete registration, tech inspection, and attend the driver's meeting."
+                "Arrive on time, so that you have ample time to complete registration, tech inspection, and attend the driver's meeting."
             },
             {
               title: "What happens if I miss the driver's meeting?",
@@ -175,7 +175,12 @@ const eventContent = {
     {
       question: "What if I feel overwhelmed on track?",
       answer:
-        "Back off the pace, give point-bys early, and use the next cooldown lap to reset. Predictable driving matters more than speed."
+        "Back off the pace, give point-bys when possible. This is not a race! Predictable driving matters more than speed."
+    },
+    {
+      question: "What should I do after completing a session?",
+      answer:
+        "Make your way to the paddock, and let your engine run for a few minutes. DO NOT PULL THE HANDBRAKE."
     },
     {
       question: "Should I change tire pressures during the day?",

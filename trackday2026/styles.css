@@ -171,6 +171,11 @@ a {
   background: var(--panel-black);
 }
 
+.status-strip[data-group] {
+  border-bottom-color: var(--group-color, var(--line));
+  background: var(--group-color-tint, var(--panel-black));
+}
+
 .section-kicker,
 .status-kicker,
 .group-summary-level {
@@ -263,13 +268,73 @@ a {
 
 main.page-shell {
   padding-top: var(--top-chrome-height);
-  padding-bottom: calc(var(--bottom-nav-height) + 32px + env(safe-area-inset-bottom, 0px));
 }
 
 .section {
   padding: 48px 16px;
   border-bottom: 1px solid var(--line);
   background: var(--panel-black);
+}
+
+.site-footer {
+  background: var(--bg);
+}
+
+.footer-shell {
+  padding: 48px 16px calc(var(--bottom-nav-height) + 28px + env(safe-area-inset-bottom, 0px));
+}
+
+.footer-stack {
+  display: grid;
+  gap: 48px;
+}
+
+.footer-heading {
+  display: grid;
+  gap: 8px;
+}
+
+.footer-kicker {
+  margin: 0;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: var(--type-overline-size);
+  line-height: var(--type-overline-line-height);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.footer-logos {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: flex-start;
+}
+
+.footer-logo {
+  display: block;
+  height: auto;
+  max-width: 100%;
+  max-height: 72px;
+}
+
+.footer-logo-toyota {
+  width: auto;
+}
+
+.footer-logo-openroad {
+  width: auto;
+}
+
+.footer-credit {
+  margin: 0;
+  font-size: var(--type-meta-size);
+  line-height: var(--type-meta-line-height);
+  color: var(--muted);
+}
+
+.footer-link {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
 }
 
 .hero-section {
