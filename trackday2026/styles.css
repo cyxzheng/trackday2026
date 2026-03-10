@@ -215,11 +215,13 @@ a {
 
 .section-nav-shell {
   position: fixed;
-  left: 50%;
-  bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  bottom: 8px;
   z-index: 55;
-  width: min(calc(100vw - 24px), 390px);
+  display: flex;
+  justify-content: center;
+  padding: 0 12px;
   pointer-events: none;
 }
 
@@ -231,7 +233,7 @@ a {
   display: flex;
   gap: 4px;
   overflow-x: auto;
-  width: 100%;
+  width: min(100%, 390px);
   margin: 0;
   padding: 6px;
   border: 1px solid var(--line);
@@ -240,6 +242,12 @@ a {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
   pointer-events: auto;
   scrollbar-width: none;
+}
+
+@supports (bottom: env(safe-area-inset-bottom)) {
+  .section-nav-shell {
+    bottom: calc(env(safe-area-inset-bottom) + 8px);
+  }
 }
 
 .section-nav::-webkit-scrollbar {
