@@ -215,7 +215,7 @@ a {
 
 .section-nav-shell {
   position: sticky;
-  top: calc(100svh - var(--bottom-nav-height) - env(safe-area-inset-bottom, 0px) - 8px);
+  top: calc(100dvh - var(--bottom-nav-height) - env(safe-area-inset-bottom, 0px) - 8px);
   z-index: 55;
   height: 0;
   pointer-events: none;
