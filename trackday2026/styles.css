@@ -226,11 +226,8 @@ a {
   transform: translateX(-50%);
   border: 1px solid var(--line);
   border-radius: 12px;
-  background: var(--surface-overlay);
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
-  will-change: transform;
-  transform: translateX(-50%) translateZ(0);
+  background: #050505;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
   scrollbar-width: none;
 }
 
