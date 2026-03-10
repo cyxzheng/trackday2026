@@ -61,7 +61,7 @@ const eventContent = {
         label: "Track Layout",
         title: "Passing Zones and Education",
         description:
-          "Take a moment to familiarize yourself with your group's passing zones.",
+          "Passing is only allowed via point-bys, otherwise assume the car in front doesn't see you. Familiarize yourself with your group's passing zones.",
         media: {
           title: "Mission Raceway track layout",
           imageSrc: "assets/images/passingzones.png",
