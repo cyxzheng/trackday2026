@@ -338,36 +338,59 @@ function setupSectionNavHighlight() {
   let activeSectionId = sections[0].id;
   let suppressObserver = false;
   let resumeObserverTimerId = null;
+  let scrollTicking = false;
 
   setActiveSectionNavLink(activeSectionId);
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      if (suppressObserver) {
-        return;
-      }
+  function getCssPixelValue(name) {
+    const value = window.getComputedStyle(document.documentElement).getPropertyValue(name);
+    const parsedValue = Number.parseFloat(value);
 
-      const nextEntry = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((entryA, entryB) => entryB.intersectionRatio - entryA.intersectionRatio)[0];
+    return Number.isFinite(parsedValue) ? parsedValue : 0;
+  }
 
-      if (!nextEntry || nextEntry.target.id === activeSectionId) {
-        return;
-      }
+  function updateActiveSectionFromScroll() {
+    scrollTicking = false;
 
-      activeSectionId = nextEntry.target.id;
-      setActiveSectionNavLink(activeSectionId);
-    },
-    {
-      root: null,
-      rootMargin: "-35% 0px -45% 0px",
-      threshold: [0.2, 0.35, 0.5, 0.65]
+    if (suppressObserver) {
+      return;
     }
-  );
 
-  sections.forEach((section) => {
-    observer.observe(section);
-  });
+    const topChromeHeight = getCssPixelValue("--top-chrome-height");
+    const bottomNavHeight = getCssPixelValue("--bottom-nav-height");
+    const viewportHeight = window.innerHeight;
+    const anchorY = topChromeHeight + Math.max(24, (viewportHeight - topChromeHeight - bottomNavHeight) * 0.33);
+
+    let nextActiveSection = sections[0];
+
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+
+      if (rect.top <= anchorY) {
+        nextActiveSection = section;
+      }
+    });
+
+    if (nextActiveSection.id === activeSectionId) {
+      return;
+    }
+
+    activeSectionId = nextActiveSection.id;
+    setActiveSectionNavLink(activeSectionId);
+  }
+
+  function queueActiveSectionUpdate() {
+    if (scrollTicking) {
+      return;
+    }
+
+    scrollTicking = true;
+    window.requestAnimationFrame(updateActiveSectionFromScroll);
+  }
+
+  window.addEventListener("scroll", queueActiveSectionUpdate, { passive: true });
+  window.addEventListener("resize", queueActiveSectionUpdate);
+  queueActiveSectionUpdate();
 
   navLinks.forEach((link) => {
     link.addEventListener("click", () => {
@@ -381,6 +404,7 @@ function setupSectionNavHighlight() {
       window.clearTimeout(resumeObserverTimerId);
       resumeObserverTimerId = window.setTimeout(() => {
         suppressObserver = false;
+        queueActiveSectionUpdate();
       }, 700);
       activeSectionId = targetId;
       setActiveSectionNavLink(activeSectionId);
