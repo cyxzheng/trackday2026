@@ -1331,7 +1331,7 @@ function setupParticipantAccess(content) {
     return;
   }
 
-  setAccessMessage("Enter the participant code to continue.");
+  setAccessMessage("Check your email for the code.");
 
   if (!form || !input) {
     return;

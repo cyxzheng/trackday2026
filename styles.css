@@ -413,18 +413,14 @@ p:not([class]) {
 }
 
 .participant-access-heading {
+
   margin-bottom: 16px;
 }
 
 .participant-access-heading h2 {
   display: flex;
   gap: 8px;
-  align-items: center;
-}
-
-.participant-access-heading h2 [data-lucide] {
-  width: 20px;
-  height: 20px;
+  align-items: flex-start;
 }
 
 .participant-access-heading p {
@@ -470,6 +466,7 @@ p:not([class]) {
   background: var(--accent);
   color: var(--text);
   font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: var(--type-overline-size);
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -636,7 +633,6 @@ p:not([class]) {
 .track-flag-description,
 .schedule-description,
 .status-secondary,
-.participant-access-heading p,
 .access-message {
   font-size: var(--type-meta-size);
   line-height: var(--type-meta-line-height);
