@@ -1321,6 +1321,7 @@ function setParticipantContentVisibility(isUnlocked) {
   const content = document.getElementById("participant-content");
   const form = document.getElementById("access-form");
   const accessCard = document.querySelector(".participant-access");
+  const sectionNavShell = document.querySelector(".section-nav-shell");
   const sectionNav = document.querySelector(".section-nav");
 
   if (body) {
@@ -1336,6 +1337,10 @@ function setParticipantContentVisibility(isUnlocked) {
     accessCard.hidden = isUnlocked;
   } else if (form) {
     form.hidden = isUnlocked;
+  }
+
+  if (sectionNavShell) {
+    sectionNavShell.hidden = !isUnlocked;
   }
 
   if (sectionNav) {

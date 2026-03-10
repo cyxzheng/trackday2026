@@ -213,21 +213,30 @@ a {
   text-align: right;
 }
 
+.section-nav-shell {
+  position: sticky;
+  top: calc(100svh - var(--bottom-nav-height) - env(safe-area-inset-bottom, 0px) - 8px);
+  z-index: 55;
+  height: 0;
+  pointer-events: none;
+}
+
+.section-nav-shell[hidden] {
+  display: none;
+}
+
 .section-nav {
   display: flex;
   gap: 4px;
   overflow-x: auto;
-  position: fixed;
-  left: 50%;
-  bottom: max(8px, env(safe-area-inset-bottom, 0px));
-  z-index: 55;
   width: min(calc(100% - 24px), 390px);
+  margin: 0 auto;
   padding: 6px;
-  transform: translateX(-50%);
   border: 1px solid var(--line);
   border-radius: 12px;
   background: #050505;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+  pointer-events: auto;
   scrollbar-width: none;
 }
 
