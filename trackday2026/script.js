@@ -336,45 +336,38 @@ function setupSectionNavHighlight() {
   }
 
   let activeSectionId = sections[0].id;
-  let suppressScrollSyncUntil = 0;
-  let scrollFrameId = null;
-
-  const updateActiveSection = () => {
-    if (Date.now() < suppressScrollSyncUntil) {
-      return;
-    }
-
-    const headerOffset = document.querySelector(".site-header")?.offsetHeight || 0;
-    const targetLine = headerOffset + 24;
-
-    const nextActiveSection = sections.find((section) => {
-      const rect = section.getBoundingClientRect();
-      return rect.top <= targetLine && rect.bottom > targetLine;
-    }) || sections[0];
-
-    if (nextActiveSection.id === activeSectionId) {
-      return;
-    }
-
-    activeSectionId = nextActiveSection.id;
-    setActiveSectionNavLink(activeSectionId);
-  };
+  let suppressObserver = false;
+  let resumeObserverTimerId = null;
 
   setActiveSectionNavLink(activeSectionId);
 
-  const syncActiveSectionOnScroll = () => {
-    if (scrollFrameId) {
-      return;
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (suppressObserver) {
+        return;
+      }
+
+      const nextEntry = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((entryA, entryB) => entryB.intersectionRatio - entryA.intersectionRatio)[0];
+
+      if (!nextEntry || nextEntry.target.id === activeSectionId) {
+        return;
+      }
+
+      activeSectionId = nextEntry.target.id;
+      setActiveSectionNavLink(activeSectionId);
+    },
+    {
+      root: null,
+      rootMargin: "-35% 0px -45% 0px",
+      threshold: [0.2, 0.35, 0.5, 0.65]
     }
+  );
 
-    scrollFrameId = window.requestAnimationFrame(() => {
-      scrollFrameId = null;
-      updateActiveSection();
-    });
-  };
-
-  window.addEventListener("scroll", syncActiveSectionOnScroll, { passive: true });
-  window.addEventListener("resize", syncActiveSectionOnScroll);
+  sections.forEach((section) => {
+    observer.observe(section);
+  });
 
   navLinks.forEach((link) => {
     link.addEventListener("click", () => {
@@ -384,7 +377,11 @@ function setupSectionNavHighlight() {
         return;
       }
 
-      suppressScrollSyncUntil = Date.now() + 700;
+      suppressObserver = true;
+      window.clearTimeout(resumeObserverTimerId);
+      resumeObserverTimerId = window.setTimeout(() => {
+        suppressObserver = false;
+      }, 700);
       activeSectionId = targetId;
       setActiveSectionNavLink(activeSectionId);
     });

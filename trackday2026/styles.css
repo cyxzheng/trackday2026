@@ -61,6 +61,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--top-chrome-height) + 12px);
+  background: var(--panel-black);
 }
 
 body {
@@ -99,7 +100,7 @@ a {
 
 .site-header {
   position: sticky;
-  top: env(safe-area-inset-top, 0px);
+  top: 0;
   z-index: 50;
   background: var(--bg);
   pointer-events: none;
@@ -226,7 +227,10 @@ a {
   border: 1px solid var(--line);
   border-radius: 12px;
   background: var(--surface-overlay);
+  -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
+  will-change: transform;
+  transform: translateX(-50%) translateZ(0);
   scrollbar-width: none;
 }
 
@@ -266,22 +270,15 @@ a {
   stroke-width: 2;
 }
 
-main.page-shell {
-  padding-top: var(--top-chrome-height);
-}
-
 body.is-locked .site-header {
   display: none;
-}
-
-body.is-locked main.page-shell {
-  padding-top: 0;
 }
 
 .section {
   padding: 48px 16px;
   border-bottom: 1px solid var(--line);
   background: var(--panel-black);
+  scroll-margin-top: calc(var(--top-chrome-height) + 12px);
 }
 
 .site-footer {
