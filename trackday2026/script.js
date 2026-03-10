@@ -390,8 +390,43 @@ function setupSectionNavHighlight() {
   }
 
   let activeSectionId = sections[0].id;
+  let pendingSectionId = null;
+  let pendingSectionTimerId = null;
+
+  const clearPendingSection = () => {
+    pendingSectionId = null;
+
+    if (pendingSectionTimerId) {
+      window.clearTimeout(pendingSectionTimerId);
+      pendingSectionTimerId = null;
+    }
+  };
+
+  const setPendingSection = (sectionId) => {
+    clearPendingSection();
+    pendingSectionId = sectionId;
+    pendingSectionTimerId = window.setTimeout(() => {
+      clearPendingSection();
+    }, 1200);
+  };
 
   const updateActiveSection = (visibleSections = []) => {
+    if (pendingSectionId) {
+      const pendingSection = sections.find((section) => section.id === pendingSectionId);
+
+      if (pendingSection) {
+        const pendingRect = pendingSection.getBoundingClientRect();
+        const pendingReached = visibleSections.some((section) => section.id === pendingSectionId)
+          || pendingRect.top <= window.innerHeight * 0.35;
+
+        if (!pendingReached) {
+          return;
+        }
+      }
+
+      clearPendingSection();
+    }
+
     const nextActiveSection = visibleSections[0]
       || sections.find((section) => {
         const rect = section.getBoundingClientRect();
@@ -426,15 +461,23 @@ function setupSectionNavHighlight() {
   setActiveSectionNavLink(activeSectionId);
 
   navLinks.forEach((link) => {
-    link.addEventListener("click", () => {
+    link.addEventListener("click", (event) => {
       const targetId = link.getAttribute("href")?.slice(1);
+      const targetSection = targetId ? document.getElementById(targetId) : null;
 
-      if (!targetId) {
+      if (!targetId || !targetSection) {
         return;
       }
 
+      event.preventDefault();
+      setPendingSection(targetId);
       activeSectionId = targetId;
       setActiveSectionNavLink(activeSectionId);
+      targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      if (window.location.hash !== `#${targetId}`) {
+        window.history.replaceState(null, "", `#${targetId}`);
+      }
     });
   });
 }
