@@ -45,19 +45,11 @@
                     >
                     <a href="#schedule"
                         ><i data-lucide="clock-3" aria-hidden="true"></i
-                        ><span>Schedule</span></a
-                    >
-                    <a href="#groups"
-                        ><i data-lucide="users" aria-hidden="true"></i
-                        ><span>Groups</span></a
+                        ><span>Schedule + Groups</span></a
                     >
                     <a href="#bring"
                         ><i data-lucide="backpack" aria-hidden="true"></i
-                        ><span>Bring</span></a
-                    >
-                    <a href="#people"
-                        ><i data-lucide="badge-info" aria-hidden="true"></i
-                        ><span>Volunteers</span></a
+                        ><span>Bring + Volunteers</span></a
                     >
                 </nav>
             </div>
@@ -93,10 +85,7 @@
                                 target="_blank"
                                 rel="noreferrer"
                             >
-                                <i
-                                    data-lucide="map-pin"
-                                    aria-hidden="true"
-                                ></i>
+                                <i data-lucide="map-pin" aria-hidden="true"></i>
                                 <div class="detail-copy">
                                     <div class="detail-title-row">
                                         <p
@@ -167,61 +156,79 @@
 
             <div id="participant-content" class="participant-content" hidden>
                 <section id="track-info" class="section">
-                    <div class="section-heading">
-                        <h2>Track Info</h2>
-                    </div>
-                    <div class="track-info-card">
-                        <div
-                            class="map-panel"
-                            id="map-image-placeholder"
-                            aria-label="Track map placeholder"
-                        >
-                            <p>[Track layout image placeholder]</p>
-                        </div>
-                        <div class="arrival-panel">
-                            <h3>Arrival Instructions</h3>
-                            <p id="arrival-instructions">
-                                [Arrival instructions]
-                            </p>
+                    <div class="section-stack">
+                        <p class="section-kicker">Track Info</p>
+                        <div>
+                            <div class="section-heading">
+                                <h2 id="track-info-title">
+                                    [Track info title]
+                                </h2>
+                            </div>
+                            <div class="track-info-tabs">
+                                <div
+                                    id="track-info-tablist"
+                                    class="track-info-tablist"
+                                    role="tablist"
+                                    aria-label="Track information sections"
+                                ></div>
+                                <div
+                                    id="track-info-panels"
+                                    class="track-info-panels"
+                                ></div>
+                            </div>
                         </div>
                     </div>
                 </section>
 
                 <section id="schedule" class="section">
-                    <div class="section-heading">
-                        <h2>Schedule</h2>
+                    <div class="section-stack">
+                        <div>
+                            <div class="section-heading">
+                                <h2>Schedule</h2>
+                            </div>
+                            <div id="schedule-body" class="schedule-list"></div>
+                        </div>
+                        <div>
+                            <div id="groups">
+                                <div class="section-heading">
+                                    <h2>Driver Groups</h2>
+                                </div>
+                                <div id="group-list" class="group-grid"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div id="schedule-body" class="schedule-list"></div>
-                </section>
-
-                <section id="groups" class="section">
-                    <div class="section-heading">
-                        <h2>Driver Groups</h2>
-                    </div>
-                    <div id="group-list" class="group-grid"></div>
                 </section>
 
                 <section id="bring" class="section">
-                    <div class="section-heading">
-                        <h2>What to Bring</h2>
+                    <div class="section-stack">
+                        <div>
+                            <div class="section-heading">
+                                <h2>What to Bring</h2>
+                            </div>
+                            <div class="bring-grid">
+                                <article class="list-card">
+                                    <p class="list-kicker">Required</p>
+                                    <ul
+                                        id="required-items"
+                                        class="checklist"
+                                    ></ul>
+                                </article>
+                                <article class="list-card">
+                                    <p class="list-kicker">Recommended</p>
+                                    <ul
+                                        id="recommended-items"
+                                        class="checklist"
+                                    ></ul>
+                                </article>
+                            </div>
+                        </div>
+                        <div id="people">
+                            <div class="section-heading">
+                                <h2>Volunteers</h2>
+                            </div>
+                            <div id="people-list" class="volunteer-list"></div>
+                        </div>
                     </div>
-                    <div class="bring-grid">
-                        <article class="list-card">
-                            <p class="list-kicker">Required</p>
-                            <ul id="required-items" class="checklist"></ul>
-                        </article>
-                        <article class="list-card">
-                            <p class="list-kicker">Recommended</p>
-                            <ul id="recommended-items" class="checklist"></ul>
-                        </article>
-                    </div>
-                </section>
-
-                <section id="people" class="section">
-                    <div class="section-heading">
-                        <h2>Volunteers</h2>
-                    </div>
-                    <div id="people-list" class="volunteer-list"></div>
                 </section>
             </div>
         </main>

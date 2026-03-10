@@ -1,9 +1,11 @@
 // Edit the content in this object to update the page.
 // Keep event details centralized here instead of in the HTML.
+const participantCode = "0313";
+
 const eventContent = {
   brandTitle: "YVR GRC Track Days",
   title: "Vancouver GR Corolla Club Track Day 2026",
-  participantCode: "0313",
+  participantCode,
   groupColors: {
     a: "#A4CD2F",
     b: "#00ABF0",
@@ -20,12 +22,119 @@ const eventContent = {
   locationUrl: "https://maps.google.com/?q=32670+Dyke+Rd,+Mission,+BC+V2V+4J5",
   summary: "The first ever Vancouver GR Corolla Club track day, sponsored by Toyota Canada and OpenRoad Auto Group.",
   trackInfo: {
-    mapLabel: "[Track layout image or asset note]",
-    arrivalInstructions:
-      "Upon entering the gate, turn right towards the paddock and park in the highlighted area for tech inspection."
+    tabs: [
+      {
+        id: "getting-there",
+        label: "Getting There",
+        title: "Arrival Instructions",
+        featureCard: {
+          eyebrow: "Gate Code",
+          value: participantCode
+        },
+        description:
+          "Upon entering the gate, turn RIGHT towards the paddock, and park in the area highlighted on the map for tech inspection.",
+        media: {
+          title: "Gate and paddock route",
+          imageSrc: "assets/images/gettingthere.png",
+          meta: "Opens a zoomable PDF in a new tab",
+          pdfUrl: "assets/docs/gettingthere.pdf",
+          pdfLabel: "Open getting-there PDF"
+        },
+        infoBox: {
+          title: "Important!",
+          items: [
+            {
+              title: "What Time Do I Need To Arrive?",
+              body:
+                "Aim to arrive on time, so that you have ample time to complete registration, tech inspection, and attend the driver's meeting."
+            },
+            {
+              title: "What happens if I miss the driver's meeting?",
+              body:
+                "Attending the driver's meeting is mandatory. If you miss the driver's meeting, you will not be driving on track."
+            }
+          ]
+        }
+      },
+      {
+        id: "track-layout",
+        label: "Track Layout",
+        title: "Passing Zones and Education",
+        description:
+          "Take a moment to familiarize yourself with your group's passing zones.",
+        media: {
+          title: "Mission Raceway track layout",
+          imageSrc: "assets/images/passingzones.png",
+          meta: "Opens a zoomable PDF in a new tab",
+          pdfUrl: "assets/docs/passingzones.pdf",
+          pdfLabel: "Open track-layout PDF"
+        },
+        videos: [
+          {
+            youtubeId: "https://www.youtube.com/watch?v=KenIYlB2kvo",
+            title: "Nathan Tong Onboard",
+            caption: "Study Nathan sending it."
+          },
+          {
+            title: "Instructor Demo Lap",
+            youtubeId: "https://www.youtube.com/watch?v=VS9ga1GbPjI",
+            caption: "Corner by corner guide."
+          },
+          {
+            title: "Ross Dunnet Onboard",
+            youtubeId: "https://www.youtube.com/watch?v=nJh48rrQEb4",
+            caption: "Study Ross sending it."
+          }
+        ]
+      },
+      {
+        id: "flags",
+        label: "Flags",
+        title: "Flags",
+        description:
+          "Review the common flags before your session begins.",
+        flags: [
+          {
+            name: "Green",
+            description: "Track is clear. Session is live.",
+            imageSrc: "assets/images/flags/green.png"
+          },
+          {
+            name: "Yellow",
+            description: "Slow down. No passing until clear.",
+            imageSrc: "assets/images/flags/yellow.png"
+          },
+          {
+            name: "Waving Yellow",
+            description: "Serious incident ahead. Slow down and be prepared to stop.",
+            imageSrc: "assets/images/flags/wavingyellow.png"
+          },
+          {
+            name: "Red",
+            description: "Session stopped. Come off pace and follow marshal direction.",
+            imageSrc: "assets/images/flags/red.png"
+          },
+          {
+            name: "Black",
+            description: "You have been flagged. Exit to pit lane on this lap.",
+            imageSrc: "assets/images/flags/black.png"
+          },
+          {
+            name: "Passing",
+            description: "Point-by given. Complete the pass only in the approved zone.",
+            imageSrc: "assets/images/flags/passing.png"
+          },
+          {
+            name: "Checkered",
+            description: "Session complete. Finish the lap and exit as directed.",
+            imageSrc: "assets/images/flags/checkered.png"
+          }
+        ]
+      }
+    ]
   },
   schedule: [
-    { time: "12:15 PM", title: "Gates Open to Participants", description: "Gate code is 0313" },
+    { time: "12:15 PM", title: "Gates Open to Participants", description: `Gate code is ${participantCode}` },
     { time: "12:20 PM", title: "Registration and Tech Inspection" },
     { time: "12:45 PM", title: "Driver's Meeting" },
     { type: "marker", time: "1:00 PM", title: "Track Hot" },
@@ -461,6 +570,20 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+function createPlaceholderImage(label) {
+  const safeLabel = String(label).slice(0, 36);
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="${safeLabel}">
+      <rect width="96" height="96" rx="12" fill="#111111"/>
+      <rect x="12" y="16" width="72" height="48" rx="8" fill="#1f1f1f" stroke="#3a3a3a"/>
+      <path d="M20 58L37 41L51 53L60 44L76 60" fill="none" stroke="#d0012b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="48" y="80" fill="#ffffff" font-family="Arial, sans-serif" font-size="10" text-anchor="middle">${safeLabel}</text>
+    </svg>
+  `.trim();
+
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
 function formatPersonSegment(segment) {
   const trimmedSegment = segment.trim();
 
@@ -602,12 +725,13 @@ function getTrackState(items, eventDate, now = new Date()) {
 
 function formatCountdown(targetTime) {
   const millisecondsRemaining = targetTime.getTime() - Date.now();
-  const totalMinutes = Math.max(0, Math.floor(millisecondsRemaining / 60000));
-  const days = Math.floor(totalMinutes / 1440);
-  const hours = Math.floor((totalMinutes % 1440) / 60);
-  const minutes = totalMinutes % 60;
+  const totalSeconds = Math.max(0, Math.floor(millisecondsRemaining / 1000));
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
 
-  return `${String(days).padStart(2, "0")}D:${String(hours).padStart(2, "0")}H:${String(minutes).padStart(2, "0")}M`;
+  return `${String(days).padStart(2, "0")}D:${String(hours).padStart(2, "0")}H:${String(minutes).padStart(2, "0")}M:${String(seconds).padStart(2, "0")}S`;
 }
 
 function getStatusPresentation(content) {
@@ -711,10 +835,10 @@ function renderSchedule(items, groupColors, eventDate) {
       const currentBadge = isCurrent ? '<span class="schedule-now-badge">Now</span>' : "";
 
       return `
-        <article class="schedule-item"${groupAttribute}${currentAttribute}>
+        <article class="schedule-item"${groupAttribute}${currentAttribute}${groupStyle}>
           <p class="schedule-time">${item.time}</p>
           <div class="schedule-divider"></div>
-          <div class="schedule-frame"${groupStyle}>
+          <div class="schedule-frame">
             <div class="schedule-heading">
               <h3 class="schedule-title">${item.title}</h3>
               ${currentBadge}
@@ -739,7 +863,7 @@ function setupScheduleRefresh(content) {
   };
 
   refreshLiveState();
-  scheduleRefreshTimerId = window.setInterval(refreshLiveState, 30000);
+  scheduleRefreshTimerId = window.setInterval(refreshLiveState, 1000);
 }
 
 function renderGroups(items, groupColors) {
@@ -761,7 +885,7 @@ function renderGroups(items, groupColors) {
                 <span class="group-summary-level">${item.level || ""}</span>
               </div>
             </div>
-            <i data-lucide="chevron-down" class="group-toggle group-toggle-icon" aria-hidden="true"></i>
+            <i data-lucide="chevron-down" class="group-toggle" aria-hidden="true"></i>
           </summary>
           <ul class="plain-list">
             ${item.people.map((person) => `<li>${formatPersonName(person)}</li>`).join("")}
@@ -793,9 +917,324 @@ function renderVolunteers(items) {
     .join("");
 }
 
+function renderTrackInfoMedia(media) {
+  if (!media) {
+    return "";
+  }
+
+  const previewMarkup = media.imageSrc
+    ? `
+      <div class="track-media-preview">
+        <img
+          class="track-media-preview-image"
+          src="${escapeHtml(media.imageSrc)}"
+          alt="${escapeHtml(media.previewLabel || media.title || "PDF preview")}"
+        >
+      </div>
+    `
+    : `
+      <div class="track-media-preview" aria-hidden="true">
+        <div>
+          <strong>${escapeHtml(media.previewLabel || media.title || "PDF Preview")}</strong>
+          <span>${escapeHtml(media.previewHint || "Preview image goes here.")}</span>
+        </div>
+      </div>
+    `;
+
+  const copyMarkup = media.meta
+    ? `
+      <p class="track-media-meta">${escapeHtml(media.meta)}</p>
+    `
+    : "";
+
+  if (media.pdfUrl) {
+    return `
+      <a class="track-info-visual track-media-link" href="${escapeHtml(media.pdfUrl)}" target="_blank" rel="noreferrer">
+        <div class="track-info-visual-frame">
+          ${previewMarkup}
+        </div>
+      </a>
+      ${copyMarkup}
+    `;
+  }
+
+  return `
+    <div class="track-media-placeholder" aria-label="${escapeHtml(media.pdfLabel || "PDF placeholder")}">
+      <div class="track-info-visual-frame">
+        ${previewMarkup}
+      </div>
+      ${copyMarkup}
+      <p class="track-media-meta">${escapeHtml(media.pdfLabel || "Add a PDF URL to enable this link.")}</p>
+    </div>
+  `;
+}
+
+function renderTrackInfoVideos(videos = []) {
+  if (!videos.length) {
+    return "";
+  }
+
+  return `
+    <div class="track-video-section">
+      <div class="track-video-header">
+        <h3 class="track-video-title">First time here?</h3>
+        <p class="track-video-intro">Watch some onboards to get familiar with the track before you arrive.</p>
+      </div>
+      <div class="track-video-list">
+        ${videos
+      .map((video) => {
+        const videoFrame = video.youtubeId
+          ? `
+                <iframe
+                  class="track-video-embed"
+                  src="https://www.youtube.com/embed/${escapeHtml(video.youtubeId)}"
+                  title="${escapeHtml(video.title)}"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen
+                ></iframe>
+              `
+          : `
+                <div class="track-video-placeholder">
+                  <span>${escapeHtml(video.title)}</span>
+                </div>
+              `;
+
+        return `
+              <article class="track-video-card">
+                ${videoFrame}
+                <p class="track-video-heading">${escapeHtml(video.title)}</p>
+                ${video.caption ? `<p class="track-video-caption">${escapeHtml(video.caption)}</p>` : ""}
+              </article>
+            `;
+      })
+      .join("")}
+      </div>
+    </div>
+  `;
+}
+
+function renderTrackInfoFlags(flags = []) {
+  if (!flags.length) {
+    return "";
+  }
+
+  return `
+    <div class="track-flags-list">
+      ${flags
+      .map((flag) => {
+        const imageSrc = flag.imageSrc || createPlaceholderImage(`${flag.name} Flag`);
+        const imageAlt = flag.imageSrc
+          ? `${flag.name} flag`
+          : `${flag.name} flag placeholder`;
+
+        return `
+            <article class="track-flag-card">
+              <img class="track-flag-image" src="${escapeHtml(imageSrc)}" alt="${escapeHtml(imageAlt)}">
+              <div class="track-flag-copy">
+                <p class="track-flag-name">${escapeHtml(flag.name)}</p>
+                <p class="track-flag-description">${escapeHtml(flag.description || "")}</p>
+              </div>
+            </article>
+          `;
+      })
+      .join("")}
+    </div>
+  `;
+}
+
+function renderTrackInfoFeatureCard(featureCard) {
+  if (!featureCard?.value) {
+    return "";
+  }
+
+  return `
+    <article class="track-info-feature-card" aria-label="${escapeHtml(featureCard.eyebrow || "Track info")}">
+      ${featureCard.eyebrow ? `<p class="track-info-feature-eyebrow">${escapeHtml(featureCard.eyebrow)}</p>` : ""}
+      <p class="track-info-feature-value">${escapeHtml(featureCard.value)}</p>
+    </article>
+  `;
+}
+
+function renderTrackInfoInfoBox(infoBox) {
+  if (!infoBox?.title && !infoBox?.items?.length) {
+    return "";
+  }
+
+  return `
+    <aside class="track-info-callout" aria-label="${escapeHtml(infoBox.title || "Important information")}">
+      ${infoBox.title ? `<h3 class="track-info-callout-title">${escapeHtml(infoBox.title)}</h3>` : ""}
+      <div class="track-info-callout-items">
+        ${(infoBox.items || [])
+      .map((item) => `
+            <div class="track-info-callout-item">
+              ${item.title ? `<p class="track-info-callout-question">${escapeHtml(item.title)}</p>` : ""}
+              ${item.body ? `<p class="track-info-callout-answer">${escapeHtml(item.body)}</p>` : ""}
+            </div>
+          `)
+      .join("")}
+      </div>
+    </aside>
+  `;
+}
+
+function renderTrackInfoPanel(tab) {
+  const sections = [];
+  const primaryGroupParts = [];
+  const isFlagsOnlyPanel = Boolean(tab.flags?.length) && !tab.featureCard && !tab.media && !tab.infoBox && !tab.videos?.length;
+
+  if (tab.title) {
+    primaryGroupParts.push(`<h3 class="track-info-heading">${escapeHtml(tab.title)}</h3>`);
+  }
+
+  if (tab.description) {
+    primaryGroupParts.push(`<p class="track-info-lead">${escapeHtml(tab.description)}</p>`);
+  }
+
+  if (tab.featureCard) {
+    primaryGroupParts.push(renderTrackInfoFeatureCard(tab.featureCard));
+  }
+
+  if (tab.media) {
+    primaryGroupParts.push(renderTrackInfoMedia(tab.media));
+  }
+
+  if (tab.infoBox) {
+    sections.push(`
+      <div class="track-info-group">
+        ${renderTrackInfoInfoBox(tab.infoBox)}
+      </div>
+    `);
+  }
+
+  if (tab.videos?.length) {
+    sections.push(`
+      <div class="track-info-group">
+        ${renderTrackInfoVideos(tab.videos)}
+      </div>
+    `);
+  }
+
+  if (tab.flags?.length) {
+    if (isFlagsOnlyPanel) {
+      primaryGroupParts.push(renderTrackInfoFlags(tab.flags));
+    } else {
+      sections.push(`
+        <div class="track-info-group">
+          ${renderTrackInfoFlags(tab.flags)}
+        </div>
+      `);
+    }
+  }
+
+  return `
+    <section
+      id="track-info-panel-${escapeHtml(tab.id)}"
+      class="track-info-panel"
+      role="tabpanel"
+      aria-labelledby="track-info-tab-${escapeHtml(tab.id)}"
+      tabindex="0"
+      ${tab.isActive ? "" : "hidden"}
+    >
+      ${primaryGroupParts.length ? `
+      <div class="track-info-group">
+        ${primaryGroupParts.join("")}
+      </div>
+      ` : ""}
+      ${sections.join("")}
+    </section>
+  `;
+}
+
+function setupTrackInfoTabs() {
+  const tablist = document.getElementById("track-info-tablist");
+  const tabs = Array.from(document.querySelectorAll(".track-info-tab"));
+  const panels = Array.from(document.querySelectorAll(".track-info-panel"));
+
+  if (!tablist || !tabs.length || !panels.length) {
+    return;
+  }
+
+  const activateTab = (tabId, shouldFocus = false) => {
+    tabs.forEach((tab) => {
+      const isActive = tab.dataset.tab === tabId;
+      tab.setAttribute("aria-selected", String(isActive));
+      tab.tabIndex = isActive ? 0 : -1;
+
+      if (isActive && shouldFocus) {
+        tab.focus();
+      }
+
+      if (isActive) {
+        tab.scrollIntoView({ behavior: "smooth", inline: "nearest", block: "nearest" });
+      }
+    });
+
+    panels.forEach((panel) => {
+      panel.hidden = panel.id !== `track-info-panel-${tabId}`;
+    });
+  };
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => activateTab(tab.dataset.tab, false));
+    tab.addEventListener("keydown", (event) => {
+      if (event.key !== "ArrowRight" && event.key !== "ArrowLeft" && event.key !== "Home" && event.key !== "End") {
+        return;
+      }
+
+      event.preventDefault();
+
+      let nextIndex = index;
+
+      if (event.key === "ArrowRight") {
+        nextIndex = (index + 1) % tabs.length;
+      } else if (event.key === "ArrowLeft") {
+        nextIndex = (index - 1 + tabs.length) % tabs.length;
+      } else if (event.key === "Home") {
+        nextIndex = 0;
+      } else if (event.key === "End") {
+        nextIndex = tabs.length - 1;
+      }
+
+      activateTab(tabs[nextIndex].dataset.tab, true);
+    });
+  });
+}
+
 function renderTrackInfo(trackInfo) {
-  setText("map-image-placeholder", trackInfo.mapLabel);
-  setText("arrival-instructions", trackInfo.arrivalInstructions);
+  const tablist = document.getElementById("track-info-tablist");
+  const panelContainer = document.getElementById("track-info-panels");
+  const tabs = trackInfo.tabs || [];
+
+  if (!tablist || !panelContainer || !tabs.length) {
+    return;
+  }
+
+  tablist.innerHTML = tabs
+    .map(
+      (tab, index) => `
+        <button
+          id="track-info-tab-${escapeHtml(tab.id)}"
+          class="track-info-tab"
+          type="button"
+          role="tab"
+          aria-selected="${index === 0 ? "true" : "false"}"
+          aria-controls="track-info-panel-${escapeHtml(tab.id)}"
+          tabindex="${index === 0 ? "0" : "-1"}"
+          data-tab="${escapeHtml(tab.id)}"
+        >
+          ${escapeHtml(tab.label)}
+        </button>
+      `
+    )
+    .join("");
+
+  panelContainer.innerHTML = tabs
+    .map((tab, index) => renderTrackInfoPanel({ ...tab, isActive: index === 0 }))
+    .join("");
+
+  setupTrackInfoTabs();
 }
 
 function setAccessMessage(message, type) {
@@ -880,6 +1319,7 @@ function renderPage(content) {
   setText("event-date", content.date);
   setText("event-time", content.time);
   setText("event-location-name", content.locationName);
+  setText("track-info-title", content.locationName);
   setText("event-location-address", content.address);
   setLink("event-location-link", content.locationUrl);
   setText("event-summary", content.summary);
