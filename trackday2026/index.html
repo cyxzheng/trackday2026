@@ -62,6 +62,17 @@
                 <div class="hero-card">
                     <div class="overview-media">
                         <img id="overview-image" src="" alt="" />
+                        <button
+                            id="overview-audio-toggle"
+                            class="overview-audio-toggle"
+                            type="button"
+                            aria-label="Unmute event audio"
+                            aria-pressed="false"
+                            hidden
+                        >
+                            Unmute
+                        </button>
+                        <audio id="overview-audio" hidden></audio>
                     </div>
                     <div class="hero-copy">
                         <h1 id="event-title">[Event title]</h1>
@@ -113,6 +124,7 @@
                         <p id="event-summary" class="summary-text">
                             [Short summary]
                         </p>
+                        <p><a target="_blank" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1">Reserve your signed Morizo hat.</a></p>
                     </div>
                 </div>
 

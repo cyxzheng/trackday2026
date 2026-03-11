@@ -15,6 +15,15 @@ const eventContent = {
     src: "assets/images/cover.gif",
     alt: "Track day event cover image"
   },
+  overviewAudio: {
+    src: "",
+    buttonLabels: {
+      muted: "Unmute",
+      playing: "Mute"
+    },
+    loop: true,
+    initialVolume: 0.8
+  },
   date: "March 13, 2026",
   time: "12:15 PM - 4:00 PM",
   locationName: "Mission Raceway Park",
@@ -62,6 +71,15 @@ const eventContent = {
         title: "Passing Zones and Education",
         description:
           "Passing is only allowed via point-bys, otherwise assume the car in front doesn't see you. Familiarize yourself with your group's passing zones.",
+        infoBox: {
+          title: "Track Layout Change",
+          items: [
+            {
+              body:
+                "Due to repaving, the track layout has changed to a shorter circuit. Please follow the marked red track on the map."
+            },
+          ]
+        },
         media: {
           title: "Mission Raceway track layout",
           imageSrc: "assets/images/passingzones.png",
@@ -437,6 +455,65 @@ function setImage(id, image) {
 
   element.src = image.src;
   element.alt = image.alt;
+}
+
+function setupOverviewAudio(audioConfig) {
+  const audioElement = document.getElementById("overview-audio");
+  const toggleButton = document.getElementById("overview-audio-toggle");
+
+  if (!audioElement || !toggleButton) {
+    return;
+  }
+
+  if (!audioConfig?.src) {
+    toggleButton.hidden = true;
+    audioElement.removeAttribute("src");
+    return;
+  }
+
+  audioElement.src = audioConfig.src;
+  audioElement.preload = "none";
+  audioElement.loop = audioConfig.loop !== false;
+  audioElement.muted = true;
+
+  if (typeof audioConfig.initialVolume === "number") {
+    audioElement.volume = Math.max(0, Math.min(1, audioConfig.initialVolume));
+  }
+
+  const mutedLabel = audioConfig.buttonLabels?.muted || "Unmute";
+  const playingLabel = audioConfig.buttonLabels?.playing || "Mute";
+
+  const updateToggleState = () => {
+    const isAudible = !audioElement.muted && !audioElement.paused;
+
+    toggleButton.textContent = isAudible ? playingLabel : mutedLabel;
+    toggleButton.setAttribute("aria-pressed", String(isAudible));
+    toggleButton.setAttribute(
+      "aria-label",
+      isAudible ? `${playingLabel} event audio` : `${mutedLabel} event audio`
+    );
+  };
+
+  toggleButton.hidden = false;
+  updateToggleState();
+
+  toggleButton.addEventListener("click", async () => {
+    if (audioElement.paused) {
+      audioElement.muted = false;
+
+      try {
+        await audioElement.play();
+      } catch {
+        audioElement.muted = true;
+      }
+
+      updateToggleState();
+      return;
+    }
+
+    audioElement.muted = !audioElement.muted;
+    updateToggleState();
+  });
 }
 
 function getChecklistStorageKey(section, item) {
@@ -1184,16 +1261,12 @@ function renderTrackInfoPanel(tab) {
     primaryGroupParts.push(renderTrackInfoFeatureCard(tab.featureCard));
   }
 
-  if (tab.media) {
-    primaryGroupParts.push(renderTrackInfoMedia(tab.media));
+  if (tab.infoBox) {
+    primaryGroupParts.push(renderTrackInfoInfoBox(tab.infoBox));
   }
 
-  if (tab.infoBox) {
-    sections.push(`
-      <div class="track-info-group">
-        ${renderTrackInfoInfoBox(tab.infoBox)}
-      </div>
-    `);
+  if (tab.media) {
+    primaryGroupParts.push(renderTrackInfoMedia(tab.media));
   }
 
   if (tab.videos?.length) {
@@ -1423,6 +1496,7 @@ function renderPage(content) {
   setText("event-location-address", content.address);
   setLink("event-location-link", content.locationUrl);
   setText("event-summary", content.summary);
+  setupOverviewAudio(content.overviewAudio);
   renderStatus(content);
   renderTrackInfo(content.trackInfo);
   renderChecklist("required-items", "required", content.requiredItems);

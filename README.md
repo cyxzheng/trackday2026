@@ -65,4 +65,10 @@ Use this as the root `index.html` for `https://yvrgrc.ca/`:
 
 ## Editable Content
 
-Event content stays centralized in [`script.js`](/Users/calvinzheng/Documents/Projects/Code/trackday2026/script.js), inside the `eventContent` object.
+Event content stays centralized in [`trackday2026/script.js`](/Users/calvinzheng/Documents/Projects/Code/trackday2026/trackday2026/script.js), inside the `eventContent` object.
+
+For thumbnail audio, edit `eventContent.overviewAudio`:
+
+- Set `src` to your audio file path inside `trackday2026/assets/` (for example `assets/audio/theme.mp3`).
+- Keep `src: ""` to hide the unmute button.
+- `buttonLabels`, `loop`, and `initialVolume` are optional.

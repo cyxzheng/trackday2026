@@ -367,12 +367,38 @@ body.is-locked .site-header {
   gap: 16px;
 }
 
+.overview-media {
+  position: relative;
+}
+
 .overview-media img {
   display: block;
   width: 100%;
   aspect-ratio: 480 / 360;
   border-radius: 8px;
   object-fit: cover;
+}
+
+.overview-audio-toggle {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.72);
+  color: var(--text);
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: var(--type-overline-size);
+  line-height: var(--type-overline-line-height);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.overview-audio-toggle[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent);
 }
 
 .hero-copy {
