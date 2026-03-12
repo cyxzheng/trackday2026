@@ -220,7 +220,6 @@ const eventContent = {
         "Jason Leung",
         "Alan Cham",
         "Jeremy McLean",
-        "Ansix Auto",
         "Naohiko Saito / Masahiro Sasaki"
       ]
     },
@@ -236,7 +235,6 @@ const eventContent = {
         "Don Yip",
         "Brian Wong",
         "Erik Soderlund",
-        "Gabi Chen",
         "Steve Lloyd",
         "Luka Petrovic"
       ]
@@ -248,12 +246,13 @@ const eventContent = {
       people: [
         "Vic Quintoro",
         "Calvin Zheng",
-        "Caymin Hansson",
+        "Gabi Chen",
+        // "Caymin Hansson",
         "Hanson Ng",
         "Leo Yang",
         "Tim Tseng",
         "Danny Luk",
-        "Ian Wong",
+        // "Ian Wong",
         "Michael Chan",
         "Landon Folz"
       ]
