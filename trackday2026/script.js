@@ -774,7 +774,8 @@ function getStatusPresentation(content) {
       pill: state.trackState === "hot" ? "Track Hot" : "Track Cold",
       pillState: state.trackState,
       primary: state.currentItem.title,
-      secondary: getDisplayRange(state.currentItem)
+      secondary: getDisplayRange(state.currentItem),
+      group: state.currentItem.group || ""
     };
   }
 
@@ -802,6 +803,7 @@ function renderStatus(content) {
   const statusPill = document.getElementById("status-pill");
   const statusPrimary = document.getElementById("status-primary");
   const statusSecondary = document.getElementById("status-secondary");
+  const statusStrip = document.querySelector(".status-strip");
 
   if (statusPill) {
     statusPill.textContent = status.pill;
@@ -815,6 +817,37 @@ function renderStatus(content) {
   if (statusSecondary) {
     statusSecondary.textContent = status.secondary;
   }
+
+  if (!statusStrip) {
+    return;
+  }
+
+  const currentGroup = status.pillState === "hot" && status.group ? status.group : "";
+
+  if (currentGroup) {
+    const color = content.groupColors[currentGroup];
+
+    if (color) {
+      const sanitizedHex = color.trim().replace("#", "");
+
+      if (/^[0-9a-fA-F]{6}$/.test(sanitizedHex)) {
+        const red = Number.parseInt(sanitizedHex.slice(0, 2), 16);
+        const green = Number.parseInt(sanitizedHex.slice(2, 4), 16);
+        const blue = Number.parseInt(sanitizedHex.slice(4, 6), 16);
+
+        statusStrip.dataset.group = currentGroup;
+        statusStrip.style.setProperty("--group-color", color);
+        statusStrip.style.setProperty("--group-color-soft", `rgba(${red}, ${green}, ${blue}, 0.16)`);
+        statusStrip.style.setProperty("--group-color-tint", `rgba(${red}, ${green}, ${blue}, 0.10)`);
+        return;
+      }
+    }
+  }
+
+  delete statusStrip.dataset.group;
+  statusStrip.style.removeProperty("--group-color");
+  statusStrip.style.removeProperty("--group-color-soft");
+  statusStrip.style.removeProperty("--group-color-tint");
 }
 
 function renderSchedule(items, groupColors, eventDate) {
