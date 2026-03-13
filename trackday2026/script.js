@@ -212,6 +212,7 @@ const eventContent = {
       group: "a",
       level: "Advanced",
       people: [
+        "Naohiko Saito / Masahiro Sasaki"
         "Ross Dunnet",
         "Nathan Tong",
         "Colin Yu",
@@ -220,7 +221,6 @@ const eventContent = {
         "Jason Leung",
         "Alan Cham",
         "Jeremy McLean",
-        "Naohiko Saito / Masahiro Sasaki"
       ]
     },
     {
