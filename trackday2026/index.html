@@ -38,8 +38,8 @@
         </header>
 
         <main id="main-content" class="page-shell">
-            <div class="section-nav-shell" hidden>
-                <nav class="section-nav" aria-label="Section navigation" hidden>
+            <div class="section-nav-shell">
+                <nav class="section-nav" aria-label="Section navigation">
                     <a href="#overview"
                         ><i data-lucide="flag" aria-hidden="true"></i
                         ><span>Overview</span></a
@@ -128,46 +128,9 @@
                     </div>
                 </div>
 
-                <section
-                    class="participant-access"
-                    aria-labelledby="participant-access-title"
-                >
-                    <div class="section-heading participant-access-heading">
-                        <h2 id="participant-access-title">
-                            <span>Participant Access</span>
-                        </h2>
-                        <p>
-                            Enter the participant code to view the live
-                            schedule, track information, and groups.
-                        </p>
-                    </div>
-                    <form id="access-form" class="access-form">
-                        <label class="access-label" for="access-code">
-                            Participant code
-                        </label>
-                        <div class="access-controls">
-                            <input
-                                id="access-code"
-                                class="access-input"
-                                name="access-code"
-                                type="password"
-                                autocomplete="off"
-                                required
-                            />
-                            <button class="access-button" type="submit">
-                                Unlock
-                            </button>
-                        </div>
-                        <p
-                            id="access-message"
-                            class="access-message"
-                            aria-live="polite"
-                        ></p>
-                    </form>
-                </section>
             </section>
 
-            <div id="participant-content" class="participant-content" hidden>
+            <div id="participant-content" class="participant-content">
                 <section id="track-info" class="section">
                     <div class="section-stack">
                         <p class="section-kicker">Track Info</p>

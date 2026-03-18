@@ -286,10 +286,6 @@ a {
   stroke-width: 2;
 }
 
-body.is-locked .site-header {
-  display: none;
-}
-
 .section {
   padding: 48px 16px;
   border-bottom: 1px solid var(--line);
@@ -515,87 +511,6 @@ p {
   gap: 48px;
 }
 
-.participant-access {
-  margin-top: 16px;
-  padding: 16px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--panel);
-}
-
-.participant-access-heading {
-
-  margin-bottom: 16px;
-}
-
-.participant-access-heading h2 {
-  display: flex;
-  gap: 8px;
-  align-items: flex-start;
-}
-
-.participant-access-heading p {
-  margin: 8px 0 0;
-  color: var(--muted);
-}
-
-.access-form {
-  display: grid;
-  gap: 8px;
-}
-
-.access-label {
-  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: var(--type-overline-size);
-  line-height: var(--type-overline-line-height);
-  text-transform: uppercase;
-}
-
-.access-controls {
-  display: flex;
-  gap: 8px;
-}
-
-.access-input,
-.access-button {
-  min-height: 40px;
-  border-radius: 8px;
-  font: inherit;
-}
-
-.access-input {
-  flex: 1 1 auto;
-  padding: 0 12px;
-  border: 1px solid var(--line);
-  color: var(--text);
-  background: var(--input-bg);
-}
-
-.access-button {
-  padding: 0 14px;
-  border: 0;
-  background: var(--accent);
-  color: var(--text);
-  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
-  font-size: var(--type-overline-size);
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.access-message {
-  min-height: 16px;
-  margin: 0;
-  color: var(--muted);
-}
-
-.access-message.is-error {
-  color: var(--danger);
-}
-
-.access-message.is-success {
-  color: var(--success);
-}
-
 .participant-content[hidden] {
   display: none;
 }
@@ -742,8 +657,7 @@ p {
 .track-media-meta,
 .track-video-caption,
 .schedule-description,
-.status-secondary,
-.access-message {
+.status-secondary {
   font-size: var(--type-meta-size);
   line-height: var(--type-meta-line-height);
   margin: 0;
@@ -1228,10 +1142,6 @@ p {
 }
 
 @media (max-width: 370px) {
-  .access-controls {
-    flex-direction: column;
-  }
-
   .status-copy {
     flex-direction: column;
     align-items: flex-start;
