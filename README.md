@@ -1,69 +1,48 @@
-# YVRGRC Track Day Page
+# YVRGRC Website
 
-Simple static event page for a track day.
+Static GitHub Pages site for `https://yvrgrc.ca/`.
 
 ## This Repo's Role
 
-This repo is the event subpage bundle.
+This repo is the canonical source for the YVRGRC website. It currently hosts a simple root landing page plus standalone static sections:
 
-The current file structure is already safe to host under a subpath because all local CSS, JS, font, image, and document references are relative:
+- `/` - simple YVRGRC landing page
+- `/trackday2026/` - Track Day 2026 event page
+- `/announcements/` - club announcements
 
-- `index.html`
-- `styles.css`
-- `script.js`
-- `assets/`
+The custom domain is configured by `CNAME` and should remain:
 
-That means these files can be copied directly into a `trackday2026/` folder inside your main GitHub Pages site repo.
+```text
+yvrgrc.ca
+```
 
-## Target GitHub Pages Structure
+## Structure
 
-Your custom domain should be attached to the root Pages site for `yvrgrc.ca`.
-
-That site repo should look like this:
+The site is intentionally plain HTML, CSS, and vanilla JavaScript with no build step:
 
 ```text
 index.html
+CNAME
 trackday2026/
   index.html
   styles.css
   script.js
   assets/
+announcements/
+  index.html
+  say-phin-lim.html
+  styles.css
+  assets/
 ```
 
-## Root Landing Page
+## Public URLs
 
-Use this as the root `index.html` for `https://yvrgrc.ca/`:
+- `https://yvrgrc.ca/`
+- `https://yvrgrc.ca/trackday2026/`
+- `https://yvrgrc.ca/announcements/`
+- `https://yvrgrc.ca/announcements/say-phin-lim.html`
 
-```html
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>YVRGRC</title>
-  </head>
-  <body>
-    <main>
-      <h1>YVRGRC</h1>
-      <p><a href="/trackday2026/">Track Day 2026</a></p>
-    </main>
-  </body>
-</html>
-```
-
-## Move Steps
-
-1. Create or use the GitHub Pages repo that serves `yvrgrc.ca`.
-2. Add the simple landing page above as the root `index.html`.
-3. Create a `trackday2026/` folder in that repo.
-4. Copy these items from this repo into `trackday2026/`:
-   - `index.html`
-   - `styles.css`
-   - `script.js`
-   - `assets/`
-5. Publish that root repo with the custom domain `yvrgrc.ca`.
-
-## Editable Content
+## Track Day Content
 
 Event content stays centralized in [`trackday2026/script.js`](/Users/calvinzheng/Documents/Projects/Code/trackday2026/trackday2026/script.js), inside the `eventContent` object.
 
@@ -72,3 +51,7 @@ For thumbnail audio, edit `eventContent.overviewAudio`:
 - Set `src` to your audio file path inside `trackday2026/assets/` (for example `assets/audio/theme.mp3`).
 - Keep `src: ""` to hide the unmute button.
 - `buttonLabels`, `loop`, and `initialVolume` are optional.
+
+## Announcements Content
+
+The announcements section is a static bundle under `announcements/`. Add new announcement pages beside `say-phin-lim.html`, then link them from `announcements/index.html`.
