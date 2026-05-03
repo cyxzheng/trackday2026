@@ -25,6 +25,7 @@
     window.setTimeout(function () {
       if (delayedLink.target === "_blank") {
         window.open(destination, "_blank", "noopener");
+        delayedLink.classList.remove("is-leaving");
         return;
       }
 
