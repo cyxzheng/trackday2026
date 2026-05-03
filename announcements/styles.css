@@ -368,14 +368,16 @@ h2 {
 
 .button-link:hover,
 .button-link:focus-visible,
-.button-link:active {
+.button-link:active,
+.button-link.is-leaving {
   border-color: #e11919;
   color: #ffffff;
 }
 
 .button-link:hover::before,
 .button-link:focus-visible::before,
-.button-link:active::before {
+.button-link:active::before,
+.button-link.is-leaving::before {
   transform: translateX(0);
 }
 
