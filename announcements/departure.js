@@ -1,7 +1,9 @@
 (function () {
   var delayedLink = document.querySelector("[data-delayed-link]");
+  var reveal = document.getElementById("departure-reveal");
+  var video = reveal ? reveal.querySelector("iframe") : null;
 
-  if (!delayedLink) {
+  if (!delayedLink || !reveal || !video) {
     return;
   }
 
@@ -20,16 +22,17 @@
     event.preventDefault();
     delayedLink.classList.add("is-leaving");
 
-    var destination = delayedLink.href;
+    if (!video.getAttribute("src")) {
+      video.setAttribute(
+        "src",
+        "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&playsinline=1&rel=0"
+      );
+    }
 
     window.setTimeout(function () {
-      if (delayedLink.target === "_blank") {
-        window.open(destination, "_blank", "noopener");
-        delayedLink.classList.remove("is-leaving");
-        return;
-      }
-
-      window.location.href = destination;
+      reveal.hidden = false;
+      delayedLink.setAttribute("aria-expanded", "true");
+      delayedLink.classList.remove("is-leaving");
     }, 260);
   });
 })();
