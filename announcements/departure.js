@@ -25,7 +25,7 @@
     if (!video.getAttribute("src")) {
       video.setAttribute(
         "src",
-        "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&playsinline=1&rel=0"
+        "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&playsinline=1&rel=0"
       );
     }
 
