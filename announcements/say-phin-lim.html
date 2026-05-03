@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="auth-pending">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,6 +8,13 @@
       name="description"
       content="A departure message from Say Phin Lim for the YVR GRC community."
     />
+    <style>
+      html.auth-pending body,
+      html.auth-denied body {
+        display: none;
+      }
+    </style>
+    <script src="auth.js"></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -68,7 +75,8 @@
             in parts, service, techs and sales department so I've been assured that there will be
             no disruption to our club perks.
           </p>
-          <p>See you all soon in our regular club meets! - Say</p>
+          <p>See you all soon in our regular club meets!</p>
+          <p>- Say</p>
         </div>
 
         <div class="article-actions">

@@ -179,22 +179,30 @@ h2 {
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background:
-    url("assets/images/announcement-hero.jpg") center 59% / 100% auto no-repeat,
-    var(--panel);
+  background: var(--panel);
 }
 
 .announcement-card::before {
   position: absolute;
-  inset: 0;
-  z-index: 0;
+  inset: 1px;
+  z-index: 1;
+  border-radius: 7px;
   background: linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
+  content: "";
+}
+
+.announcement-card::after {
+  position: absolute;
+  inset: 1px;
+  z-index: 0;
+  border-radius: 7px;
+  background: url("assets/images/announcement-hero.jpg") center 59% / 100% auto no-repeat;
   content: "";
 }
 
 .announcement-card > * {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .announcement-card-copy {
@@ -226,7 +234,7 @@ h2 {
   width: 24px;
   height: 24px;
   border-radius: 999px;
-  background: #d9d9d9 url("assets/images/say-phin-lim-avatar.svg") center / cover no-repeat;
+  background: #d9d9d9 url("assets/avatars/say-phin-lim.png") center / cover no-repeat;
   flex: 0 0 auto;
   overflow: hidden;
 }
