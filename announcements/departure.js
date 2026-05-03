@@ -6,7 +6,14 @@
   }
 
   delayedLink.addEventListener("click", function (event) {
-    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+    if (
+      event.defaultPrevented ||
+      (typeof event.button === "number" && event.button !== 0) ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
       return;
     }
 
@@ -14,11 +21,10 @@
     delayedLink.classList.add("is-leaving");
 
     var destination = delayedLink.href;
-    var newWindow = delayedLink.target === "_blank" ? window.open("about:blank", "_blank") : null;
 
     window.setTimeout(function () {
-      if (newWindow) {
-        newWindow.location.href = destination;
+      if (delayedLink.target === "_blank") {
+        window.open(destination, "_blank", "noopener");
         return;
       }
 
