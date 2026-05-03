@@ -366,7 +366,6 @@ h2 {
   z-index: 1;
 }
 
-.button-link:hover,
 .button-link:focus-visible,
 .button-link:active,
 .button-link.is-leaving {
@@ -374,11 +373,21 @@ h2 {
   color: #ffffff;
 }
 
-.button-link:hover::before,
 .button-link:focus-visible::before,
 .button-link:active::before,
 .button-link.is-leaving::before {
   transform: translateX(0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button-link:hover {
+    border-color: #e11919;
+    color: #ffffff;
+  }
+
+  .button-link:hover::before {
+    transform: translateX(0);
+  }
 }
 
 .button-link-icon {
