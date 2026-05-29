@@ -35,6 +35,7 @@
 
 :root {
   --bg: #111214;
+  --bg-card: #1c1d21;
   --panel: #1c1d21;
   --subtle: #252629;
   --line: #2e3035;
@@ -72,8 +73,8 @@ body {
   text-rendering: geometricPrecision;
 }
 
-.password-gate-pending body > :not(.password-gate),
-.password-gate-locked body > :not(.password-gate) {
+.password-gate-pending body> :not(.password-gate),
+.password-gate-locked body> :not(.password-gate) {
   display: none;
 }
 
@@ -822,6 +823,36 @@ h2 {
 
 .memorial-actions {
   display: grid;
+}
+
+.support-family-module {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-card);
+  color: var(--text);
+}
+
+.support-family-module p {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--type-body-size);
+  line-height: var(--type-line-body);
+}
+
+.support-family-module h3 {
+  display: block;
+  margin: 0;
+  color: var(--text);
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.support-family-module .button-link {
+  margin-top: 8px;
 }
 
 .button-link {
