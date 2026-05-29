@@ -8,9 +8,13 @@
       name="description"
       content="Club announcements, updates, and member messages from Vancouver GR Corolla Club."
     />
-    <link rel="stylesheet" href="styles.css" />
+    <script>
+      document.documentElement.classList.add("password-gate-pending");
+    </script>
+    <link rel="stylesheet" href="styles.css?v=20260528" />
+    <script src="password-gate.js?v=20260529" defer></script>
   </head>
-  <body>
+  <body data-password-gate data-password="ripvic">
     <a class="skip-link" href="#main-content">Skip to content</a>
 
     <header class="site-header">
@@ -28,14 +32,47 @@
       </section>
 
       <section class="announcement-list" aria-label="Announcement list">
-        <a class="announcement-card" href="say-phin-lim.html">
-          <div class="announcement-card-copy">
-            <p class="announcement-date">May 4, 2026</p>
-            <h2>A Message from Supreme Leader</h2>
+        <a
+          class="announcement-card memorial-card"
+          href="remembering-vic/"
+          style="--announcement-image: url('/announcements/remembering-vic/assets/vic.png')"
+        >
+          <div class="announcement-card-image" aria-hidden="true"></div>
+          <div class="announcement-card-body">
+            <time class="announcement-date" datetime="2026-05-26">
+              <span class="announcement-date-day">26</span>
+              <span class="announcement-date-meta">may</span>
+              <span class="announcement-date-meta">2026</span>
+            </time>
+            <div class="announcement-card-copy">
+              <h2>Remembering Vic</h2>
+              <div class="author-row">
+                <span class="author-avatar memorial-avatar" aria-hidden="true"></span>
+                <span class="author-name">Olaf Nyhus</span>
+              </div>
+            </div>
           </div>
-          <div class="author-row">
-            <span class="author-avatar" aria-hidden="true"></span>
-            <span class="author-name">Say Phin Lim</span>
+        </a>
+
+        <a
+          class="announcement-card"
+          href="a-message-from-say/"
+          style="--announcement-image: url('a-message-from-say/assets/announcement-hero.jpg')"
+        >
+          <div class="announcement-card-image" aria-hidden="true"></div>
+          <div class="announcement-card-body">
+            <time class="announcement-date" datetime="2026-05-04">
+              <span class="announcement-date-day">04</span>
+              <span class="announcement-date-meta">may</span>
+              <span class="announcement-date-meta">2026</span>
+            </time>
+            <div class="announcement-card-copy">
+              <h2>A Message from Supreme Leader</h2>
+              <div class="author-row">
+                <span class="author-avatar" aria-hidden="true"></span>
+                <span class="author-name">Say Phin Lim</span>
+              </div>
+            </div>
           </div>
         </a>
       </section>

@@ -1,20 +1,20 @@
 @font-face {
   font-family: "PP Formula Extended";
-  src: url("assets/fonts/PPFormula-ExtendedBold.woff2") format("woff2");
+  src: url("../public/assets/fonts/PPFormula-ExtendedBold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: "PP Formula Medium";
-  src: url("assets/fonts/PPFormula-Medium.woff2") format("woff2");
+  src: url("../public/assets/fonts/PPFormula-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: "PP Formula Extra";
-  src: url("assets/fonts/PPFormula-Extrabold.woff2") format("woff2");
+  src: url("../public/assets/fonts/PPFormula-Extrabold.woff2") format("woff2");
   font-weight: 800;
   font-style: normal;
 }

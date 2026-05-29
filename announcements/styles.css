@@ -1,37 +1,54 @@
 @font-face {
   font-family: "PP Formula Extended";
-  src: url("assets/fonts/PPFormula-ExtendedBold.woff2") format("woff2");
+  src: url("../public/assets/fonts/PPFormula-ExtendedBold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: "PP Formula Medium";
-  src: url("assets/fonts/PPFormula-Medium.woff2") format("woff2");
+  src: url("../public/assets/fonts/PPFormula-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: "PP Formula Regular";
-  src: url("assets/fonts/PPFormula-Regular.woff2") format("woff2");
+  src: url("../public/assets/fonts/PPFormula-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
 }
 
+@font-face {
+  font-family: "PP Neue Montreal";
+  src: url("../public/assets/fonts/PPNeueMontreal-Book.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "PP Neue Montreal";
+  src: url("../public/assets/fonts/PPNeueMontreal-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+
 :root {
-  --bg: #000000;
-  --panel: #131313;
-  --line: rgba(255, 255, 255, 0.16);
-  --text: #ffffff;
-  --muted: rgba(255, 255, 255, 0.8);
+  --bg: #111214;
+  --panel: #1c1d21;
+  --subtle: #252629;
+  --line: #2e3035;
+  --text: #f0ede8;
+  --muted: #a8a5a0;
+  --subtext: #666360;
+  --accent-red: #e2342a;
   --page-width: 393px;
   --content-width: 361px;
-  --type-h1-size: 20px;
+  --type-h1-size: 22px;
   --type-h2-size: 20px;
-  --type-body-size: 16px;
-  --type-meta-size: 10px;
-  --type-name-size: 12px;
+  --type-body-size: 17px;
+  --type-meta-size: 14px;
+  --type-name-size: 16px;
   --type-line-tight: 1;
   --type-line-body: 1.5;
 }
@@ -49,9 +66,103 @@ body {
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
-  font-family: "PP Formula Regular", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "PP Neue Montreal", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   text-rendering: geometricPrecision;
+}
+
+.password-gate-pending body > :not(.password-gate),
+.password-gate-locked body > :not(.password-gate) {
+  display: none;
+}
+
+.password-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--bg);
+}
+
+.password-gate-panel {
+  display: grid;
+  gap: 16px;
+  width: min(100%, 361px);
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.password-gate-title {
+  margin: 0;
+  color: var(--text);
+  font-family: "PP Formula Extended", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.password-gate-copy {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--type-meta-size);
+  line-height: 1.4;
+}
+
+.password-gate-form {
+  display: grid;
+  gap: 12px;
+}
+
+.password-gate-label {
+  display: grid;
+  gap: 8px;
+  color: var(--subtext);
+  font-family: "PP Neue Montreal", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: var(--type-meta-size);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.password-gate-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--subtle);
+  color: var(--text);
+  font: inherit;
+}
+
+.password-gate-input:focus {
+  border-color: var(--accent-red);
+  outline: none;
+}
+
+.password-gate-button {
+  min-height: 48px;
+  border: 1px solid var(--text);
+  border-radius: 4px;
+  background: var(--text);
+  color: var(--bg);
+  cursor: pointer;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.password-gate-error {
+  min-height: 20px;
+  margin: 0;
+  color: var(--accent-red);
+  font-size: var(--type-meta-size);
+  line-height: 1.4;
 }
 
 a {
@@ -106,9 +217,9 @@ img {
   align-items: center;
   gap: 8px;
   min-width: 0;
-  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-family: "PP Formula Extended", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 700;
   font-size: 16px;
-  line-height: 1;
 }
 
 .brand-logo {
@@ -139,79 +250,117 @@ img {
 }
 
 .hero-block h1 {
+  margin: 0;
   width: min(100%, var(--content-width));
   font-size: 24px;
-  text-transform: uppercase;
+  font-family: "PP Formula Extended", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 700;
 }
 
-h1,
-h2,
-h3,
 .announcement-date,
 .author-name,
 .body-date,
-.button-link {
+.memory-action,
+.gallery-header p,
+.lightbox-figure figcaption {
   margin: 0;
-  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-family: "PP Neue Montreal", sans-serif;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 500;
 }
 
 h1 {
   font-size: var(--type-h1-size);
   line-height: normal;
+  font-family: "PP Formula Extended", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 700;
 }
 
 h2 {
   font-size: var(--type-h2-size);
+  font-family: "PP Formula Extended", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 700;
   line-height: normal;
 }
 
-.announcement-card {
+.announcement-card,
+.article-hero {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 8px;
+  display: block;
   width: min(100%, var(--content-width));
-  min-height: 142px;
-  padding: 16px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel);
+  transition: border-color 180ms ease;
 }
 
-.announcement-card::before {
-  position: absolute;
-  inset: 1px;
-  z-index: 1;
-  border-radius: 7px;
-  background: linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
-  content: "";
+.announcement-list {
+  display: grid;
+  gap: 16px;
 }
 
-.announcement-card::after {
-  position: absolute;
-  inset: 1px;
-  z-index: 0;
-  border-radius: 7px;
-  background: url("assets/images/announcement-hero.jpg") center 59% / 100% auto no-repeat;
-  content: "";
-}
-
-.announcement-card > * {
+.announcement-card-image {
   position: relative;
-  z-index: 2;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--announcement-image, none) center / cover no-repeat;
+}
+
+.announcement-card-image::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 80px;
+  background: linear-gradient(180deg, rgba(28, 29, 33, 0) 0%, var(--panel) 100%);
+  content: "";
+}
+
+.announcement-card-body {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 16px 16px 16px 0;
 }
 
 .announcement-card-copy {
   display: grid;
+  flex: 1 1 auto;
   gap: 8px;
+  min-width: 0;
 }
 
 .announcement-card h2 {
-  max-width: 232px;
+  margin: 0;
+  font-size: var(--type-body-size);
+}
+
+.article-hero h1 {
+  margin: 0;
+  font-size: var(--type-h1-size);
+}
+
+.article-hero {
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.article-hero .announcement-card-image {
+  border-radius: 8px 8px 0 0;
+}
+
+.article-hero .announcement-card-image::after {
+  background: linear-gradient(180deg, rgba(17, 18, 20, 0) 0%, var(--bg) 100%);
+}
+
+.article-hero .announcement-card-body {
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
 }
 
 .announcement-date,
@@ -219,6 +368,28 @@ h2 {
   font-size: var(--type-meta-size);
   line-height: normal;
   text-transform: uppercase;
+}
+
+.announcement-date {
+  display: grid;
+  flex: 0 0 auto;
+  gap: 4px;
+  justify-items: start;
+  min-width: 62px;
+  padding-left: 16px;
+  border-left: 1px solid var(--accent-red);
+}
+
+.announcement-date-day {
+  font-size: 20px;
+  font-family: "PP Formula Extended", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 700;
+}
+
+.announcement-date-meta {
+  color: var(--subtext);
+  font-family: "PP Neue Montreal", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 500;
 }
 
 .author-row {
@@ -239,39 +410,27 @@ h2 {
   overflow: hidden;
 }
 
+.author-avatar.memorial-avatar {
+  background: #2a2a2a url("assets/avatars/olaf-nyhus.jpg") center / cover no-repeat;
+}
+
 .author-name {
+  color: var(--subtext);
+  font-family: "PP Neue Montreal", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 500;
   font-size: var(--type-name-size);
   line-height: normal;
 }
 
 .article-shell {
   display: grid;
-  gap: 16px;
+  gap: 48px;
   width: min(100%, var(--content-width));
 }
 
-.article-hero {
-  position: relative;
-  display: flex;
-  align-items: stretch;
-  width: 100%;
-  min-height: 203px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--panel);
-}
-
-.article-image {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-image: url("assets/images/announcement-hero.jpg");
-  background-position: center 59%;
-  background-repeat: no-repeat;
-  background-size: 100% auto;
+.article-intro {
+  display: grid;
+  gap: 16px;
 }
 
 .image-placeholder,
@@ -279,31 +438,14 @@ h2 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px dashed rgba(255, 255, 255, 0.4);
-  color: rgba(255, 255, 255, 0.72);
-  font-family: "PP Formula Medium", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  letter-spacing: 0.03em;
+  border: 1px dashed var(--line);
+  color: var(--muted);
+  font-family: "PP Neue Montreal", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   text-transform: uppercase;
 }
 
 .image-placeholder {
   display: none;
-}
-
-.article-hero-copy {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  align-content: center;
-  gap: 8px;
-  width: 100%;
-  min-height: 203px;
-  padding: 16px;
-  background: linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
-}
-
-.article-hero-copy h1 {
-  max-width: 232px;
 }
 
 .article-copy {
@@ -313,8 +455,355 @@ h2 {
 
 .article-copy p {
   margin: 0;
+  font-family: "PP Neue Montreal", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 400;
   font-size: var(--type-body-size);
   line-height: var(--type-line-body);
+}
+
+.article-copy .memorial-date-rule {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+  color: var(--subtext);
+  font-family: "PP Neue Montreal", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: var(--type-meta-size);
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.memorial-date-rule::before,
+.memorial-date-rule::after {
+  flex: 1 1 0;
+  height: 1px;
+  background: var(--line);
+  content: "";
+}
+
+.photo-gallery {
+  display: grid;
+  gap: 16px;
+  padding-top: 8px;
+}
+
+.photo-gallery h2,
+.memories h2 {
+  font-size: 16px;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.photo-tile,
+.photo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  margin: 0;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--muted);
+  font-family: "PP Formula Medium", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.photo-tile {
+  appearance: none;
+  padding: 0;
+  border-style: solid;
+  background: var(--subtle);
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    border-color 180ms ease,
+    opacity 180ms ease;
+}
+
+.photo-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 220ms ease;
+}
+
+.photo-tile:focus-visible,
+.photo-tile:active {
+  border-color: var(--accent-red);
+  outline: none;
+}
+
+.gallery-page {
+  gap: 20px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 24px;
+}
+
+.gallery-header {
+  display: grid;
+  gap: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--line);
+}
+
+.gallery-header h1 {
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+.gallery-header p {
+  margin: 0;
+  color: var(--subtext);
+  font-size: var(--type-body-size);
+}
+
+.gallery-grid {
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding-bottom: 24px;
+}
+
+.gallery-photo {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.memories {
+  display: grid;
+  gap: 16px;
+  padding-top: 8px;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.section-header h2 {
+  margin: 0;
+  line-height: 1;
+}
+
+.section-view-all {
+  color: var(--accent-red);
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.memory-card {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 4px 4px 0 0;
+  background: var(--subtle);
+}
+
+.memory-card[hidden] {
+  display: none;
+}
+
+.memory-card:focus-visible,
+.section-view-all:focus-visible,
+.memory-action:focus-visible {
+  outline: 1px solid var(--accent-red);
+  outline-offset: 4px;
+}
+
+.memory-byline {
+  color: var(--text);
+  font-size: 12px;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.memory-preview {
+  color: var(--muted);
+  font-size: var(--type-body-size);
+  line-height: 1.35;
+}
+
+.memory-action {
+  color: var(--accent-red);
+  font-size: var(--type-meta-size);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.memory-feature-card {
+  transition: opacity 180ms ease;
+}
+
+.memory-feature-card.is-fading {
+  opacity: 0;
+}
+
+.memory-progress {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  overflow: hidden;
+}
+
+.memory-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--accent-red);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.memory-list {
+  display: grid;
+  gap: 16px;
+  padding-bottom: 24px;
+}
+
+.memory-list-card {
+  transition:
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.memory-detail-page {
+  gap: 20px;
+  padding-bottom: 24px;
+}
+
+.memory-detail-title {
+  margin: 0;
+  font-size: 24px;
+}
+
+.memory-detail-copy {
+  padding-bottom: 8px;
+}
+
+@keyframes memory-progress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .memory-feature-card {
+    transition: none;
+  }
+
+  .memory-progress span {
+    animation: none !important;
+  }
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 48px;
+  grid-template-rows: 56px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(17, 18, 20, 0.94);
+}
+
+.has-lightbox {
+  overflow: hidden;
+}
+
+.lightbox-control {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(28, 29, 33, 0.86);
+  color: var(--text);
+}
+
+.lightbox-control svg {
+  width: 24px;
+  height: 24px;
+}
+
+.lightbox-control:focus-visible,
+.lightbox-control:active {
+  border-color: var(--accent-red);
+  outline: none;
+}
+
+.lightbox-close {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+}
+
+.lightbox-prev {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.lightbox-next {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+.lightbox-figure {
+  display: grid;
+  grid-column: 2;
+  grid-row: 2;
+  gap: 12px;
+  justify-items: center;
+  min-width: 0;
+  margin: 0;
+}
+
+.lightbox-figure img {
+  width: auto;
+  max-width: 100%;
+  max-height: calc(100vh - 140px);
+  object-fit: contain;
+}
+
+.lightbox-figure figcaption {
+  color: var(--subtext);
+  font-size: var(--type-meta-size);
+  line-height: 1;
 }
 
 .avatar-placeholder {
@@ -323,12 +812,16 @@ h2 {
   border: 0;
   border-radius: inherit;
   background: transparent;
-  color: rgba(0, 0, 0, 0.55);
+  color: var(--bg);
   font-size: 0;
 }
 
 .article-actions {
   padding-top: 0;
+}
+
+.memorial-actions {
+  display: grid;
 }
 
 .button-link {
@@ -339,10 +832,12 @@ h2 {
   justify-content: center;
   min-height: 48px;
   padding: 16px;
-  border: 1px solid #ffffff;
-  background: #ffffff;
-  color: #000000;
+  border: 1px solid var(--text);
+  background: var(--text);
+  color: var(--bg);
   font-size: 10px;
+  font-family: "PP Formula Extended", "PP Formula Medium", sans-serif;
+  font-weight: 700;
   line-height: 1;
   text-transform: uppercase;
   overflow: hidden;
@@ -355,7 +850,7 @@ h2 {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: #e11919;
+  background: var(--accent-red);
   content: "";
   transform: translateX(-100%);
   transition: transform 220ms ease;
@@ -369,8 +864,8 @@ h2 {
 .button-link:focus-visible,
 .button-link:active,
 .button-link.is-leaving {
-  border-color: #e11919;
-  color: #ffffff;
+  border-color: var(--accent-red);
+  color: var(--text);
 }
 
 .button-link:focus-visible::before,
@@ -381,12 +876,24 @@ h2 {
 
 @media (hover: hover) and (pointer: fine) {
   .button-link:hover {
-    border-color: #e11919;
-    color: #ffffff;
+    border-color: var(--accent-red);
+    color: var(--text);
   }
 
   .button-link:hover::before {
     transform: translateX(0);
+  }
+
+  .photo-tile:hover {
+    border-color: var(--accent-red);
+  }
+
+  .photo-tile:hover img {
+    transform: scale(1.035);
+  }
+
+  .memory-list-card:hover {
+    border-color: var(--accent-red);
   }
 }
 
@@ -402,12 +909,30 @@ h2 {
 }
 
 .announcement-card:hover,
-.announcement-card:focus-visible {
-  border-color: rgba(255, 255, 255, 0.85);
+.announcement-card:focus-visible,
+.announcement-card:active {
+  border-color: var(--accent-red);
 }
 
 @media (min-width: 780px) {
+  :root {
+    --page-width: 672px;
+    --content-width: 640px;
+  }
+
   .content-shell {
     padding-bottom: 48px;
+  }
+
+  .photo-grid,
+  .gallery-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .button-link,
+  .memory-all-button {
+    justify-self: start;
+    width: fit-content;
+    max-width: 100%;
   }
 }

@@ -8,14 +8,14 @@
       name="description"
       content="A departure message from Say Phin Lim for the YVR GRC community."
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="../styles.css?v=20260528" />
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
 
     <header class="site-header">
       <div class="page-shell app-bar">
-        <a class="back-link" href="index.html" aria-label="Back to announcements">
+        <a class="back-link" href="../index.html" aria-label="Back to announcements">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path
               d="M19 12H5M12 19L5 12L12 5"
@@ -32,18 +32,25 @@
 
     <main id="main-content" class="page-shell content-shell">
       <article class="article-shell">
-        <header class="article-hero">
-          <div class="article-image" aria-hidden="true">
-            <div class="image-placeholder">Image placeholder</div>
-          </div>
-          <div class="article-hero-copy">
-            <p class="body-date">May 4, 2026</p>
-            <h1>A Message from Supreme Leader</h1>
-            <div class="author-row">
-              <span class="author-avatar" aria-hidden="true">
-                <span class="avatar-placeholder">Avatar</span>
-              </span>
-              <span class="author-name">Say Phin Lim</span>
+        <header
+          class="article-hero"
+          style="--announcement-image: url('/announcements/a-message-from-say/assets/announcement-hero.jpg')"
+        >
+          <div class="announcement-card-image" aria-hidden="true"></div>
+          <div class="announcement-card-body">
+            <time class="announcement-date" datetime="2026-05-04">
+              <span class="announcement-date-day">04</span>
+              <span class="announcement-date-meta">may</span>
+              <span class="announcement-date-meta">2026</span>
+            </time>
+            <div class="announcement-card-copy">
+              <h1>A Message from Supreme Leader</h1>
+              <div class="author-row">
+                <span class="author-avatar" aria-hidden="true">
+                  <span class="avatar-placeholder">Avatar</span>
+                </span>
+                <span class="author-name">Say Phin Lim</span>
+              </div>
             </div>
           </div>
         </header>
@@ -96,6 +103,6 @@
         </div>
       </article>
     </main>
-    <script src="departure.js"></script>
+    <script src="../departure.js"></script>
   </body>
 </html>
