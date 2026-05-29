@@ -32,5 +32,15 @@
         "- Calvin",
       ],
     },
+    {
+      id: "ian",
+      author: "Ian",
+      preview: "I met Vic at a casual summer hockey league couple of years ago. If I remember correctly, his son was on the team as well.",
+      paragraphs: [
+        "I met Vic at a casual summer hockey league couple of years ago. If I remember correctly, his son was on the team as well. I remember talking to another teammate that dailies a M2 about cars and mentioned I’m interested in purchasing a GRC.",
+        "Vic overheard this and said he owned one. He probably got one of the first 23 in Vancouver. I even tried to recruit him for my other hockey team because he’s a great guy.",
+        "It’s been a while since I’ve seen him. The summer league started again a couple of weeks ago. I was hoping to see his name on the roster again but alas…"
+      ]
+    }
   ];
 })();
