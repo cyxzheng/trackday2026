@@ -8,13 +8,9 @@
       name="description"
       content="Community memories remembering Victor Quintoro from the YVR GRC community."
     />
-    <script>
-      document.documentElement.classList.add("password-gate-pending");
-    </script>
     <link rel="stylesheet" href="../styles.css?v=20260530" />
-    <script src="../password-gate.js?v=20260529" defer></script>
   </head>
-  <body data-password-gate data-password="ripvic">
+  <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
 
     <header class="site-header">
@@ -36,7 +32,16 @@
 
     <main id="main-content" class="page-shell content-shell">
       <article class="article-shell gallery-page">
-        <h1 class="page-title">Memories</h1>
+        <div class="page-heading">
+          <h1 class="page-title">Memories</h1>
+          <a
+            class="share-link"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSe1BdDdayOya39BTwYmTqr_eURFFDLJtzZl5s8lhJtxiYFj9Q/viewform?usp=publish-editor"
+            target="_blank"
+            rel="noopener"
+            >share your own</a
+          >
+        </div>
 
         <div class="memory-list" aria-label="Memories of Vic" data-memory-cards></div>
       </article>

@@ -129,7 +129,6 @@
     var memory = findMemory(params.get("id"));
 
     if (!memory) {
-      var header = createElement("header", "gallery-header");
       var title = createElement("h1", "", "Memory not found");
       var copy = createElement("div", "article-copy");
       var paragraph = createElement(
@@ -142,9 +141,8 @@
 
       action.href = "memories.html";
       action.appendChild(actionText);
-      header.appendChild(title);
+      detail.appendChild(title);
       copy.appendChild(paragraph);
-      detail.appendChild(header);
       detail.appendChild(copy);
       detail.appendChild(action);
       return;
